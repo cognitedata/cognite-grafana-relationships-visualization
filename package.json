@@ -1,0 +1,64 @@
+{
+  "name": "cognite-vis-nodegraph",
+  "version": "1.0.0",
+  "description": "visjs nodegraph relationships",
+  "scripts": {
+    "build": "grafana-toolkit plugin:build",
+    "test": "grafana-toolkit plugin:test",
+    "dev": "grafana-toolkit plugin:dev",
+    "watch": "grafana-toolkit plugin:dev --watch",
+    "sign": "grafana-toolkit plugin:sign",
+    "start": "yarn watch"
+  },
+  "author": "Zsolt Kiss",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@grafana/data": "latest",
+    "@grafana/toolkit": "latest",
+    "@grafana/ui": "latest",
+    "@types/lodash": "^4.14.181",
+    "@types/react": "^18.0.2",
+    "@types/vis": "^4.21.23",
+    "@typescript-eslint/eslint-plugin": "^5.19.0",
+    "@typescript-eslint/parser": "^5.19.0",
+    "eslint": "^8.13.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.4.0",
+    "lint-staged": "^12.3.7",
+    "prettier": "^2.6.2"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "react-graph-vis": "^1.0.7",
+    "vis-react": "^0.5.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "linters": {
+      "*.{ts,tsx,js,json,css}": [
+        "eslint -c .eslintrc.js --fix",
+        "prettier --write",
+        "git add"
+      ],
+      "*.{md}": [
+        "prettier --write",
+        "git add"
+      ]
+    },
+    "ignore": [
+      "*/**/grammar.ts"
+    ]
+  }
+}
