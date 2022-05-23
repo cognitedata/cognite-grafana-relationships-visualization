@@ -41,6 +41,7 @@
     "lodash": "^4.17.21",
     "react": "^18.1.0",
     "react-graph-vis": "^1.0.7",
+    "vis": "^4.21.0-EOL",
     "vis-react": "^0.5.1"
   },
   "husky": {
