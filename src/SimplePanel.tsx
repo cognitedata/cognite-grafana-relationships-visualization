@@ -2,78 +2,83 @@ import React from 'react';
 import { PanelProps } from '@grafana/data';
 import { SimpleOptions } from 'types';
 import Graph from "react-graph-vis";
-import { forIn, map, uniqBy } from 'lodash'
+import _ from 'lodash'
 
-interface Props extends PanelProps<SimpleOptions> {}
+interface Props extends PanelProps<SimpleOptions> { }
+
+const nIds: string[] = []
+const eIds: string[] = []
+const titles: string[] = []
+const froms: string[] = []
+const tos: string[] = []
+const nStats: string[] = []
+const eStats: string[] = []
 
 export const SimplePanel: React.FC<Props> = (props) => {
-  const { options, data, height, width } = props
-  const { series } = data
-  const [ n, e ] = series
-  const nIds: string[] = []
-  const eIds: string[] = []
-  const titles: string[] = []
-  const froms: string[] = []
-  const tos: string[] = []
-  const nStats: string[] = []
-  const eStats: string[] = []
-  map(n.fields, ({name, values}) => {
-    forIn(values, (fieldValue) => {
+  const { options: { hierarchical, edgesColor, nodesColor }, data: { series: [nodes, edges] }, height, width } = props
+  _.map(_.get(nodes, 'fields'), ({ name, values }) => {
+    _.forIn(values, (fieldValue) => {
       fieldValue.toString().split(',').filter(_ => _ !== '').map(value => {
-        if(name === 'id') {
+        if (name === 'id') {
           nIds.push(value)
         }
-        if(name === 'title') {
+        if (name === 'title') {
           titles.push(value)
         }
-        if(name === 'mainStat') {
+        if (name === 'mainStat') {
           nStats.push(value)
         }
       })
     })
   })
-  map(e.fields, ({name, values}) => {
-    forIn(values, (fieldValue) => {
+  _.map(_.get(edges, 'fields'), ({ name, values }) => {
+    _.forIn(values, (fieldValue) => {
       fieldValue.toString().split(',').filter(_ => _ !== '').map(value => {
-        if(name === 'id') {
+        if (name === 'id') {
           eIds.push(value)
         }
-        if(name === 'source') {
+        if (name === 'source') {
           froms.push(value)
         }
-        if(name === 'target') {
+        if (name === 'target') {
           tos.push(value)
         }
-        if(name === 'mainStat') {
+        if (name === 'mainStat') {
           eStats.push(value)
         }
       })
     })
   })
-  const t = uniqBy(map(nIds, (id, index) => ({ id, label: nStats[index] , title: titles[index]})), 'id')
-  const r = uniqBy(map(eIds, (id, index) => ({ id, label: eStats[index] , to: tos[index], from: froms[index]})), 'id')
-  
-  const graph = {
-    nodes: t,
-    edges: r
-  };
-
-  const options1 = {
-    layout: {
-      hierarchical: options.hierarchical 
-    },
-    edges: {
-      color: "#ffffff"
-    },
-    height: `${height}px`,
-    width: `${width}px`,
-  };
-
   return (
-    <Graph
-      graph={graph}
-      options={options1}
-    />
+    <Graph {...{
+      graph: {
+        nodes: _.uniqBy(_.map(nIds, (id, index) => ({ id, label: nStats[index], title: titles[index] })), 'id'),
+        edges: _.uniqBy(_.map(eIds, (id, index) => ({ id, label: eStats[index], to: tos[index], from: froms[index] })), 'id')
+      },
+       options: {
+        layout: {
+          hierarchical
+        },
+        nodes: {
+          color: nodesColor ?? '#eee'
+        },
+        edges: {
+          color: edgesColor ?? '#fff'
+        },
+        height: `${height}px`,
+        width: `${width}px`,
+      }, 
+      events: {
+        select: (selected: { nodes: any; edges: any; }) => {
+          const { nodes, edges } = selected
+          console.log("Selected nodes: ", nodes, "\nSelected edges: ", edges);
+        },
+      },
+       getNetwork: (network: any) => {
+        //  if you want access to vis.js network api you can set the state in a parent component using this property
+        console.log('network: ', network)
+      }
+    }} />
   );
 };
 
