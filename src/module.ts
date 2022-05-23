@@ -9,4 +9,12 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
         name: 'Hierarchical View',
         defaultValue: true,
       })
+      .addColorPicker({
+        path: 'nodesColor',
+        name: 'Nodes color'
+      })
+      .addColorPicker({
+        path: 'edgesColor',
+        name: 'Edges color'
+      })
     });
