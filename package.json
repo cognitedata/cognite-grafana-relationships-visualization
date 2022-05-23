@@ -8,12 +8,13 @@
     "dev": "grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch",
     "sign": "grafana-toolkit plugin:sign",
+    "lint": "eslint ./src/**/*.{js,ts,tsx} -c .eslintrc.js",
+    "lint:fix": "yarn lint --fix",
     "start": "yarn watch"
   },
   "author": "Zsolt Kiss",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@grafana/data": "latest",
     "@grafana/toolkit": "latest",
     "@grafana/ui": "latest",
     "@types/lodash": "^4.14.181",
@@ -36,7 +37,9 @@
     "node": ">=14"
   },
   "dependencies": {
+    "@grafana/data": "latest",
     "lodash": "^4.17.21",
+    "react": "^18.1.0",
     "react-graph-vis": "^1.0.7",
     "vis-react": "^0.5.1"
   },
