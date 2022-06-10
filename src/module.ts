@@ -7,7 +7,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
     .addBooleanSwitch({
       path: 'hierarchical',
       name: 'Hierarchical View',
-      defaultValue: true,
+      defaultValue: false,
     })
     .addColorPicker({
       path: 'nodesColor',
