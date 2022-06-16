@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { PanelProps } from '@grafana/data';
-import { SimpleOptions } from './types';
+import { VisNodeGraphOptions } from './types';
 import Graph from 'react-graph-vis';
 import _ from 'lodash';
 
-type Props = PanelProps<SimpleOptions>;
+type Props = PanelProps<VisNodeGraphOptions>;
 
-export const SimplePanel: React.FC<Props> = (props) => {
+export const VisNodeGraphPanel: React.FC<Props> = (props) => {
   const {
     options: { hierarchical, edgesColor, nodesColor },
     data: {

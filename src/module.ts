@@ -1,8 +1,8 @@
 import { PanelPlugin } from '@grafana/data';
-import { SimpleOptions } from './types';
-import { SimplePanel } from './SimplePanel';
+import { VisNodeGraphOptions } from './types';
+import { VisNodeGraphPanel } from './VisNodeGraphPanel';
 
-export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOptions((builder) => {
+export const plugin = new PanelPlugin<VisNodeGraphOptions>(VisNodeGraphPanel).setPanelOptions((builder) => {
   return builder
     .addBooleanSwitch({
       path: 'hierarchical',
