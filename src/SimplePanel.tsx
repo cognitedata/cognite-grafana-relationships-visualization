@@ -1,18 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PanelProps } from '@grafana/data';
 import { SimpleOptions } from './types';
 import Graph from 'react-graph-vis';
 import _ from 'lodash';
 
 type Props = PanelProps<SimpleOptions>;
-
-const nIds: string[] = [];
-const eIds: string[] = [];
-const titles: string[] = [];
-const froms: string[] = [];
-const tos: string[] = [];
-const nStats: string[] = [];
-const eStats: string[] = [];
 
 export const SimplePanel: React.FC<Props> = (props) => {
   const {
@@ -23,47 +15,73 @@ export const SimplePanel: React.FC<Props> = (props) => {
     height,
     width,
   } = props;
-  _.map(_.get(nodes, 'fields'), ({ name, values }) => {
-    _.forIn(values, (fieldValue) => {
-      fieldValue
-        .toString()
-        .split(',')
-        .filter((_) => _ !== '')
-        .map((value) => {
-          if (name === 'id') {
-            nIds.push(value);
-          }
-          if (name === 'title') {
-            titles.push(value);
-          }
-          if (name === 'mainStat') {
-            nStats.push(value);
-          }
-        });
+  const [nIds, setNids] = useState(['']);
+  const [eIds, setEids] = useState(['']);
+  const [titles, setTitles] = useState(['']);
+  const [froms, setFroms] = useState(['']);
+  const [tos, setTos] = useState(['']);
+  const [nStats, setNStats] = useState(['']);
+  const [eStats, setEStats] = useState(['']);
+  useEffect(() => {
+    const nIds: string[] = [];
+    const eIds: string[] = [];
+    const titles: string[] = [];
+    const froms: string[] = [];
+    const tos: string[] = [];
+    const nStats: string[] = [];
+    const eStats: string[] = [];
+
+    console.log(props);
+    _.map(_.get(nodes, 'fields'), ({ name, values }) => {
+      _.forIn(values, (fieldValue) => {
+        fieldValue
+          .toString()
+          .split(',')
+          .filter((_) => _ !== '')
+          .map((value) => {
+            if (name === 'id') {
+              nIds.push(value);
+            }
+            if (name === 'title') {
+              titles.push(value);
+            }
+            if (name === 'mainStat') {
+              nStats.push(value);
+            }
+          });
+      });
     });
-  });
-  _.map(_.get(edges, 'fields'), ({ name, values }) => {
-    _.forIn(values, (fieldValue) => {
-      fieldValue
-        .toString()
-        .split(',')
-        .filter((_) => _ !== '')
-        .map((value) => {
-          if (name === 'id') {
-            eIds.push(value);
-          }
-          if (name === 'source') {
-            froms.push(value);
-          }
-          if (name === 'target') {
-            tos.push(value);
-          }
-          if (name === 'mainStat') {
-            eStats.push(value);
-          }
-        });
+    _.map(_.get(edges, 'fields'), ({ name, values }) => {
+      _.forIn(values, (fieldValue) => {
+        fieldValue
+          .toString()
+          .split(',')
+          .filter((_) => _ !== '')
+          .map((value) => {
+            if (name === 'id') {
+              eIds.push(value);
+            }
+            if (name === 'source') {
+              froms.push(value);
+            }
+            if (name === 'target') {
+              tos.push(value);
+            }
+            if (name === 'mainStat') {
+              eStats.push(value);
+            }
+          });
+      });
     });
-  });
+
+    setNids(nIds);
+    setEids(eIds);
+    setTitles(titles);
+    setFroms(froms);
+    setTos(tos);
+    setNStats(nStats);
+    setEStats(eStats);
+  }, [nodes, edges]);
   return (
     <Graph
       {...{
