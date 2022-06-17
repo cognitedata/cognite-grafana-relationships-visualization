@@ -36,5 +36,14 @@ export const plugin = new PanelPlugin<VisNodeGraphOptions>(VisNodeGraphPanel).se
         ],
       },
       editor: ShapeSelect,
+    })
+    .addSliderInput({
+      path: 'length',
+      name: 'Edges length',
+      defaultValue: 100,
+      settings: {
+        min: 10,
+        max: 1000,
+      },
     });
 });

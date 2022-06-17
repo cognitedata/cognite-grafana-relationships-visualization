@@ -7,4 +7,5 @@ export interface VisNodeGraphOptions {
     id: string;
     label: string;
   };
+  length: number;
 }

@@ -8,7 +8,7 @@ type Props = PanelProps<VisNodeGraphOptions>;
 
 export const VisNodeGraphPanel: React.FC<Props> = (props) => {
   const {
-    options: { hierarchical, edgesColor, nodesColor, shape },
+    options: { hierarchical, edgesColor, nodesColor, shape, length },
     data: {
       series: [nodes, edges],
     },
@@ -110,17 +110,20 @@ export const VisNodeGraphPanel: React.FC<Props> = (props) => {
           nodes: {
             color: nodesColor ?? '#eee',
             shape: shape.id ? shape.id : 'ellipse',
+            title: 'titles',
           },
           edges: {
             color: edgesColor ?? '#fff',
+            length,
           },
           height: `${height}px`,
           width: `${width}px`,
         },
         events: {
-          select: (selected: { nodes: any; edges: any }) => {
-            const { nodes, edges } = selected;
-            console.log('Selected nodes: ', nodes, '\nSelected edges: ', edges);
+          // @ts-ignore
+          select: (selected: { nodes: any; edges: any }, ...rest) => {
+            const { nodes, edges, ...all } = selected;
+            console.log('Selected nodes: ', nodes, '\nSelected edges: ', edges, rest, all);
           },
         },
       }}
