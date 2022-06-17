@@ -3,4 +3,8 @@ export interface VisNodeGraphOptions {
   clickToUse: boolean;
   edgesColor: string;
   nodesColor: string;
+  shape: {
+    id: string;
+    label: string;
+  };
 }

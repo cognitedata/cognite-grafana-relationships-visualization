@@ -1,6 +1,7 @@
 import { PanelPlugin } from '@grafana/data';
 import { VisNodeGraphOptions } from './types';
 import { VisNodeGraphPanel } from './VisNodeGraphPanel';
+import { ShapeSelect } from './ShapeSelect';
 
 export const plugin = new PanelPlugin<VisNodeGraphOptions>(VisNodeGraphPanel).setPanelOptions((builder) => {
   return builder
@@ -16,5 +17,24 @@ export const plugin = new PanelPlugin<VisNodeGraphOptions>(VisNodeGraphPanel).se
     .addColorPicker({
       path: 'edgesColor',
       name: 'Edges color',
+    })
+    .addCustomEditor({
+      id: 'shape',
+      path: 'shape',
+      name: 'Shape',
+      defaultValue: {
+        id: 'ellipse',
+        label: 'Ellipse',
+      },
+      settings: {
+        options: [
+          { label: 'Ellipse', id: 'ellipse' },
+          { label: 'Circle', id: 'circle' },
+          { label: 'Database', id: 'database' },
+          { label: 'Box', id: 'box' },
+          { label: 'Text', id: 'text' },
+        ],
+      },
+      editor: ShapeSelect,
     });
 });

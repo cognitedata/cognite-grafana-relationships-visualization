@@ -8,7 +8,7 @@ type Props = PanelProps<VisNodeGraphOptions>;
 
 export const VisNodeGraphPanel: React.FC<Props> = (props) => {
   const {
-    options: { hierarchical, edgesColor, nodesColor },
+    options: { hierarchical, edgesColor, nodesColor, shape },
     data: {
       series: [nodes, edges],
     },
@@ -22,7 +22,8 @@ export const VisNodeGraphPanel: React.FC<Props> = (props) => {
   const [tos, setTos] = useState(['']);
   const [nStats, setNStats] = useState(['']);
   const [eStats, setEStats] = useState(['']);
-  useEffect(() => {
+
+  const regenerateNodesAndEdges = () => {
     const nIds: string[] = [];
     const eIds: string[] = [];
     const titles: string[] = [];
@@ -31,24 +32,26 @@ export const VisNodeGraphPanel: React.FC<Props> = (props) => {
     const nStats: string[] = [];
     const eStats: string[] = [];
 
-    console.log(props);
-    _.map(_.get(nodes, 'fields'), ({ name, values }) => {
-      _.forIn(values, (fieldValue) => {
-        fieldValue
-          .toString()
-          .split(',')
-          .filter((_) => _ !== '')
-          .map((value) => {
-            if (name === 'id') {
-              nIds.push(value);
-            }
-            if (name === 'title') {
-              titles.push(value);
-            }
-            if (name === 'mainStat') {
-              nStats.push(value);
-            }
-          });
+    const fields = _.get(nodes, 'fields');
+    const titleFileds = _.find(fields, { name: 'title' });
+    const statsField = _.find(fields, { name: 'mainStat' });
+    // @ts-ignore
+    _.map(_.head(_.values(nodes?.first)), (id, index) => {
+      _.map(fields, ({ name, values }) => {
+        _.forIn(values, (fieldValues: any | undefined[]) => {
+          const fieldValue = fieldValues[index];
+          if (name === 'id') {
+            nIds.push(fieldValue);
+          }
+          if (name === 'title') {
+            // @ts-ignore
+            titles.push(fieldValue ? fieldValue : _.values(statsField?.values)[0][index]);
+          }
+          if (name === 'mainStat') {
+            // @ts-ignore
+            nStats.push(fieldValue ? fieldValue : _.values(titleFileds?.values)[0][index]);
+          }
+        });
       });
     });
     _.map(_.get(edges, 'fields'), ({ name, values }) => {
@@ -81,8 +84,13 @@ export const VisNodeGraphPanel: React.FC<Props> = (props) => {
     setTos(tos);
     setNStats(nStats);
     setEStats(eStats);
+  };
+  useEffect(() => {
+    regenerateNodesAndEdges();
   }, [nodes, edges]);
+
   return (
+    // @ts-ignore
     <Graph
       {...{
         graph: {
@@ -101,6 +109,7 @@ export const VisNodeGraphPanel: React.FC<Props> = (props) => {
           },
           nodes: {
             color: nodesColor ?? '#eee',
+            shape: shape.id ? shape.id : 'ellipse',
           },
           edges: {
             color: edgesColor ?? '#fff',
@@ -113,10 +122,6 @@ export const VisNodeGraphPanel: React.FC<Props> = (props) => {
             const { nodes, edges } = selected;
             console.log('Selected nodes: ', nodes, '\nSelected edges: ', edges);
           },
-        },
-        getNetwork: (network: any) => {
-          //  if you want access to vis.js network api you can set the state in a parent component using this property
-          console.log('network: ', network);
         },
       }}
     />
