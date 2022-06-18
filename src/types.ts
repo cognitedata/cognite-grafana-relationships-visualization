@@ -1,11 +1,22 @@
-export interface VisNodeGraphOptions {
-  hierarchical: boolean;
-  clickToUse: boolean;
-  edgesColor: string;
-  nodesColor: string;
-  shape: {
-    id: string;
-    label: string;
+export const AVOIDED_KEY = 'isOpen';
+export interface DefaultOptions {
+  layout: {
+    [AVOIDED_KEY]: boolean;
+    hierarchical: {
+      enabled: boolean;
+      direction: string;
+    };
   };
-  length: number;
+  nodes: {
+    [AVOIDED_KEY]: boolean;
+    shape: string;
+  };
+  edges: {
+    [AVOIDED_KEY]: boolean;
+    color: string;
+    length: number;
+  };
+}
+export interface VisNodeGraphOptions {
+  visNodeGraph: DefaultOptions;
 }
