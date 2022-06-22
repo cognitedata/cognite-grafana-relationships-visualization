@@ -3,6 +3,7 @@ import { PanelProps } from '@grafana/data';
 import Graph from 'react-graph-vis';
 import { VisNodeGraphOptions } from './types';
 import { createRelationshipsNode, createOptions, getSelectedNode } from './utils';
+import 'vis';
 
 export const VisNodeGraphPanel: React.FC<PanelProps<VisNodeGraphOptions>> = ({
   data: { series },

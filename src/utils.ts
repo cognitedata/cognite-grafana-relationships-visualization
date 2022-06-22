@@ -221,15 +221,19 @@ const defaultValues: DefaultOptions = {
     [AVOIDED_KEY]: false,
   },
   nodes: {
+    widthConstraint: false,
+    heightConstraint: false,
     color: {
       background: '#FFFFFF',
+      border: '#FFFFFF',
+    },
+    font: {
+      color: '#000000',
     },
   },
   edges: {
-    color: {
-      color: '#FFFFF',
-    },
-    font: { color: '#000000' },
+    color: { color: '#FFFFFF' },
+    font: { color: '#FFFFFF' },
     length: 100,
     dashes: false,
   },
@@ -242,11 +246,46 @@ const defaultValues: DefaultOptions = {
     asset: {
       color: {
         background: '#8AB8FF',
+        border: '#000000',
+      },
+      font: {
+        color: '#000000',
+      },
+    },
+    timeSeries: {
+      color: {
+        background: '#FADE2A',
+        border: '#000000',
+      },
+      font: {
+        color: '#000000',
+      },
+    },
+    files: {
+      color: {
+        background: '#FADE2A',
+        border: '#000000',
+      },
+      font: {
+        color: '#000000',
       },
     },
     event: {
       color: {
         background: '#FADE2A',
+        border: '#000000',
+      },
+      font: {
+        color: '#000000',
+      },
+    },
+    sequence: {
+      color: {
+        background: '#FADE2A',
+        border: '#000000',
+      },
+      font: {
+        color: '#000000',
       },
     },
   },
@@ -258,15 +297,35 @@ const defaultValues: DefaultOptions = {
   },
 };
 const omitIsOpen = (obj: any) => {
-  return _.isEqual(getValue(obj, ['hierarchical', 'direction']), 'NO')
-    ? {
-        ..._.omit(obj, [AVOIDED_KEY, AVOIDED_TAB]),
-        hierarchical: {
-          ..._.omit(obj.hierarchical, ['direction']),
-          enabled: false,
-        },
-      }
-    : _.omit(obj, [AVOIDED_KEY, AVOIDED_TAB, EXTRA_KEY]);
+  const widthConstraint = getValue(obj, ['widthConstraint', 'enable']);
+  const direction = getValue(obj, ['hierarchical', 'direction']);
+  const heightConstraint = getValue(obj, ['heightConstraint', 'enable']);
+  const origin = _.omit(obj, [AVOIDED_KEY, AVOIDED_TAB, EXTRA_KEY]);
+  if (direction) {
+    return _.isEqual(direction, 'NO')
+      ? {
+          ...origin,
+          hierarchical: {
+            ..._.omit(obj.hierarchical, ['direction']),
+            enabled: false,
+          },
+        }
+      : origin;
+  }
+  if (widthConstraint) {
+    return _.isEqual(widthConstraint, true)
+      ? {
+          ...origin,
+          widthConstraint: {
+            ..._.omit(obj.widthConstraint, ['enable']),
+          },
+        }
+      : {
+          ...origin,
+          widthConstraint: false,
+        };
+  }
+  return origin;
 };
 export const createRelationshipsNode = (series: Series, visNodeGraph: any) => {
   const relationshipsList = series[2]?.source;
@@ -288,7 +347,7 @@ export const createRelationshipsNode = (series: Series, visNodeGraph: any) => {
     nodes.push({
       id: _.get(source, 'externalId'),
       title: sourceTitleText,
-      label: sourceLabelText.substring(0, 15) + ' ...',
+      label: sourceLabelText, // .substring(0, 25) + ' ...',
       group: sourceType,
       meta: _.get(source, 'metadata'),
       // level: sourceExternalId === searchId ? 0 : undefined,
@@ -296,7 +355,7 @@ export const createRelationshipsNode = (series: Series, visNodeGraph: any) => {
     nodes.push({
       id: _.get(target, 'externalId'),
       title: _.get(target, 'description') || _.get(target, 'name'),
-      label: targetLabelText.substring(0, 15) + ' ...',
+      label: targetLabelText,
       group: targetType,
       // level: targetExternalId === searchId ? 0 : undefined,
       meta: _.get(target, 'metadata'),
@@ -329,6 +388,10 @@ export const createOptions = ({ visNodeGraph, height, width }: VisNodeGraphOptio
     {
       height: `${height}px`,
       width: `${width}px`,
+      interaction: {
+        tooltipDelay: 200,
+        hover: true,
+      },
     }
   );
 export const values = (value: DefaultOptions): DefaultOptions => {

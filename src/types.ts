@@ -8,6 +8,21 @@ interface GroupConfig {
   };
   font?: { color: string };
 }
+type NodesTypes = GroupConfig & {
+  widthConstraint?:
+    | boolean
+    | {
+        minimum: number;
+        maximum: number;
+      };
+} & {
+  heightConstraint?:
+    | boolean
+    | {
+        minimum: number;
+        valign: string;
+      };
+};
 export interface DefaultOptions {
   clickToUse?: boolean;
   [LAYOUT]?: {
@@ -26,7 +41,7 @@ export interface DefaultOptions {
   interaction?: {
     navigationButtons?: boolean;
   };
-  nodes?: GroupConfig;
+  nodes?: NodesTypes;
   edges?: {
     color?: {
       color?: string;
@@ -38,10 +53,10 @@ export interface DefaultOptions {
   groups: {
     [AVOIDED_KEY]: boolean;
     [AVOIDED_TAB]: string;
-    event?: GroupConfig;
     asset?: GroupConfig;
     timeSeries?: GroupConfig;
-    file?: GroupConfig;
+    files?: GroupConfig;
+    event?: GroupConfig;
     sequence?: GroupConfig;
   };
   [PHYSICS]: {
