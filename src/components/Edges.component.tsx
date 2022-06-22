@@ -5,8 +5,8 @@ import { ColorFields } from './ColorFields';
 import { SliderField } from './SliderField';
 import { SwitchField } from './SwitchField';
 
-const parent = EDGES;
 export const Edges: React.FC<any> = ({ onChange, setPathValue, pathValue }) => {
+  const parent = EDGES;
   const edgesLengthPath = [parent, 'length'];
   const edgesColorColorPath = [parent, 'color', 'color'];
   const edgesFontColorPath = [parent, 'font', 'color'];

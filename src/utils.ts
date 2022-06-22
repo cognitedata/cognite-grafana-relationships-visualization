@@ -59,6 +59,9 @@ const defaultValues: DefaultOptions = {
     length: 100,
     dashes: false,
   },
+  interaction: {
+    navigationButtons: true,
+  },
   groups: {
     [AVOIDED_KEY]: false,
     [AVOIDED_TAB]: NODES,

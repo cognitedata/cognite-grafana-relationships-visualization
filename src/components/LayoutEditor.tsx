@@ -33,7 +33,6 @@ export const LayoutEditor: React.FC<any> = ({ onChange, setPathValue, pathValue 
   const layoutTreeSpacingPathValue = pathValue(layoutTreeSpacingPath);
   const layoutSortMethodPathValue = pathValue(layoutSortMethodPath);
 
-  console.log(layoutDirectionPathValue);
   return (
     <CollapsablePanelSection
       key={`${parent}.${AVOIDED_KEY}`}

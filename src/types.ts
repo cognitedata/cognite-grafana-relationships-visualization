@@ -23,6 +23,9 @@ export interface DefaultOptions {
       sortMethod: string;
     };
   };
+  interaction?: {
+    navigationButtons?: boolean;
+  };
   nodes?: GroupConfig;
   edges?: {
     color?: {

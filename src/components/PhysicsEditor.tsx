@@ -33,24 +33,26 @@ export const PhysicsEditor: React.FC<any> = ({ onChange, setPathValue, pathValue
           value: physicsEnabledPathValue,
         }}
       />
-      <NumberField
-        key={'physics.maxVelocity'}
-        {...{
-          label: 'Max Velocity',
-          value: physicsmaxVelocityPathValue,
-          onChange: ({ target: { value } }: any) =>
-            value && onChange(setPathValue(parseFloat(value), physicsmaxVelocityPath)),
-        }}
-      />
-      <NumberField
-        key={'physics.minVelocity'}
-        {...{
-          label: 'Min Velocity',
-          value: physicsMinVelocityPathValue,
-          onChange: ({ target: { value } }: any) =>
-            value && onChange(setPathValue(parseFloat(value), physicsMinVelocityPath)),
-        }}
-      />
+      {physicsEnabledPathValue && [
+        <NumberField
+          key={'physics.maxVelocity'}
+          {...{
+            label: 'Max Velocity',
+            value: physicsmaxVelocityPathValue,
+            onChange: ({ target: { value } }: any) =>
+              value && onChange(setPathValue(parseFloat(value), physicsmaxVelocityPath)),
+          }}
+        />,
+        <NumberField
+          key={'physics.minVelocity'}
+          {...{
+            label: 'Min Velocity',
+            value: physicsMinVelocityPathValue,
+            onChange: ({ target: { value } }: any) =>
+              value && onChange(setPathValue(parseFloat(value), physicsMinVelocityPath)),
+          }}
+        />,
+      ]}
     </CollapsablePanelSection>
   );
 };
