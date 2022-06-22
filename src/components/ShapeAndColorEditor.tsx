@@ -5,12 +5,13 @@ import { CollapsablePanelSection } from './CollapsablePanelSection';
 import { Edges } from './Edges.component';
 import { Nodes } from './Nodes.component';
 
-export const ShapeAndColorEditor: React.FC<any> = ({ onChange, setPathValue, pathValue, data }) => {
+export const ShapeAndColorEditor: React.FC<any> = ({ change, pathValue, data }) => {
   const groupsAvoidCollapsePath = ['groups', AVOIDED_KEY];
   const groupsAvoidTabPath = ['groups', AVOIDED_TAB];
-  const groupsData = getGroupsFromSeries(data);
   const groupsAvoidCollapsePathValue = pathValue(groupsAvoidCollapsePath);
   const groupsAvoidTabPathValue = pathValue(groupsAvoidTabPath);
+
+  const groupsData = getGroupsFromSeries(data);
 
   return (
     <CollapsablePanelSection
@@ -18,7 +19,7 @@ export const ShapeAndColorEditor: React.FC<any> = ({ onChange, setPathValue, pat
       {...{
         isOpen: groupsAvoidCollapsePathValue,
         label: 'Colors and Shapes',
-        onToggle: () => onChange(setPathValue(!groupsAvoidCollapsePathValue, groupsAvoidCollapsePath)),
+        onToggle: () => change(!groupsAvoidCollapsePathValue, groupsAvoidCollapsePath),
       }}
     >
       <TabsBar key={'TabsBar'}>
@@ -27,16 +28,16 @@ export const ShapeAndColorEditor: React.FC<any> = ({ onChange, setPathValue, pat
             active={groupsAvoidTabPathValue === t}
             label={tabLabel(t)}
             key={t}
-            onChangeTab={() => onChange(setPathValue(t, groupsAvoidTabPath))}
+            onChangeTab={() => change(t, groupsAvoidTabPath)}
             id={t}
           />
         ))}
       </TabsBar>
       <TabContent key={`groups.${AVOIDED_TAB}`}>
         {groupsAvoidTabPathValue === EDGES ? (
-          <Edges {...{ onChange, setPathValue, pathValue }} />
+          <Edges {...{ change, pathValue }} />
         ) : (
-          <Nodes {...{ onChange, setPathValue, pathValue, groupsAvoidTabPathValue }} />
+          <Nodes {...{ change, pathValue, groupsAvoidTabPathValue }} />
         )}
       </TabContent>
     </CollapsablePanelSection>

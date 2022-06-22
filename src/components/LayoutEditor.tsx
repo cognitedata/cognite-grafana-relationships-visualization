@@ -7,7 +7,7 @@ import { NumberField } from './NumberField';
 import { SelectField } from './SelectField';
 import { SwitchField } from './SwitchField';
 
-export const LayoutEditor: React.FC<any> = ({ onChange, setPathValue, pathValue }) => {
+export const LayoutEditor: React.FC<any> = ({ change, pathValue }) => {
   const parent = LAYOUT;
   const selector = 'hierarchical';
   const rootExternalIdPath = [EXTRA_KEY, 'rootId'];
@@ -39,32 +39,32 @@ export const LayoutEditor: React.FC<any> = ({ onChange, setPathValue, pathValue 
       {...{
         isOpen: layoutAvoidCollapsePathValue,
         label: 'Layout',
-        onToggle: () => onChange(setPathValue(!layoutAvoidCollapsePathValue, layoutAvoidCollapsePath)),
+        onToggle: () => change(!layoutAvoidCollapsePathValue, layoutAvoidCollapsePath),
       }}
     >
       <InputField
-        key="layout.externalId"
+        key={`${EXTRA_KEY}.externalId`}
         {...{
-          onChange: ({ target: { value } }: any) => onChange(setPathValue(value, rootExternalIdPath)),
+          onChange: ({ target: { value } }: any) => change(value, rootExternalIdPath),
           label: 'Root ExternalId',
           value: rootExternalIdPathValue,
         }}
       />
       <SelectField
-        key="layout.direction"
+        key="layout.hierarchical.direction"
         {...{
           options: directionsOptions,
-          onChange: (selectedValue: Selectable) => onChange(setPathValue(selectedValue.id, layoutDirectionPath)),
+          onChange: (selectedValue: Selectable) => change(selectedValue.id, layoutDirectionPath),
           label: 'Direction',
           value: { id: layoutDirectionPathValue, label: getDirection(layoutDirectionPathValue) },
         }}
       />
       {layoutDirectionPathValue !== 'NO' && [
         <SelectField
-          key="layout.sortMethod"
+          key="layout.hierarchical.sortMethod"
           {...{
             options: sortMethods,
-            onChange: (selectedValue: Selectable) => onChange(setPathValue(selectedValue.id, layoutSortMethodPath)),
+            onChange: (selectedValue: Selectable) => change(selectedValue.id, layoutSortMethodPath),
             label: 'Sort Method',
             value: { id: layoutSortMethodPathValue, label: getDirection(layoutSortMethodPathValue) },
           }}
@@ -72,49 +72,47 @@ export const LayoutEditor: React.FC<any> = ({ onChange, setPathValue, pathValue 
         <NumberField
           key="layout.levelSeparation"
           {...{
-            onChange: ({ target: { value } }: any) =>
-              onChange(setPathValue(parseFloat(value), layoutLevelSeparationPath)),
+            onChange: ({ target: { value } }: any) => change(parseFloat(value), layoutLevelSeparationPath),
             label: 'Level Separation',
             value: layoutLevelSeparationPathValue,
           }}
         />,
         <NumberField
-          key="layout.nodeSpacing"
+          key="layout.hierarchical.nodeSpacing"
           {...{
-            onChange: ({ target: { value } }: any) => onChange(setPathValue(parseFloat(value), layoutNodeSpacingPath)),
+            onChange: ({ target: { value } }: any) => change(parseFloat(value), layoutNodeSpacingPath),
             label: 'Node Spacing',
             value: layoutNodeSpacingPathValue,
           }}
         />,
         <NumberField
-          key="layout.treeSpacing"
+          key="layout.hierarchical.treeSpacing"
           {...{
-            onChange: ({ target: { value } }: any) => onChange(setPathValue(parseFloat(value), layoutTreeSpacingPath)),
+            onChange: ({ target: { value } }: any) => change(parseFloat(value), layoutTreeSpacingPath),
             label: 'Tree Spacing',
             value: layoutTreeSpacingPathValue,
           }}
         />,
         <SwitchField
-          key="layout.parentCentralization"
+          key="layouthierarchical.hierarchical.parentCentralization"
           {...{
-            onChange: () =>
-              onChange(setPathValue(!layoutParentCentralizationPathValue, layoutParentCentralizationPath)),
+            onChange: () => change(!layoutParentCentralizationPathValue, layoutParentCentralizationPath),
             label: 'Parent Centralization',
             value: layoutParentCentralizationPathValue,
           }}
         />,
         <SwitchField
-          key="layout.blockShifting"
+          key="layout.hierarchical.blockShifting"
           {...{
-            onChange: () => onChange(setPathValue(!layoutBlockShiftingPathValue, layoutBlockShiftingPath)),
+            onChange: () => change(!layoutBlockShiftingPathValue, layoutBlockShiftingPath),
             label: 'Block Shifting',
             value: layoutBlockShiftingPathValue,
           }}
         />,
         <SwitchField
-          key="layout.edgeMinimization"
+          key="layout.hierarchical.edgeMinimization"
           {...{
-            onChange: () => onChange(setPathValue(!edgeMinimizationPathValue, edgeMinimizationPath)),
+            onChange: () => change(!edgeMinimizationPathValue, edgeMinimizationPath),
             label: 'Edge Minimization',
             value: edgeMinimizationPathValue,
           }}

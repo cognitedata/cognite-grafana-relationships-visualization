@@ -13,11 +13,13 @@ export const VisNodeGraphEditor: React.FC<StandardEditorProps<DefaultOptions>> =
   const defaultValue = values(value);
   const pathValue = (path: string[]) => getValue(defaultValue, path);
   const setPathValue = (value: any, path: string[]) => setValue(defaultValue, path, value);
+  const change = (value: any, path: string[]) => onChange(setPathValue(value, path));
+  const props = { change, pathValue, data };
   return (
     <div>
-      <LayoutEditor {...{ onChange, setPathValue, pathValue }} />
-      <ShapeAndColorEditor {...{ onChange, setPathValue, pathValue, data }} />
-      <PhysicsEditor {...{ onChange, setPathValue, pathValue }} />
+      <LayoutEditor {...props} />
+      <ShapeAndColorEditor {...props} />
+      <PhysicsEditor {...props} />
     </div>
   );
 };

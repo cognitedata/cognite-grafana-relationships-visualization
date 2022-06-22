@@ -1,11 +1,11 @@
 import React from 'react';
-import { AVOIDED_KEY } from '../utils';
+import { AVOIDED_KEY, PHYSICS } from '../utils';
 import { CollapsablePanelSection } from './CollapsablePanelSection';
 import { NumberField } from './NumberField';
 import { SwitchField } from './SwitchField';
 
-const parent = 'physics';
-export const PhysicsEditor: React.FC<any> = ({ onChange, setPathValue, pathValue }) => {
+export const PhysicsEditor: React.FC<any> = ({ change, pathValue }) => {
+  const parent = PHYSICS;
   const physicsAvoidCollapsePath = [parent, AVOIDED_KEY];
   const physicsmaxVelocityPath = [parent, 'maxVelocity'];
   const physicsMinVelocityPath = [parent, 'minVelocity'];
@@ -22,14 +22,14 @@ export const PhysicsEditor: React.FC<any> = ({ onChange, setPathValue, pathValue
       {...{
         isOpen: physicsAvoidCollapsePathValue,
         label: 'Physics',
-        onToggle: () => onChange(setPathValue(!physicsAvoidCollapsePathValue, physicsAvoidCollapsePath)),
+        onToggle: () => change(!physicsAvoidCollapsePathValue, physicsAvoidCollapsePath),
       }}
     >
       <SwitchField
         key={enabledKeyPath}
         {...{
           label: 'Enabled',
-          onChange: () => onChange(setPathValue(!physicsEnabledPathValue, enabledKeyPath)),
+          onChange: () => change(!physicsEnabledPathValue, enabledKeyPath),
           value: physicsEnabledPathValue,
         }}
       />
@@ -39,8 +39,7 @@ export const PhysicsEditor: React.FC<any> = ({ onChange, setPathValue, pathValue
           {...{
             label: 'Max Velocity',
             value: physicsmaxVelocityPathValue,
-            onChange: ({ target: { value } }: any) =>
-              value && onChange(setPathValue(parseFloat(value), physicsmaxVelocityPath)),
+            onChange: ({ target: { value } }: any) => value && change(parseFloat(value), physicsmaxVelocityPath),
           }}
         />,
         <NumberField
@@ -48,8 +47,7 @@ export const PhysicsEditor: React.FC<any> = ({ onChange, setPathValue, pathValue
           {...{
             label: 'Min Velocity',
             value: physicsMinVelocityPathValue,
-            onChange: ({ target: { value } }: any) =>
-              value && onChange(setPathValue(parseFloat(value), physicsMinVelocityPath)),
+            onChange: ({ target: { value } }: any) => value && change(parseFloat(value), physicsMinVelocityPath),
           }}
         />,
       ]}

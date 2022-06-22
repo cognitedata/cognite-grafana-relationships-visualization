@@ -5,7 +5,7 @@ import { ColorFields } from './ColorFields';
 import { SliderField } from './SliderField';
 import { SwitchField } from './SwitchField';
 
-export const Edges: React.FC<any> = ({ onChange, setPathValue, pathValue }) => {
+export const Edges: React.FC<any> = ({ change, pathValue }) => {
   const parent = EDGES;
   const edgesLengthPath = [parent, 'length'];
   const edgesColorColorPath = [parent, 'color', 'color'];
@@ -26,7 +26,7 @@ export const Edges: React.FC<any> = ({ onChange, setPathValue, pathValue }) => {
             {...{
               label: 'Background',
               width: '50%',
-              onChange: (colorValue: string) => onChange(setPathValue(colorValue, edgesColorColorPath)),
+              onChange: (colorValue: string) => change(colorValue, edgesColorColorPath),
               color: edgesColorColorPathValue,
             }}
           />
@@ -35,7 +35,7 @@ export const Edges: React.FC<any> = ({ onChange, setPathValue, pathValue }) => {
             {...{
               label: 'Font',
               width: '50%',
-              onChange: (colorValue: string) => onChange(setPathValue(colorValue, edgesFontColorPath)),
+              onChange: (colorValue: string) => change(colorValue, edgesFontColorPath),
               color: edgesFontColorPathValue,
             }}
           />
@@ -46,7 +46,7 @@ export const Edges: React.FC<any> = ({ onChange, setPathValue, pathValue }) => {
         {...{
           label: 'Length',
           value: edgesLengthPathValue,
-          onChange: (selectedValue: number) => onChange(setPathValue(selectedValue, edgesLengthPath)),
+          onChange: (selectedValue: number) => change(selectedValue, edgesLengthPath),
           min: 10,
           max: 1000,
         }}
@@ -55,7 +55,7 @@ export const Edges: React.FC<any> = ({ onChange, setPathValue, pathValue }) => {
         key="edges.dashes"
         {...{
           label: 'Dashes',
-          onChange: () => onChange(setPathValue(!edgesDashesPathValue, edgesDashesPath)),
+          onChange: () => change(!edgesDashesPathValue, edgesDashesPath),
           value: edgesDashesPathValue,
         }}
       />

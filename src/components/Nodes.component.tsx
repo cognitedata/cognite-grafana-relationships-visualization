@@ -6,7 +6,7 @@ import { ColorFields } from './ColorFields';
 import { SelectField } from './SelectField';
 import { SliderField } from './SliderField';
 
-export const Nodes: React.FC<any> = ({ onChange, setPathValue, pathValue, groupsAvoidTabPathValue }) => {
+export const Nodes: React.FC<any> = ({ change, pathValue, groupsAvoidTabPathValue }) => {
   const groupPath =
     groupsAvoidTabPathValue === EDGES
       ? []
@@ -36,7 +36,7 @@ export const Nodes: React.FC<any> = ({ onChange, setPathValue, pathValue, groups
             key={'groups.color.background'}
             {...{
               label: 'Background',
-              onChange: (colorValue: string) => onChange(setPathValue(colorValue, groupsColorBackgroundPath)),
+              onChange: (colorValue: string) => change(colorValue, groupsColorBackgroundPath),
               color: groupsColorBackgroundPathValue,
               width: '33%',
             }}
@@ -45,7 +45,7 @@ export const Nodes: React.FC<any> = ({ onChange, setPathValue, pathValue, groups
             key={'groups.color.border'}
             {...{
               label: 'Border',
-              onChange: (colorValue: string) => onChange(setPathValue(colorValue, groupsColorBorderPath)),
+              onChange: (colorValue: string) => change(colorValue, groupsColorBorderPath),
               color: groupsColorBorderPathValue,
               width: '33%',
             }}
@@ -56,7 +56,7 @@ export const Nodes: React.FC<any> = ({ onChange, setPathValue, pathValue, groups
               label: 'Font',
               color: groupsFontColorPathValue,
               width: '33%',
-              onChange: (colorValue: string) => onChange(setPathValue(colorValue, groupsFontColorPath)),
+              onChange: (colorValue: string) => change(colorValue, groupsFontColorPath),
             }}
           />
         </div>
@@ -65,7 +65,7 @@ export const Nodes: React.FC<any> = ({ onChange, setPathValue, pathValue, groups
         key={'groups.shape'}
         {...{
           options: shapeOptions,
-          onChange: (selectedValue: SelectedValue) => onChange(setPathValue(selectedValue.id, groupsShapePath)),
+          onChange: (selectedValue: SelectedValue) => change(selectedValue.id, groupsShapePath),
           label: 'Shape',
           value: {
             id: groupsShapePathValue,
@@ -80,7 +80,7 @@ export const Nodes: React.FC<any> = ({ onChange, setPathValue, pathValue, groups
           {...{
             label: 'Size',
             value: groupsSizePathValue,
-            onChange: (selectedValue: number) => onChange(setPathValue(selectedValue, groupsSizePath)),
+            onChange: (selectedValue: number) => change(selectedValue, groupsSizePath),
             min: 10,
             max: 100,
           }}
