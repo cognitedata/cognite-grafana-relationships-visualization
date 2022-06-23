@@ -19,5 +19,4 @@ export const plugin = new PanelPlugin<VisNodeGraphOptions>(VisNodeGraphPanel)
     addGroupsOption(builder);
     // @ts-ignore    
     addPhysicOption(builder);
-  })
-  .setDataSupport({ annotations: true, alertStates: true });
+  });
