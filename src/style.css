@@ -1,4 +1,14 @@
 .holder {
   display: flex;
-  padding: 4px;;
+}
+.selected-collapse {
+  border-bottom: 2px solid orange !important;
+  color: orange
+}
+.collapse {
+  border-bottom: 0.1px solid gray;
+  font-size: 14px;
+}
+.collapse:first-child {
+  margin-top: -32px;
 }

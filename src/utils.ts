@@ -1,10 +1,16 @@
+import { PanelOptionsEditorBuilder } from '@grafana/data';
+import { SingleStatBaseOptions } from '@grafana/ui';
 import _ from 'lodash';
+import { LayoutEditor } from './components/Layout';
 import { getField } from './components/exporter';
 import { VisNodeGraphOptions, Series, DefaultOptions, Selectable, Directions } from './types';
+import { GroupsEditor } from './components/GroupsEditor';
+import { PhysicsEditor } from './components/Physics';
 
 export const AVOIDED_KEY = 'isOpen';
 export const AVOIDED_TAB = 'tab';
 export const EXTRA_KEY = 'extras';
+export const AVOIDABLE_ENABLED = 'AVOIDABLE_ENABLED';
 export const NODES = 'nodes';
 export const EDGES = 'edges';
 export const LAYOUT = 'layout';
@@ -19,25 +25,7 @@ export const INPUT = 'INPUT';
 export const SELECT = 'SELECT';
 export const SLIDER = 'SLIDER';
 
-export const directionsOptions: Selectable[] = _.map(Directions, (label, id) => ({ id, label }));
-const shapes: string[] = [
-  'ellipse',
-  'circle',
-  'database',
-  'box',
-  'text',
-  'diamond',
-  'dot',
-  'star',
-  'triangle',
-  'triangleDown',
-  'hexagon',
-  'square',
-];
-export const shapeOptions: Selectable[] = _.map(shapes, (id) => ({
-  label: _.upperFirst(id),
-  id,
-}));
+const toSelectable = (id: string): Selectable => ({ id, label: _.upperFirst(id) });
 export const sizableList = [
   'image',
   'circularImage',
@@ -50,8 +38,26 @@ export const sizableList = [
   'square',
   'icon',
 ];
-
-export const sortMethods = _.map(['hubsize', 'directed'], (label) => ({ id: label, label }));
+export const shapeOptions: Selectable[] = _.map(
+  [
+    'ellipse',
+    'circle',
+    'database',
+    'box',
+    'text',
+    'diamond',
+    'dot',
+    'star',
+    'triangle',
+    'triangleDown',
+    'hexagon',
+    'square',
+  ],
+  toSelectable
+);
+export const valignOptions = _.map(['top', 'middle', 'bottom'], toSelectable);
+export const sortMethods = _.map(['hubsize', 'directed'], toSelectable);
+export const directionsOptions: Selectable[] = _.map(Directions, (label, id) => ({ id, label }));
 
 // @ts-ignore
 export const defaultCollapse: any = {
@@ -209,7 +215,8 @@ const defaultValues: DefaultOptions = {
   },
   [LAYOUT]: {
     hierarchical: {
-      direction: 'NO',
+      enabled: false,
+      direction: 'UD',
       levelSeparation: 150,
       nodeSpacing: 100,
       parentCentralization: true,
@@ -297,32 +304,33 @@ const defaultValues: DefaultOptions = {
   },
 };
 const omitIsOpen = (obj: any) => {
-  const widthConstraint = getValue(obj, ['widthConstraint', 'enable']);
-  const direction = getValue(obj, ['hierarchical', 'direction']);
-  const heightConstraint = getValue(obj, ['heightConstraint', 'enable']);
-  const origin = _.omit(obj, [AVOIDED_KEY, AVOIDED_TAB, EXTRA_KEY]);
-  if (direction) {
-    return _.isEqual(direction, 'NO')
-      ? {
-          ...origin,
-          hierarchical: {
-            ..._.omit(obj.hierarchical, ['direction']),
-            enabled: false,
-          },
-        }
-      : origin;
-  }
+  const widthConstraint = getValue(obj, ['widthConstraint', AVOIDABLE_ENABLED]);
+  const heightConstraint = getValue(obj, ['heightConstraint', AVOIDABLE_ENABLED]);
+  let origin = _.omit(obj, [AVOIDED_KEY, AVOIDED_TAB, EXTRA_KEY, AVOIDABLE_ENABLED]);
   if (widthConstraint) {
-    return _.isEqual(widthConstraint, true)
+    origin = _.isEqual(widthConstraint, true)
       ? {
           ...origin,
           widthConstraint: {
-            ..._.omit(obj.widthConstraint, ['enable']),
+            ..._.omit(obj.widthConstraint, [AVOIDABLE_ENABLED]),
           },
         }
       : {
           ...origin,
           widthConstraint: false,
+        };
+  }
+  if (heightConstraint) {
+    origin = _.isEqual(heightConstraint, true)
+      ? {
+          ...origin,
+          heightConstraint: {
+            ..._.omit(obj.heightConstraint, [AVOIDABLE_ENABLED]),
+          },
+        }
+      : {
+          ...origin,
+          heightConstraint: false,
         };
   }
   return origin;
@@ -374,7 +382,7 @@ export const createRelationshipsNode = (series: Series, visNodeGraph: any) => {
 };
 export const createOptions = ({ visNodeGraph, height, width }: VisNodeGraphOptions) =>
   _.reduce(
-    _.map(visNodeGraph, (value, key) =>
+    _.map(values(visNodeGraph), (value, key) =>
       _.omit(
         {
           [key]: {
@@ -390,7 +398,7 @@ export const createOptions = ({ visNodeGraph, height, width }: VisNodeGraphOptio
       width: `${width}px`,
       interaction: {
         tooltipDelay: 200,
-        hover: true,
+        //hover: true,
       },
     }
   );
@@ -458,3 +466,33 @@ export const getChildrens = (
       },
     });
   });
+
+export function addPhysicOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEditorBuilder<T>) {
+  builder.addCustomEditor({
+    id: 'visPhysisc',
+    path: 'physics',
+    name: '',
+    editor: PhysicsEditor,
+    category: ['Physics'],
+  });
+}
+
+export function addLayoutOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEditorBuilder<T>) {
+  builder.addCustomEditor({
+    id: 'visLayout',
+    path: 'layout',
+    name: '',
+    editor: LayoutEditor,
+    category: ['Layout'],
+  });
+}
+
+export function addGroupsOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEditorBuilder<T>) {
+  builder.addCustomEditor({
+    id: 'visGroups',
+    path: 'groups',
+    name: '',
+    editor: GroupsEditor,
+    category: ['Colors and Shapes'],
+  });
+}

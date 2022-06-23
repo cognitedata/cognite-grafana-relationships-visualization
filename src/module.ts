@@ -1,15 +1,23 @@
 import { PanelPlugin } from '@grafana/data';
 import { VisNodeGraphOptions } from './types';
 import { VisNodeGraphPanel } from './VisNodeGraphPanel';
-import { VisNodeGraphEditor } from './VisNodeGraphEditor';
+import { addGroupsOption, addLayoutOption, addPhysicOption } from './utils';
+import { CustomPanel } from './components/CustomPanel';
 
 const VisNodeGraphSettings = {
   id: 'visNodeGraph',
   path: 'visNodeGraph',
   name: '',
-  editor: VisNodeGraphEditor,
+  editor: CustomPanel,
 };
-
-export const plugin = new PanelPlugin<VisNodeGraphOptions>(VisNodeGraphPanel).setPanelOptions((builder) => {
-  return builder.addCustomEditor(VisNodeGraphSettings);
-});
+export const plugin = new PanelPlugin<VisNodeGraphOptions>(VisNodeGraphPanel)
+  .setPanelOptions((builder) => {
+    builder.addCustomEditor(VisNodeGraphSettings);
+    // @ts-ignore
+    addLayoutOption(builder);
+    // @ts-ignore    
+    addGroupsOption(builder);
+    // @ts-ignore    
+    addPhysicOption(builder);
+  })
+  .setDataSupport({ annotations: true, alertStates: true });

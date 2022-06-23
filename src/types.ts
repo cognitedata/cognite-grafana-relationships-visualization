@@ -7,27 +7,25 @@ interface GroupConfig {
     background: string;
   };
   font?: { color: string };
-}
-type NodesTypes = GroupConfig & {
   widthConstraint?:
     | boolean
     | {
         minimum: number;
         maximum: number;
       };
-} & {
   heightConstraint?:
     | boolean
     | {
         minimum: number;
         valign: string;
       };
-};
+}
 export interface DefaultOptions {
   clickToUse?: boolean;
   [LAYOUT]?: {
     [AVOIDED_KEY]: boolean;
     hierarchical?: {
+      enabled: boolean;
       direction?: string;
       levelSeparation?: number;
       nodeSpacing?: number;
@@ -41,7 +39,7 @@ export interface DefaultOptions {
   interaction?: {
     navigationButtons?: boolean;
   };
-  nodes?: NodesTypes;
+  nodes?: GroupConfig;
   edges?: {
     color?: {
       color?: string;
@@ -84,7 +82,6 @@ export interface Direction {
   [x: string]: string;
 }
 export enum Directions {
-  NO = 'No Hierarchical',
   UD = 'Up-Down',
   DU = 'Down-Up',
   LR = 'Left-Right',

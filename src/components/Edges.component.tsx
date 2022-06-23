@@ -1,7 +1,7 @@
 import React from 'react';
 import { EDGES } from '../utils';
 import { ColorField } from './ColorField';
-import { ColorFields } from './ColorFields';
+import { CustomField } from './CustomField';
 import { SliderField } from './SliderField';
 import { SwitchField } from './SwitchField';
 
@@ -17,30 +17,28 @@ export const Edges: React.FC<any> = ({ change, pathValue }) => {
   const edgesFontColorPathValue = pathValue(edgesFontColorPath);
   const edgesDashesPathValue = pathValue(edgesDashesPath);
 
-  const style = { padding: 8 };
   return (
-    <div style={style} key={parent}>
-      {ColorFields(
-        <div className="holder">
-          <ColorField
-            {...{
-              label: 'Background',
-              width: '50%',
-              onChange: (colorValue: string) => change(colorValue, edgesColorColorPath),
-              color: edgesColorColorPathValue,
-            }}
-          />
-          <ColorField
-            key="edges.font.color"
-            {...{
-              label: 'Font',
-              width: '50%',
-              onChange: (colorValue: string) => change(colorValue, edgesFontColorPath),
-              color: edgesFontColorPathValue,
-            }}
-          />
-        </div>
-      )}
+    <div key={parent}>
+      {CustomField('Colors')}
+      <div className="holder">
+        <ColorField
+          {...{
+            label: 'Background',
+            width: '50%',
+            onChange: (colorValue: string) => change(colorValue, edgesColorColorPath),
+            color: edgesColorColorPathValue,
+          }}
+        />
+        <ColorField
+          key="edges.font.color"
+          {...{
+            label: 'Font',
+            width: '50%',
+            onChange: (colorValue: string) => change(colorValue, edgesFontColorPath),
+            color: edgesFontColorPathValue,
+          }}
+        />
+      </div>
       <SliderField
         key="edges.length"
         {...{
