@@ -481,7 +481,7 @@ export function addLayoutOption<T extends SingleStatBaseOptions>(builder: PanelO
   builder.addCustomEditor({
     id: 'visLayout',
     path: 'layout',
-    name: '',
+    name: 'Hierarchical View',
     editor: LayoutEditor,
     category: ['Layout'],
   });

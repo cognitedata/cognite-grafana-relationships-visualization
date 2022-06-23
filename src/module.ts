@@ -10,13 +10,12 @@ const VisNodeGraphSettings = {
   name: '',
   editor: CustomPanel,
 };
-export const plugin = new PanelPlugin<VisNodeGraphOptions>(VisNodeGraphPanel)
-  .setPanelOptions((builder) => {
-    builder.addCustomEditor(VisNodeGraphSettings);
-    // @ts-ignore
-    addLayoutOption(builder);
-    // @ts-ignore    
-    addGroupsOption(builder);
-    // @ts-ignore    
-    addPhysicOption(builder);
-  });
+export const plugin = new PanelPlugin<VisNodeGraphOptions>(VisNodeGraphPanel).setPanelOptions((builder) => {
+  builder.addCustomEditor(VisNodeGraphSettings);
+  // @ts-ignore
+  addLayoutOption(builder);
+  // @ts-ignore
+  addGroupsOption(builder);
+  // @ts-ignore
+  addPhysicOption(builder);
+});
