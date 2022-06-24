@@ -13,16 +13,17 @@ export const GroupsEditor: React.FC<StandardEditorProps> = ({ value, onChange, c
   const change = (value: any, path: string[]) => onChange(setPathValue(value, path));
 
   const groupsData = getGroupsFromSeries(data);
-
+  const avoid = (selector: string) =>
+    selector === EDGES
+      ? [EDGES, AVOIDED_KEY]
+      : selector === NODES
+      ? [NODES, AVOIDED_KEY]
+      : ['groups', selector, AVOIDED_KEY];
   return (
     <div>
       {groupsData.map((label) => {
-        const collapsPath =
-          label === EDGES
-            ? [EDGES, AVOIDED_KEY]
-            : label === NODES
-            ? [NODES, AVOIDED_KEY]
-            : ['groups', label, , AVOIDED_KEY];
+        const collapsPath = avoid(label);
+        console.log(collapsPath, label);
         // @ts-ignore
         const collapsPathValue = pathValue(collapsPath);
         return (
@@ -33,7 +34,7 @@ export const GroupsEditor: React.FC<StandardEditorProps> = ({ value, onChange, c
             // @ts-ignore
             onToggle={() => change(!collapsPathValue, collapsPath)}
           >
-            {label === EDGES ? <Edges {...{ change, pathValue }} /> : <Nodes {...{ change, pathValue, label }} />}
+            {label === EDGES ? <Edges {...{ onChange, value }} /> : <Nodes {...{ onChange, label, value }} />}
           </CollapsablePanelSection>
         );
       })}

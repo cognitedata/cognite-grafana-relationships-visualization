@@ -1,14 +1,8 @@
 import React from 'react';
-import { SelectedValue } from '../types';
-import { AVOIDABLE_ENABLED, NODES, shapeOptions, sizableList, tabLabel, valignOptions } from '../utils';
-import { ColorField } from './ColorField';
-import { ColorFields } from './ColorFields';
-import { NumberField } from './NumberField';
-import { SelectField } from './SelectField';
-import { SliderField } from './SliderField';
-import { SwitchField } from './SwitchField';
+import { AVOIDABLE_ENABLED, getValue, NODES, shapeOptions, sizableList, valignOptions, values } from '../utils';
+import { ColorField, ColorFields, NumberField, SelectField, SliderField, SwitchField } from './Fields';
 
-export const Nodes: React.FC<any> = ({ change, pathValue, label }) => {
+export const Nodes: React.FC<any> = ({ onChange, value, label }) => {
   const groupPath = label === NODES ? [label] : ['groups', label];
 
   const groupsShapePath = [...groupPath, 'shape'];
@@ -22,21 +16,10 @@ export const Nodes: React.FC<any> = ({ change, pathValue, label }) => {
   const groupsHeightConstraintPath = [...groupPath, 'heightConstraint', AVOIDABLE_ENABLED];
   const groupsHeightConstraintMinimumPath = [...groupPath, 'heightConstraint', 'minimum'];
   const groupsHeightConstraintValignPath = [...groupPath, 'heightConstraint', 'valign'];
+  const defaultValue = values(value);
+  const pathValue = (path: string[]) => getValue(defaultValue, path);
 
-  const groupsShapePathValue = pathValue(groupsShapePath);
-  const groupsColorBackgroundPathValue = pathValue(groupsColorBackgroundPath);
-  const groupsColorBorderPathValue = pathValue(groupsColorBorderPath);
-  const groupsFontColorPathValue = pathValue(groupsFontColorPath);
-  const groupsWidthConstraintMinimumPathValue = pathValue(groupsWidthConstraintMinimumPath);
-  const groupsWidthConstraintMaximumPathValue = pathValue(groupsWidthConstraintMaximumPath);
-  const groupsWidthConstraintPathValue = pathValue(groupsWidthConstraintPath);
-  const groupsHeightConstraintPathValue = pathValue(groupsHeightConstraintPath);
-  const groupsHeightConstraintMinimumPathValue = pathValue(groupsHeightConstraintMinimumPath);
-  const groupsHeightConstraintValignPathValue = pathValue(groupsHeightConstraintValignPath);
-
-  const groupsSizePathValue = pathValue(groupsSizePath);
   // oslo_production_mix_tank
-
   const style = { padding: 8 };
   return (
     <div style={style} key={'groups'}>
@@ -46,17 +29,19 @@ export const Nodes: React.FC<any> = ({ change, pathValue, label }) => {
             key={'groups.color.background'}
             {...{
               label: 'Background',
-              onChange: (colorValue: string) => change(colorValue, groupsColorBackgroundPath),
-              color: groupsColorBackgroundPathValue,
+              value,
+              onChange,
+              path: groupsColorBackgroundPath,
               width: '33%',
             }}
           />
           <ColorField
             key={'groups.color.border'}
             {...{
+              value,
               label: 'Border',
-              onChange: (colorValue: string) => change(colorValue, groupsColorBorderPath),
-              color: groupsColorBorderPathValue,
+              onChange,
+              path: groupsColorBorderPath,
               width: '33%',
             }}
           />
@@ -64,9 +49,10 @@ export const Nodes: React.FC<any> = ({ change, pathValue, label }) => {
             key={'groups.font.color'}
             {...{
               label: 'Font',
-              color: groupsFontColorPathValue,
+              path: groupsFontColorPath,
               width: '33%',
-              onChange: (colorValue: string) => change(colorValue, groupsFontColorPath),
+              onChange,
+              value,
             }}
           />
         </div>
@@ -75,79 +61,81 @@ export const Nodes: React.FC<any> = ({ change, pathValue, label }) => {
         key={'groups.shape'}
         {...{
           options: shapeOptions,
-          onChange: (selectedValue: SelectedValue) => change(selectedValue.id, groupsShapePath),
+          onChange,
           label: 'Shape',
-          value: {
-            id: groupsShapePathValue,
-            label: tabLabel(groupsShapePathValue),
-          },
+          value,
+          path: groupsShapePath,
         }}
       />
-      {sizableList.includes(groupsShapePathValue) && (
+      {sizableList.includes(pathValue(groupsShapePath)) && (
         <SliderField
           key={'groups.size'}
           {...{
             label: 'Size',
-            value: groupsSizePathValue,
-            onChange: (selectedValue: number) => change(selectedValue, groupsSizePath),
+            path: groupsSizePath,
+            value,
+            onChange,
             min: 10,
             max: 100,
           }}
         />
       )}
       <SwitchField
-        key={`${NODES}.widthConstraint`}
+        key={`${groupPath.join('.')}.widthConstraint`}
         {...{
+          value,
           label: 'Width Constraint',
-          onChange: () => change(!groupsWidthConstraintPathValue, groupsWidthConstraintPath),
-          value: groupsWidthConstraintPathValue,
+          onChange,
+          path: groupsWidthConstraintPath,
         }}
       />
-      {groupsWidthConstraintPathValue && [
+      {pathValue(groupsWidthConstraintPath) && [
         <NumberField
-          key={`${NODES}.widthConstraint.minimum`}
+          key={`${groupPath.join('.')}.widthConstraint.minimum`}
           {...{
             label: 'Width Constraint Minimum',
-            onChange: ({ target: { value } }: any) => change(parseFloat(value), groupsWidthConstraintMinimumPath),
-            value: groupsWidthConstraintMinimumPathValue || 1,
+            value,
+            onChange,
+            path: groupsWidthConstraintMinimumPath,
           }}
         />,
         <NumberField
-          key={`${NODES}.widthConstraint.maximum`}
+          key={`${groupPath.join('.')}.widthConstraint.maximum`}
           {...{
             label: 'Width Constraint Maximum',
-            onChange: ({ target: { value } }: any) => change(parseFloat(value), groupsWidthConstraintMaximumPath),
-            value: groupsWidthConstraintMaximumPathValue,
+            value,
+            onChange,
+            path: groupsWidthConstraintMaximumPath,
           }}
         />,
       ]}
       <SwitchField
-        key={`${NODES}.widthConstraint`}
+        key={`${groupPath.join('.')}.heightConstrain`}
         {...{
           label: 'Height Constraint',
-          onChange: () => change(!groupsHeightConstraintPathValue, groupsHeightConstraintPath),
-          value: groupsHeightConstraintPathValue,
+          value,
+          onChange,
+          path: groupsHeightConstraintPath,
         }}
       />
-      {groupsHeightConstraintPathValue && [
+      {pathValue(groupsHeightConstraintPath) && [
         <NumberField
-          key={`${NODES}.widthConstraint.minimum`}
+          key={`${groupPath.join('.')}.heightConstraint.minimum`}
           {...{
             label: 'Height Constraint Minimum',
-            onChange: ({ target: { value } }: any) => change(parseFloat(value), groupsHeightConstraintMinimumPath),
-            value: groupsHeightConstraintMinimumPathValue || 1,
+            value,
+            onChange,
+            path: groupsHeightConstraintMinimumPath,
           }}
         />,
         <SelectField
-          key={`${NODES}.heightConstraint.valign`}
+          key={`${groupPath.join('.')}.heightConstraint.valign`}
           {...{
             options: valignOptions,
             label: 'Height Constraint Valign',
-            onChange: (selectedValue: SelectedValue) => change(selectedValue.id, groupsHeightConstraintValignPath),
-            value: {
-              id: groupsHeightConstraintValignPathValue || 'middle',
-              label: tabLabel(groupsHeightConstraintValignPathValue) || 'Middle',
-            },
+            value,
+            onChange,
+            path: groupsHeightConstraintValignPath,
           }}
         />,
       ]}

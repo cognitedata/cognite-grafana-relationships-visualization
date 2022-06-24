@@ -1,17 +1,48 @@
-import { PanelPlugin } from '@grafana/data';
+import { PanelOptionsEditorBuilder, PanelPlugin } from '@grafana/data';
 import { VisNodeGraphOptions } from './types';
 import { VisNodeGraphPanel } from './VisNodeGraphPanel';
-import { addGroupsOption, addLayoutOption, addPhysicOption } from './utils';
-import { CustomPanel } from './components/CustomPanel';
+import { SingleStatBaseOptions } from '@grafana/ui';
+import { CustomEditor, GroupsEditor, LayoutEditor, PhysicsEditor } from './components';
 
-const VisNodeGraphSettings = {
+const VisCustomEditorSettings = {
   id: 'visNodeGraph',
   path: 'visNodeGraph',
   name: '',
-  editor: CustomPanel,
+  editor: CustomEditor,
 };
+
+function addPhysicOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEditorBuilder<T>) {
+  builder.addCustomEditor({
+    id: 'visPhysisc',
+    path: 'physics',
+    name: '',
+    editor: PhysicsEditor,
+    category: ['Physics'],
+  });
+}
+
+function addLayoutOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEditorBuilder<T>) {
+  builder.addCustomEditor({
+    id: 'visLayout',
+    path: 'layout',
+    name: 'Hierarchical View',
+    editor: LayoutEditor,
+    category: ['Layout'],
+  });
+}
+
+function addGroupsOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEditorBuilder<T>) {
+  builder.addCustomEditor({
+    id: 'visGroups',
+    path: 'groups',
+    name: '',
+    editor: GroupsEditor,
+    category: ['Colors and Shapes'],
+  });
+}
+
 export const plugin = new PanelPlugin<VisNodeGraphOptions>(VisNodeGraphPanel).setPanelOptions((builder) => {
-  builder.addCustomEditor(VisNodeGraphSettings);
+  builder.addCustomEditor(VisCustomEditorSettings);
   // @ts-ignore
   addLayoutOption(builder);
   // @ts-ignore

@@ -1,21 +1,13 @@
 import React from 'react';
 import { EDGES } from '../utils';
-import { ColorField } from './ColorField';
-import { CustomField } from './CustomField';
-import { SliderField } from './SliderField';
-import { SwitchField } from './SwitchField';
+import { ColorField, CustomField, SliderField, SwitchField } from './Fields';
 
-export const Edges: React.FC<any> = ({ change, pathValue }) => {
+export const Edges: React.FC<any> = ({ onChange, value }) => {
   const parent = EDGES;
   const edgesLengthPath = [parent, 'length'];
   const edgesColorColorPath = [parent, 'color', 'color'];
   const edgesFontColorPath = [parent, 'font', 'color'];
   const edgesDashesPath = [parent, 'dashes'];
-
-  const edgesLengthPathValue = pathValue(edgesLengthPath);
-  const edgesColorColorPathValue = pathValue(edgesColorColorPath);
-  const edgesFontColorPathValue = pathValue(edgesFontColorPath);
-  const edgesDashesPathValue = pathValue(edgesDashesPath);
 
   return (
     <div key={parent}>
@@ -23,28 +15,31 @@ export const Edges: React.FC<any> = ({ change, pathValue }) => {
       <div className="holder">
         <ColorField
           {...{
+            value,
             label: 'Background',
             width: '50%',
-            onChange: (colorValue: string) => change(colorValue, edgesColorColorPath),
-            color: edgesColorColorPathValue,
+            onChange,
+            path: edgesColorColorPath,
           }}
         />
         <ColorField
           key="edges.font.color"
           {...{
+            value,
             label: 'Font',
             width: '50%',
-            onChange: (colorValue: string) => change(colorValue, edgesFontColorPath),
-            color: edgesFontColorPathValue,
+            onChange,
+            path: edgesFontColorPath,
           }}
         />
       </div>
       <SliderField
         key="edges.length"
         {...{
+          value,
           label: 'Length',
-          value: edgesLengthPathValue,
-          onChange: (selectedValue: number) => change(selectedValue, edgesLengthPath),
+          onChange,
+          path: edgesLengthPath,
           min: 10,
           max: 1000,
         }}
@@ -53,8 +48,9 @@ export const Edges: React.FC<any> = ({ change, pathValue }) => {
         key="edges.dashes"
         {...{
           label: 'Dashes',
-          onChange: () => change(!edgesDashesPathValue, edgesDashesPath),
-          value: edgesDashesPathValue,
+          value,
+          onChange,
+          path: edgesDashesPath,
         }}
       />
     </div>

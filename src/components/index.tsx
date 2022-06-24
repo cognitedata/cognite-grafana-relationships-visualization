@@ -1,5 +1,4 @@
-export { LayoutEditor } from './LayoutEditor';
-export { PhysicsEditor } from './PhysicsEditor';
-export { ShapeAndColorEditor } from './ShapeAndColorEditor';
-
-export { CollapsablePanelSection } from './CollapsablePanelSection';
+export { LayoutEditor } from './Layout.component';
+export { PhysicsEditor } from './Physics.component';
+export { GroupsEditor } from './Groups.component';
+export { CustomEditor } from './Custom.component';

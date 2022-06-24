@@ -1,11 +1,5 @@
-import { PanelOptionsEditorBuilder } from '@grafana/data';
-import { SingleStatBaseOptions } from '@grafana/ui';
 import _ from 'lodash';
-import { LayoutEditor } from './components/Layout';
-import { getField } from './components/exporter';
 import { VisNodeGraphOptions, Series, DefaultOptions, Selectable, Directions } from './types';
-import { GroupsEditor } from './components/GroupsEditor';
-import { PhysicsEditor } from './components/Physics';
 
 export const AVOIDED_KEY = 'isOpen';
 export const AVOIDED_TAB = 'tab';
@@ -59,156 +53,6 @@ export const valignOptions = _.map(['top', 'middle', 'bottom'], toSelectable);
 export const sortMethods = _.map(['hubsize', 'directed'], toSelectable);
 export const directionsOptions: Selectable[] = _.map(Directions, (label, id) => ({ id, label }));
 
-// @ts-ignore
-export const defaultCollapse: any = {
-  [LAYOUT]: {
-    label: LAYOUT,
-    selector: 'hierarchical',
-    children: {
-      rootId: {
-        type: INPUT,
-        path: [EXTRA_KEY, 'rootId'],
-        label: 'Root ExternalId',
-      },
-      direction: {
-        type: SELECT,
-        label: 'Direction',
-        options: directionsOptions,
-      },
-      [CONDITIONED_FIELDS]: [
-        { [CONDITION_PATH]: 'direction' },
-        {
-          sortMethod: {
-            type: SELECT,
-            label: 'Sort Method',
-            options: sortMethods,
-          },
-        },
-        {
-          levelSeparation: {
-            type: NUMBER,
-            label: 'Level Separation',
-          },
-        },
-        {
-          nodeSpacing: {
-            type: NUMBER,
-            label: 'Level Separation',
-          },
-        },
-        {
-          treeSpacing: {
-            type: NUMBER,
-            label: 'Tree Spacing',
-          },
-        },
-        {
-          parentCentralization: {
-            type: SWITCH,
-            label: 'Parent Centralization',
-          },
-        },
-        {
-          blockShifting: {
-            type: SWITCH,
-            label: 'Block Shifting',
-          },
-        },
-        {
-          edgeMinimization: {
-            type: SWITCH,
-            label: 'Edge Minimization',
-          },
-        },
-      ],
-    },
-  },
-  [GROUPS]: {
-    label: 'Colors and Shapes',
-    [AVOIDED_TAB]: true,
-    style: { padding: 8 },
-    children: {
-      [EDGES]: {
-        colors: [
-          {
-            path: ['color', 'color'],
-            label: 'Background',
-          },
-          {
-            path: ['font', 'color'],
-            label: 'Font',
-          },
-        ],
-        length: {
-          type: SLIDER,
-          path: ['length'],
-          label: 'Length',
-        },
-        dashes: {
-          type: SWITCH,
-          path: ['dashes'],
-          label: 'Dashes',
-        },
-      },
-      [NODES]: {
-        colors: [
-          {
-            path: ['color', 'background'],
-            label: 'Background',
-          },
-          {
-            path: ['color', 'border'],
-            label: 'Border',
-          },
-          {
-            path: ['font', 'color'],
-            label: 'Font',
-          },
-        ],
-        shape: {
-          type: SELECT,
-          path: ['shape'],
-          label: 'Shape',
-          options: shapeOptions,
-        },
-        [CONDITIONED_FIELDS]: [
-          { [CONDITION_INCLUDES]: sizableList },
-          {
-            size: {
-              type: SLIDER,
-              path: ['size'],
-              label: 'Size',
-            },
-          },
-        ],
-      },
-    },
-  },
-  [PHYSICS]: {
-    label: PHYSICS,
-    children: {
-      enabled: {
-        type: SWITCH,
-        label: 'Enabled',
-      },
-      [CONDITIONED_FIELDS]: [
-        { [CONDITION_PATH]: 'enabled' },
-        {
-          minVelocity: {
-            type: NUMBER,
-            label: 'Min Velocity',
-          },
-        },
-        {
-          maxVelocity: {
-            type: NUMBER,
-            label: 'Max Velocity',
-          },
-        },
-      ],
-    },
-  },
-};
 const defaultValues: DefaultOptions = {
   [EXTRA_KEY]: {
     rootId: '',
@@ -304,9 +148,18 @@ const defaultValues: DefaultOptions = {
   },
 };
 const omitIsOpen = (obj: any) => {
+  const hierarchical = getValue(obj, ['hierarchical', 'enabled']);
   const widthConstraint = getValue(obj, ['widthConstraint', AVOIDABLE_ENABLED]);
   const heightConstraint = getValue(obj, ['heightConstraint', AVOIDABLE_ENABLED]);
   let origin = _.omit(obj, [AVOIDED_KEY, AVOIDED_TAB, EXTRA_KEY, AVOIDABLE_ENABLED]);
+  if (obj.hierarchical) {
+    origin = hierarchical
+      ? origin
+      : {
+          ...origin,
+          hierarchical: false,
+        };
+  }
   if (widthConstraint) {
     origin = _.isEqual(widthConstraint, true)
       ? {
@@ -333,6 +186,7 @@ const omitIsOpen = (obj: any) => {
           heightConstraint: false,
         };
   }
+  console.log(origin);
   return origin;
 };
 export const createRelationshipsNode = (series: Series, visNodeGraph: any) => {
@@ -396,10 +250,6 @@ export const createOptions = ({ visNodeGraph, height, width }: VisNodeGraphOptio
     {
       height: `${height}px`,
       width: `${width}px`,
-      interaction: {
-        tooltipDelay: 200,
-        //hover: true,
-      },
     }
   );
 export const values = (value: DefaultOptions): DefaultOptions => {
@@ -420,79 +270,3 @@ export const getDirection = (direction: string | undefined) => _.get(Directions,
 
 export const setValue = (obj: any, path: string[], value: any) => _.set(obj, path, value);
 export const getSelectedNode = (collection: any, id: string) => _.find(collection, { id });
-export const getSeletedValue = (type: string, value: any) => {
-  switch (type) {
-    case SWITCH:
-      return !value;
-    case SELECT:
-      return value.id;
-    case SLIDER:
-    case NUMBER:
-      return parseFloat(value);
-    default:
-    case INPUT:
-      return value;
-  }
-};
-export const checkCondition = (value: any, type: string) => {
-  switch (type) {
-    case 'direction':
-      return value === 'NO';
-    default:
-      return value;
-  }
-};
-
-export const getChildrens = (
-  object: { [x: string]: { type: any; label: any; options: any; path: any } },
-  selector: any,
-  key: any,
-  childKey: any,
-  pathValue: (arg0: any) => any,
-  setPathValue: (arg0: any, arg1: any) => any,
-  onChange: (arg0: any) => any
-) =>
-  Object.keys(object).map((objKey) => {
-    const { type, label, options, path } = object[objKey];
-    const fieldPath = path ? path : selector ? [key, selector, childKey] : [key, childKey];
-    const value = pathValue(fieldPath);
-    return getField(type, {
-      label,
-      options,
-      value,
-      onChange: (changed: any) => {
-        const selectedValue = getSeletedValue(type, changed);
-        return onChange(setPathValue(selectedValue, fieldPath));
-      },
-    });
-  });
-
-export function addPhysicOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEditorBuilder<T>) {
-  builder.addCustomEditor({
-    id: 'visPhysisc',
-    path: 'physics',
-    name: '',
-    editor: PhysicsEditor,
-    category: ['Physics'],
-  });
-}
-
-export function addLayoutOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEditorBuilder<T>) {
-  builder.addCustomEditor({
-    id: 'visLayout',
-    path: 'layout',
-    name: 'Hierarchical View',
-    editor: LayoutEditor,
-    category: ['Layout'],
-  });
-}
-
-export function addGroupsOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEditorBuilder<T>) {
-  builder.addCustomEditor({
-    id: 'visGroups',
-    path: 'groups',
-    name: '',
-    editor: GroupsEditor,
-    category: ['Colors and Shapes'],
-  });
-}
