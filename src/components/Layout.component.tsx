@@ -1,26 +1,30 @@
 import React from 'react';
-import { directionsOptions, LAYOUT, sortMethods, getValue, values } from '../utils';
+import { directionsOptions, sortMethods, getValue, values } from '../utils';
 import { NumberField, SelectField, SwitchField } from './Fields';
+import { LAYOUT } from '../constants';
 
-export const LayoutEditor: React.FC<any> = ({ value, onChange }) => {
-  const defaultValue = values(value);
+export const LayoutEditor: React.FC<any> = (props) => {
+  const {
+    value,
+    onChange,
+    item: { defaultValue },
+  } = props;
+  const defaultValues = values(value, defaultValue);
 
-  const parent = LAYOUT;
   const selector = 'hierarchical';
-  const enabledPath = [parent, selector, 'enabled'];
+  const enabledPath = [selector, 'enabled'];
 
-  const layoutDirectionPath = [parent, selector, 'direction'];
-  const layoutLevelSeparationPath = [parent, selector, 'levelSeparation'];
-  const layoutNodeSpacingPath = [parent, selector, 'nodeSpacing'];
-  const layoutParentCentralizationPath = [parent, selector, 'parentCentralization'];
-  const edgeMinimizationPath = [parent, selector, 'edgeMinimization'];
-  const layoutBlockShiftingPath = [parent, selector, 'blockShifting'];
-  const layoutTreeSpacingPath = [parent, selector, 'treeSpacing'];
-  const layoutSortMethodPath = [parent, selector, 'sortMethod'];
+  const layoutDirectionPath = [selector, 'direction'];
+  const layoutLevelSeparationPath = [selector, 'levelSeparation'];
+  const layoutNodeSpacingPath = [selector, 'nodeSpacing'];
+  const layoutParentCentralizationPath = [selector, 'parentCentralization'];
+  const edgeMinimizationPath = [selector, 'edgeMinimization'];
+  const layoutBlockShiftingPath = [selector, 'blockShifting'];
+  const layoutTreeSpacingPath = [selector, 'treeSpacing'];
+  const layoutSortMethodPath = [selector, 'sortMethod'];
 
-  const pathValue = (path: string[]) => getValue(defaultValue, path);
+  const pathValue = (path: string[]) => getValue(defaultValues, path);
   const enabledPathValue = pathValue(enabledPath);
-
   return (
     <div>
       <SwitchField
@@ -30,6 +34,7 @@ export const LayoutEditor: React.FC<any> = ({ value, onChange }) => {
           label: 'Enabled',
           path: enabledPath,
           value,
+          defaultValue,
         }}
       />
       {enabledPathValue && [
@@ -42,6 +47,7 @@ export const LayoutEditor: React.FC<any> = ({ value, onChange }) => {
             path: layoutDirectionPath,
             value,
             isDirection: true,
+            defaultValue,
           }}
         />,
 
@@ -53,6 +59,7 @@ export const LayoutEditor: React.FC<any> = ({ value, onChange }) => {
             label: 'Sort Method',
             path: layoutSortMethodPath,
             value,
+            defaultValue,
           }}
         />,
         <NumberField
@@ -62,6 +69,7 @@ export const LayoutEditor: React.FC<any> = ({ value, onChange }) => {
             onChange,
             label: 'Level Separation',
             path: layoutLevelSeparationPath,
+            defaultValue,
           }}
         />,
         <NumberField
@@ -71,6 +79,7 @@ export const LayoutEditor: React.FC<any> = ({ value, onChange }) => {
             onChange,
             label: 'Node Spacing',
             path: layoutNodeSpacingPath,
+            defaultValue,
           }}
         />,
         <NumberField
@@ -80,6 +89,7 @@ export const LayoutEditor: React.FC<any> = ({ value, onChange }) => {
             onChange,
             label: 'Tree Spacing',
             path: layoutTreeSpacingPath,
+            defaultValue,
           }}
         />,
         <SwitchField
@@ -89,6 +99,7 @@ export const LayoutEditor: React.FC<any> = ({ value, onChange }) => {
             onChange,
             label: 'Parent Centralization',
             path: layoutParentCentralizationPath,
+            defaultValue,
           }}
         />,
         <SwitchField
@@ -98,6 +109,7 @@ export const LayoutEditor: React.FC<any> = ({ value, onChange }) => {
             onChange,
             label: 'Block Shifting',
             path: layoutBlockShiftingPath,
+            defaultValue,
           }}
         />,
         <SwitchField
@@ -107,6 +119,7 @@ export const LayoutEditor: React.FC<any> = ({ value, onChange }) => {
             onChange,
             label: 'Edge Minimization',
             path: edgeMinimizationPath,
+            defaultValue,
           }}
         />,
       ]}

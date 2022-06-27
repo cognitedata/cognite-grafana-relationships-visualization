@@ -1,8 +1,8 @@
 import React from 'react';
-import { EDGES } from '../utils';
+import { EDGES } from '../constants';
 import { ColorField, CustomField, SliderField, SwitchField } from './Fields';
 
-export const Edges: React.FC<any> = ({ onChange, value }) => {
+export const Edges: React.FC<any> = ({ onChange, value, defaultValue }) => {
   const parent = EDGES;
   const edgesLengthPath = [parent, 'length'];
   const edgesColorColorPath = [parent, 'color', 'color'];
@@ -20,6 +20,7 @@ export const Edges: React.FC<any> = ({ onChange, value }) => {
             width: '50%',
             onChange,
             path: edgesColorColorPath,
+            defaultValue,
           }}
         />
         <ColorField
@@ -30,6 +31,7 @@ export const Edges: React.FC<any> = ({ onChange, value }) => {
             width: '50%',
             onChange,
             path: edgesFontColorPath,
+            defaultValue,
           }}
         />
       </div>
@@ -42,6 +44,7 @@ export const Edges: React.FC<any> = ({ onChange, value }) => {
           path: edgesLengthPath,
           min: 10,
           max: 1000,
+          defaultValue,
         }}
       />
       <SwitchField
@@ -51,6 +54,7 @@ export const Edges: React.FC<any> = ({ onChange, value }) => {
           value,
           onChange,
           path: edgesDashesPath,
+          defaultValue,
         }}
       />
     </div>

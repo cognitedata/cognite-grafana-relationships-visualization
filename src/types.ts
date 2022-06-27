@@ -1,29 +1,23 @@
-import { AVOIDED_KEY, AVOIDED_TAB, EXTRA_KEY, LAYOUT, PHYSICS } from './utils';
+import { AVOIDABLE_ENABLED, AVOIDED_KEY, EXTRA_KEY, LAYOUT, PHYSICS } from './constants';
 
 interface GroupConfig {
+  [AVOIDED_KEY]: boolean;
   shape?: string;
   color?: {
     border?: string;
     background: string;
   };
   font?: { color: string };
-  widthConstraint?:
-    | boolean
-    | {
-        minimum: number;
-        maximum: number;
-      };
-  heightConstraint?:
-    | boolean
-    | {
-        minimum: number;
-        valign: string;
-      };
+  widthConstraint?: {
+    [AVOIDABLE_ENABLED]: boolean;
+    minimum?: number;
+    maximum?: number;
+  };
+  heightConstraint?: { [AVOIDABLE_ENABLED]: boolean; minimum?: number; valign?: string };
 }
 export interface DefaultOptions {
   clickToUse?: boolean;
-  [LAYOUT]?: {
-    [AVOIDED_KEY]: boolean;
+  [LAYOUT]: {
     hierarchical?: {
       enabled: boolean;
       direction?: string;
@@ -36,11 +30,9 @@ export interface DefaultOptions {
       sortMethod: string;
     };
   };
-  interaction?: {
-    navigationButtons?: boolean;
-  };
-  nodes?: GroupConfig;
-  edges?: {
+  nodes: GroupConfig;
+  edges: {
+    [AVOIDED_KEY]: boolean;
     color?: {
       color?: string;
     };
@@ -49,8 +41,6 @@ export interface DefaultOptions {
     dashes?: boolean;
   };
   groups: {
-    [AVOIDED_KEY]: boolean;
-    [AVOIDED_TAB]: string;
     asset?: GroupConfig;
     timeSeries?: GroupConfig;
     files?: GroupConfig;
@@ -58,14 +48,13 @@ export interface DefaultOptions {
     sequence?: GroupConfig;
   };
   [PHYSICS]: {
-    [AVOIDED_KEY]: boolean;
     enabled: boolean;
     minVelocity?: number;
     maxVelocity?: number;
   };
   height?: number;
   width?: number;
-  [EXTRA_KEY]?: {
+  [EXTRA_KEY]: {
     rootId?: string;
   };
 }

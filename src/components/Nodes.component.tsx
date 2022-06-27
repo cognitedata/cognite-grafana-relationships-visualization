@@ -1,8 +1,9 @@
 import React from 'react';
-import { AVOIDABLE_ENABLED, getValue, NODES, shapeOptions, sizableList, valignOptions, values } from '../utils';
+import { getValue, shapeOptions, valignOptions, values } from '../utils';
 import { ColorField, ColorFields, NumberField, SelectField, SliderField, SwitchField } from './Fields';
+import { AVOIDABLE_ENABLED, NODES, sizableList } from '../constants';
 
-export const Nodes: React.FC<any> = ({ onChange, value, label }) => {
+export const Nodes: React.FC<any> = ({ onChange, defaultValue, value, label }) => {
   const groupPath = label === NODES ? [label] : ['groups', label];
 
   const groupsShapePath = [...groupPath, 'shape'];
@@ -16,9 +17,8 @@ export const Nodes: React.FC<any> = ({ onChange, value, label }) => {
   const groupsHeightConstraintPath = [...groupPath, 'heightConstraint', AVOIDABLE_ENABLED];
   const groupsHeightConstraintMinimumPath = [...groupPath, 'heightConstraint', 'minimum'];
   const groupsHeightConstraintValignPath = [...groupPath, 'heightConstraint', 'valign'];
-  const defaultValue = values(value);
-  const pathValue = (path: string[]) => getValue(defaultValue, path);
-
+  const defaultValues = values(value, defaultValue);
+  const pathValue = (path: string[]) => getValue(defaultValues, path);
   // oslo_production_mix_tank
   const style = { padding: 8 };
   return (
@@ -33,6 +33,7 @@ export const Nodes: React.FC<any> = ({ onChange, value, label }) => {
               onChange,
               path: groupsColorBackgroundPath,
               width: '33%',
+              defaultValue,
             }}
           />
           <ColorField
@@ -43,6 +44,7 @@ export const Nodes: React.FC<any> = ({ onChange, value, label }) => {
               onChange,
               path: groupsColorBorderPath,
               width: '33%',
+              defaultValue,
             }}
           />
           <ColorField
@@ -53,6 +55,7 @@ export const Nodes: React.FC<any> = ({ onChange, value, label }) => {
               width: '33%',
               onChange,
               value,
+              defaultValue,
             }}
           />
         </div>
@@ -65,6 +68,7 @@ export const Nodes: React.FC<any> = ({ onChange, value, label }) => {
           label: 'Shape',
           value,
           path: groupsShapePath,
+          defaultValue,
         }}
       />
       {sizableList.includes(pathValue(groupsShapePath)) && (
@@ -77,6 +81,7 @@ export const Nodes: React.FC<any> = ({ onChange, value, label }) => {
             onChange,
             min: 10,
             max: 100,
+            defaultValue,
           }}
         />
       )}
@@ -87,6 +92,7 @@ export const Nodes: React.FC<any> = ({ onChange, value, label }) => {
           label: 'Width Constraint',
           onChange,
           path: groupsWidthConstraintPath,
+          defaultValue,
         }}
       />
       {pathValue(groupsWidthConstraintPath) && [
@@ -97,6 +103,7 @@ export const Nodes: React.FC<any> = ({ onChange, value, label }) => {
             value,
             onChange,
             path: groupsWidthConstraintMinimumPath,
+            defaultValue,
           }}
         />,
         <NumberField
@@ -106,6 +113,7 @@ export const Nodes: React.FC<any> = ({ onChange, value, label }) => {
             value,
             onChange,
             path: groupsWidthConstraintMaximumPath,
+            defaultValue,
           }}
         />,
       ]}
@@ -116,6 +124,7 @@ export const Nodes: React.FC<any> = ({ onChange, value, label }) => {
           value,
           onChange,
           path: groupsHeightConstraintPath,
+          defaultValue,
         }}
       />
       {pathValue(groupsHeightConstraintPath) && [
@@ -126,6 +135,7 @@ export const Nodes: React.FC<any> = ({ onChange, value, label }) => {
             value,
             onChange,
             path: groupsHeightConstraintMinimumPath,
+            defaultValue,
           }}
         />,
         <SelectField
@@ -136,6 +146,7 @@ export const Nodes: React.FC<any> = ({ onChange, value, label }) => {
             value,
             onChange,
             path: groupsHeightConstraintValignPath,
+            defaultValue,
           }}
         />,
       ]}

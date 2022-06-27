@@ -1,16 +1,14 @@
 import React from 'react';
-import { getValue, PHYSICS, values } from '../utils';
+import { getValue, values } from '../utils';
 import { NumberField, SwitchField } from './Fields';
 
-export const PhysicsEditor: React.FC<any> = ({ value, onChange }) => {
-  const defaultValue = values(value);
-  const pathValue = (path: string[]) => getValue(defaultValue, path);
+export const PhysicsEditor: React.FC<any> = ({ value, onChange, item: { defaultValue } }) => {
+  const defaultValues = values(value, defaultValue);
+  const pathValue = (path: string[]) => getValue(defaultValues, path);
 
-  const parent = PHYSICS;
-
-  const physicsMaxVelocityPath = [parent, 'maxVelocity'];
-  const physicsMinVelocityPath = [parent, 'minVelocity'];
-  const enabledKeyPath = [parent, 'enabled'];
+  const physicsMaxVelocityPath = ['maxVelocity'];
+  const physicsMinVelocityPath = ['minVelocity'];
+  const enabledKeyPath = ['enabled'];
 
   return (
     <div>
@@ -21,6 +19,7 @@ export const PhysicsEditor: React.FC<any> = ({ value, onChange }) => {
           onChange,
           path: enabledKeyPath,
           value,
+          defaultValue,
         }}
       />
       {pathValue(enabledKeyPath) && [
@@ -31,6 +30,7 @@ export const PhysicsEditor: React.FC<any> = ({ value, onChange }) => {
             path: physicsMaxVelocityPath,
             onChange,
             value,
+            defaultValue,
           }}
         />,
         <NumberField
@@ -40,6 +40,7 @@ export const PhysicsEditor: React.FC<any> = ({ value, onChange }) => {
             path: physicsMinVelocityPath,
             onChange,
             value,
+            defaultValue,
           }}
         />,
       ]}

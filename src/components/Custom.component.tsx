@@ -1,11 +1,9 @@
 import React from 'react';
-import { StandardEditorProps } from '@grafana/data';
-import { EXTRA_KEY } from '../utils';
-import { DefaultOptions } from '../types';
+import { EXTRA_KEY } from '../constants';
 import { InputField } from './Fields';
 
-export const CustomEditor: React.FC<StandardEditorProps<DefaultOptions>> = ({ value, onChange }) => {
-  const rootExternalIdPath = [EXTRA_KEY, 'rootId'];
+export const CustomEditor: React.FC<any> = ({ value, onChange, item: { defaultValue } }) => {
+  const rootExternalIdPath = ['rootId'];
 
   return (
     <div>
@@ -16,6 +14,7 @@ export const CustomEditor: React.FC<StandardEditorProps<DefaultOptions>> = ({ va
           onChange,
           label: 'Root ExternalId',
           path: rootExternalIdPath,
+          defaultValue,
         }}
       />
     </div>
