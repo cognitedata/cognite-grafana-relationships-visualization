@@ -1,19 +1,18 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { PanelProps } from '@grafana/data';
+import { SingleStatBaseOptions } from '@grafana/ui';
 import Graph from 'react-graph-vis';
-import { VisNodeGraphOptions } from './types';
 import { createRelationshipsNode, createOptions, getSelectedNode } from './utils';
 
-export const VisNodeGraphPanel: React.FC<PanelProps<VisNodeGraphOptions>> = (props) => {
+export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = (props) => {
   const {
     data: { series },
     height,
     width,
     options,
   } = props;
-  const graph = useMemo(() => createRelationshipsNode(series, options), [options, series]);
-  const graphOptions = useMemo(() => createOptions({ options, height, width }), [options]);
-  console.log(graphOptions);
+  const graph = createRelationshipsNode(series, options);
+  const graphOptions = createOptions({ options, height, width, series });
   return (
     <Graph
       {...{

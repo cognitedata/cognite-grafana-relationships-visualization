@@ -1,3 +1,4 @@
+export { CollapsableField } from './CollapsableField';
 export { ColorField } from './ColorField';
 export { ColorFields } from './ColorFields';
 export { CustomField } from './CustomField';

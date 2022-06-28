@@ -34,24 +34,7 @@ export const sizableList = [
 ];
 export const vAlignList = ['top', 'middle', 'bottom'];
 export const hubSizeDirectionList = ['hubsize', 'directed'];
-export const layoutDefaultValue = {
-  hierarchical: {
-    enabled: true,
-    direction: 'UD',
-    levelSeparation: 150,
-    nodeSpacing: 100,
-    parentCentralization: true,
-    treeSpacing: 200,
-    blockShifting: true,
-    edgeMinimization: true,
-    sortMethod: 'hubsize',
-  },
-};
-export const physicsDefaultValue = {
-  enabled: true,
-  maxVelocity: 50,
-  minVelocity: 0.1,
-};
+
 const widthConstraint = {
   [AVOIDABLE_ENABLED]: false,
   minimum: 1,
@@ -60,27 +43,40 @@ const heightConstraint = {
   [AVOIDABLE_ENABLED]: false,
   minimum: 1,
 };
-export const groupsDefaultValue = {
-  [EDGES]: {
-    [AVOIDED_KEY]: false,
-    color: { color: '#FFFFFF' },
-    font: { color: '#FFFFFF' },
-    length: 100,
-    dashes: false,
-  },
-  [NODES]: {
-    [AVOIDED_KEY]: false,
-    widthConstraint,
-    heightConstraint,
-    color: {
-      background: '#FFFFFF',
-      border: '#FFFFFF',
-    },
-    font: {
-      color: '#000000',
+export const defaultGraphValue = {
+  [LAYOUT]: {
+    hierarchical: {
+      enabled: false,
+      direction: 'UD',
+      levelSeparation: 150,
+      nodeSpacing: 100,
+      parentCentralization: true,
+      treeSpacing: 200,
+      blockShifting: true,
+      edgeMinimization: true,
+      sortMethod: 'hubsize',
     },
   },
   [GROUPS]: {
+    [EDGES]: {
+      [AVOIDED_KEY]: false,
+      color: { color: '#FFFFFF' },
+      font: { color: '#FFFFFF' },
+      length: 100,
+      dashes: false,
+    },
+    [NODES]: {
+      [AVOIDED_KEY]: false,
+      widthConstraint,
+      heightConstraint,
+      color: {
+        background: '#FFFFFF',
+        border: '#FFFFFF',
+      },
+      font: {
+        color: '#000000',
+      },
+    },
     asset: {
       [AVOIDED_KEY]: false,
       widthConstraint,
@@ -142,4 +138,5 @@ export const groupsDefaultValue = {
       },
     },
   },
+  [PHYSICS]: { enabled: true, maxVelocity: 50, minVelocity: 0.1 },
 };

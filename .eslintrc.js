@@ -54,6 +54,7 @@ module.exports = {
         "@typescript-eslint/lines-between-class-members": "off",
         "@typescript-eslint/no-shadow": "off",
         "@typescript-eslint/no-throw-literal": "off",
-        "prefer-promise-reject-errors": "off"
+        "prefer-promise-reject-errors": "off",
+        "no-unused-variable": "off"
     },
 };

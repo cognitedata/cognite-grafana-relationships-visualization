@@ -1,152 +1,124 @@
 import React from 'react';
-import { getValue, shapeOptions, valignOptions, values } from '../utils';
 import { ColorField, ColorFields, NumberField, SelectField, SliderField, SwitchField } from './Fields';
-import { AVOIDABLE_ENABLED, NODES, sizableList } from '../constants';
+import { AVOIDABLE_ENABLED, sizableList } from '../constants';
+import { getValue, shapeOptions, valignOptions } from './utils';
 
-export const Nodes: React.FC<any> = ({ onChange, defaultValue, value, label }) => {
-  const groupPath = label === NODES ? [label] : ['groups', label];
+// oslo_production_mix_tank
 
-  const groupsShapePath = [...groupPath, 'shape'];
-  const groupsColorBackgroundPath = [...groupPath, 'color', 'background'];
-  const groupsColorBorderPath = [...groupPath, 'color', 'border'];
-  const groupsFontColorPath = [...groupPath, 'font', 'color'];
-  const groupsSizePath = [...groupPath, 'size'];
-  const groupsWidthConstraintPath = [...groupPath, 'widthConstraint', AVOIDABLE_ENABLED];
-  const groupsWidthConstraintMinimumPath = [...groupPath, 'widthConstraint', 'minimum'];
-  const groupsWidthConstraintMaximumPath = [...groupPath, 'widthConstraint', 'maximum'];
-  const groupsHeightConstraintPath = [...groupPath, 'heightConstraint', AVOIDABLE_ENABLED];
-  const groupsHeightConstraintMinimumPath = [...groupPath, 'heightConstraint', 'minimum'];
-  const groupsHeightConstraintValignPath = [...groupPath, 'heightConstraint', 'valign'];
-  const defaultValues = values(value, defaultValue);
-  const pathValue = (path: string[]) => getValue(defaultValues, path);
-  // oslo_production_mix_tank
+export const Nodes: React.FC<any> = ({ onChange, value, label, parent }) => {
+  const pathValue = (path: string[]) => getValue(value, [...parent, label, ...path]);
+
+  const fixedProps = {
+    onChange,
+    value,
+    parent,
+    selector: label,
+  };
   const style = { padding: 8 };
   return (
-    <div style={style} key={'groups'}>
+    <div style={style} key={parent}>
       {ColorFields(
         <div className="holder">
           <ColorField
-            key={'groups.color.background'}
+            key={'color.background'}
             {...{
               label: 'Background',
-              value,
-              onChange,
-              path: groupsColorBackgroundPath,
+              path: ['color', 'background'],
               width: '33%',
-              defaultValue,
+              ...fixedProps,
             }}
           />
           <ColorField
-            key={'groups.color.border'}
+            key={'color.border'}
             {...{
-              value,
               label: 'Border',
-              onChange,
-              path: groupsColorBorderPath,
+              path: ['color', 'border'],
               width: '33%',
-              defaultValue,
+              ...fixedProps,
             }}
           />
           <ColorField
-            key={'groups.font.color'}
+            key={'font.color'}
             {...{
               label: 'Font',
-              path: groupsFontColorPath,
+              path: ['font', 'color'],
               width: '33%',
-              onChange,
-              value,
-              defaultValue,
+              ...fixedProps,
             }}
           />
         </div>
       )}
       <SelectField
-        key={'groups.shape'}
+        key={'shape'}
         {...{
           options: shapeOptions,
-          onChange,
           label: 'Shape',
-          value,
-          path: groupsShapePath,
-          defaultValue,
+          path: ['shape'],
+          ...fixedProps,
         }}
       />
-      {sizableList.includes(pathValue(groupsShapePath)) && (
+      {sizableList.includes(pathValue(['shape'])) && (
         <SliderField
-          key={'groups.size'}
+          key={'size'}
           {...{
             label: 'Size',
-            path: groupsSizePath,
-            value,
-            onChange,
+            path: ['size'],
             min: 10,
             max: 100,
-            defaultValue,
+            ...fixedProps,
           }}
         />
       )}
       <SwitchField
-        key={`${groupPath.join('.')}.widthConstraint`}
+        key={`${parent}.widthConstraint`}
         {...{
-          value,
           label: 'Width Constraint',
-          onChange,
-          path: groupsWidthConstraintPath,
-          defaultValue,
+          path: ['widthConstraint', AVOIDABLE_ENABLED],
+          ...fixedProps,
         }}
       />
-      {pathValue(groupsWidthConstraintPath) && [
+      {pathValue(['widthConstraint', AVOIDABLE_ENABLED]) && [
         <NumberField
-          key={`${groupPath.join('.')}.widthConstraint.minimum`}
+          key={`${parent}.widthConstraint.minimum`}
           {...{
             label: 'Width Constraint Minimum',
-            value,
-            onChange,
-            path: groupsWidthConstraintMinimumPath,
-            defaultValue,
+            path: ['widthConstraint', 'minimum'],
+            ...fixedProps,
           }}
         />,
         <NumberField
-          key={`${groupPath.join('.')}.widthConstraint.maximum`}
+          key={`${parent}.widthConstraint.maximum`}
           {...{
             label: 'Width Constraint Maximum',
-            value,
-            onChange,
-            path: groupsWidthConstraintMaximumPath,
-            defaultValue,
+            path: ['widthConstraint', 'maximum'],
+            ...fixedProps,
           }}
         />,
       ]}
       <SwitchField
-        key={`${groupPath.join('.')}.heightConstrain`}
+        key={`${parent}.heightConstrain`}
         {...{
           label: 'Height Constraint',
-          value,
-          onChange,
-          path: groupsHeightConstraintPath,
-          defaultValue,
+          path: ['heightConstrain', AVOIDABLE_ENABLED],
+          ...fixedProps,
         }}
       />
-      {pathValue(groupsHeightConstraintPath) && [
+      {pathValue(['heightConstrain', AVOIDABLE_ENABLED]) && [
         <NumberField
-          key={`${groupPath.join('.')}.heightConstraint.minimum`}
+          key={`${parent}.heightConstraint.minimum`}
           {...{
             label: 'Height Constraint Minimum',
-            value,
-            onChange,
-            path: groupsHeightConstraintMinimumPath,
-            defaultValue,
+            path: ['heightConstraint', 'minimum'],
+            ...fixedProps,
           }}
         />,
         <SelectField
-          key={`${groupPath.join('.')}.heightConstraint.valign`}
+          key={`${parent}.heightConstraint.valign`}
           {...{
             options: valignOptions,
             label: 'Height Constraint Valign',
-            value,
-            onChange,
-            path: groupsHeightConstraintValignPath,
-            defaultValue,
+            path: ['heightConstraint', 'valign'],
+            ...fixedProps,
           }}
         />,
       ]}

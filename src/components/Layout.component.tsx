@@ -1,125 +1,92 @@
 import React from 'react';
-import { directionsOptions, sortMethods, getValue, values } from '../utils';
+import { directionsOptions, getValue, sortMethods } from './utils';
 import { NumberField, SelectField, SwitchField } from './Fields';
-import { LAYOUT } from '../constants';
 
-export const LayoutEditor: React.FC<any> = (props) => {
-  const {
-    value,
+export const LayoutEditor: React.FC<any> = ({ value, onChange, id }) => {
+  const pathValues = value && { [id]: value };
+  const path = ['hierarchical', 'enabled'];
+  const pathValue = getValue(pathValues, [id, ...path]);
+  const fixedProps = {
     onChange,
-    item: { defaultValue },
-  } = props;
-  const defaultValues = values(value, defaultValue);
-
-  const selector = 'hierarchical';
-  const enabledPath = [selector, 'enabled'];
-
-  const layoutDirectionPath = [selector, 'direction'];
-  const layoutLevelSeparationPath = [selector, 'levelSeparation'];
-  const layoutNodeSpacingPath = [selector, 'nodeSpacing'];
-  const layoutParentCentralizationPath = [selector, 'parentCentralization'];
-  const edgeMinimizationPath = [selector, 'edgeMinimization'];
-  const layoutBlockShiftingPath = [selector, 'blockShifting'];
-  const layoutTreeSpacingPath = [selector, 'treeSpacing'];
-  const layoutSortMethodPath = [selector, 'sortMethod'];
-
-  const pathValue = (path: string[]) => getValue(defaultValues, path);
-  const enabledPathValue = pathValue(enabledPath);
+    value: pathValue,
+    parent: [id],
+  };
   return (
     <div>
       <SwitchField
-        key={`${LAYOUT}.hierarchical.enabled`}
+        key={'hierarchical.enabled'}
         {...{
-          onChange,
           label: 'Enabled',
-          path: enabledPath,
-          value,
-          defaultValue,
+          path,
+          ...fixedProps,
         }}
       />
-      {enabledPathValue && [
+      {pathValue && [
         <SelectField
-          key="layout.hierarchical.direction"
+          key={`hierarchical.direction`}
           {...{
-            options: directionsOptions,
-            onChange,
             label: 'Direction',
-            path: layoutDirectionPath,
-            value,
+            path: ['hierarchical', 'direction'],
+            options: directionsOptions,
             isDirection: true,
-            defaultValue,
+            ...fixedProps,
           }}
         />,
-
         <SelectField
-          key="layout.hierarchical.sortMethod"
+          key={`${id}.hierarchical.sortMethod`}
           {...{
-            options: sortMethods,
-            onChange,
             label: 'Sort Method',
-            path: layoutSortMethodPath,
-            value,
-            defaultValue,
+            path: ['hierarchical', 'sortMethod'],
+            options: sortMethods,
+            ...fixedProps,
           }}
         />,
         <NumberField
-          key="layout.levelSeparation"
+          key={`${id}.levelSeparation`}
           {...{
-            value,
-            onChange,
             label: 'Level Separation',
-            path: layoutLevelSeparationPath,
-            defaultValue,
+            path: ['hierarchical', 'levelSeparation'],
+            ...fixedProps,
           }}
         />,
         <NumberField
-          key="layout.hierarchical.nodeSpacing"
+          key={`${id}.hierarchical.nodeSpacing`}
           {...{
-            value,
-            onChange,
             label: 'Node Spacing',
-            path: layoutNodeSpacingPath,
-            defaultValue,
+            path: ['hierarchical', 'nodeSpacing'],
+            ...fixedProps,
           }}
         />,
         <NumberField
-          key="layout.hierarchical.treeSpacing"
+          key={`${id}.hierarchical.treeSpacing`}
           {...{
-            value,
-            onChange,
             label: 'Tree Spacing',
-            path: layoutTreeSpacingPath,
-            defaultValue,
+            path: ['hierarchical', 'treeSpacing'],
+            ...fixedProps,
           }}
         />,
         <SwitchField
-          key="layouthierarchical.hierarchical.parentCentralization"
+          key={`${id}.hierarchical.parentCentralization`}
           {...{
-            value,
-            onChange,
             label: 'Parent Centralization',
-            path: layoutParentCentralizationPath,
-            defaultValue,
+            path: ['hierarchical', 'parentCentralization'],
+            ...fixedProps,
           }}
         />,
         <SwitchField
-          key="layout.hierarchical.blockShifting"
+          key={`${id}.hierarchical.blockShifting`}
           {...{
-            value,
-            onChange,
             label: 'Block Shifting',
-            path: layoutBlockShiftingPath,
-            defaultValue,
+            path: ['hierarchical', 'blockShifting'],
+            ...fixedProps,
           }}
         />,
         <SwitchField
-          key="layout.hierarchical.edgeMinimization"
+          key={`${id}.hierarchical.edgeMinimization`}
           {...{
-            value,
-            onChange,
             label: 'Edge Minimization',
-            path: edgeMinimizationPath,
-            defaultValue,
+            path: ['hierarchical', 'edgeMinimization'],
+            ...fixedProps,
           }}
         />,
       ]}

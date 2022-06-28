@@ -1,60 +1,51 @@
 import React from 'react';
-import { EDGES } from '../constants';
 import { ColorField, CustomField, SliderField, SwitchField } from './Fields';
 
-export const Edges: React.FC<any> = ({ onChange, value, defaultValue }) => {
-  const parent = EDGES;
-  const edgesLengthPath = [parent, 'length'];
-  const edgesColorColorPath = [parent, 'color', 'color'];
-  const edgesFontColorPath = [parent, 'font', 'color'];
-  const edgesDashesPath = [parent, 'dashes'];
-
+export const Edges: React.FC<any> = ({ onChange, value, parent, label }) => {
+  const fixedProps = {
+    onChange,
+    value,
+    parent,
+    selector: label,
+  };
   return (
     <div key={parent}>
       {CustomField('Colors')}
       <div className="holder">
         <ColorField
           {...{
-            value,
             label: 'Background',
+            path: ['color', 'color'],
             width: '50%',
-            onChange,
-            path: edgesColorColorPath,
-            defaultValue,
+            ...fixedProps,
           }}
         />
         <ColorField
           key="edges.font.color"
           {...{
-            value,
             label: 'Font',
+            path: ['font', 'color'],
             width: '50%',
-            onChange,
-            path: edgesFontColorPath,
-            defaultValue,
+            ...fixedProps,
           }}
         />
       </div>
       <SliderField
         key="edges.length"
         {...{
-          value,
           label: 'Length',
-          onChange,
-          path: edgesLengthPath,
+          path: ['length'],
           min: 10,
           max: 1000,
-          defaultValue,
+          ...fixedProps,
         }}
       />
       <SwitchField
         key="edges.dashes"
         {...{
           label: 'Dashes',
-          value,
-          onChange,
-          path: edgesDashesPath,
-          defaultValue,
+          path: ['dashes'],
+          ...fixedProps,
         }}
       />
     </div>

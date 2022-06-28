@@ -1,46 +1,41 @@
 import React from 'react';
-import { getValue, values } from '../utils';
 import { NumberField, SwitchField } from './Fields';
+import { getValue } from './utils';
 
-export const PhysicsEditor: React.FC<any> = ({ value, onChange, item: { defaultValue } }) => {
-  const defaultValues = values(value, defaultValue);
-  const pathValue = (path: string[]) => getValue(defaultValues, path);
-
-  const physicsMaxVelocityPath = ['maxVelocity'];
-  const physicsMinVelocityPath = ['minVelocity'];
-  const enabledKeyPath = ['enabled'];
-
+export const PhysicsEditor: React.FC<any> = ({ value, onChange, id }) => {
+  const pathValues = value && { [id]: value };
+  const path = ['enabled'];
+  const pathValue = getValue(pathValues, [id, ...path]);
+  const fixedProps = {
+    onChange,
+    value: pathValues,
+    parent: [id],
+  };
   return (
     <div>
       <SwitchField
-        key={enabledKeyPath}
+        key={'enabled'}
         {...{
           label: 'Enabled',
-          onChange,
-          path: enabledKeyPath,
-          value,
-          defaultValue,
+          path,
+          ...fixedProps,
         }}
       />
-      {pathValue(enabledKeyPath) && [
+      {pathValue && [
         <NumberField
-          key={'physics.maxVelocity'}
+          key={'minVelocity'}
           {...{
-            label: 'Max Velocity',
-            path: physicsMaxVelocityPath,
-            onChange,
-            value,
-            defaultValue,
+            label: 'Min Velocity',
+            path: [id, 'minVelocity'],
+            ...fixedProps,
           }}
         />,
         <NumberField
-          key={'physics.minVelocity'}
+          key={'maxVelocity'}
           {...{
-            label: 'Min Velocity',
-            path: physicsMinVelocityPath,
-            onChange,
-            value,
-            defaultValue,
+            label: 'Max Velocity',
+            path: [id, 'maxVelocity'],
+            ...fixedProps,
           }}
         />,
       ]}

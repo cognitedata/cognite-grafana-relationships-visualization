@@ -1,25 +1,20 @@
 import _ from 'lodash';
 import {
+  defaultGraphValue,
   AVOIDABLE_ENABLED,
   AVOIDED_KEY,
   EDGES,
   EXTRA_KEY,
   GROUPS,
-  hubSizeDirectionList,
+  LAYOUT,
   NODES,
-  shapeList,
-  vAlignList,
+  PHYSICS,
 } from './constants';
-import { Series, Selectable, Directions } from './types';
+import { Series } from './types';
 
-const toSelectable = (id: string): Selectable => ({ id, label: _.upperFirst(id) });
-export const shapeOptions: Selectable[] = _.map(shapeList, toSelectable);
-export const valignOptions = _.map(vAlignList, toSelectable);
-export const sortMethods = _.map(hubSizeDirectionList, toSelectable);
-export const directionsOptions: Selectable[] = _.map(Directions, (label, id) => ({ id, label }));
 export const createRelationshipsNode = (series: Series, visNodeGraph: any) => {
   const relationshipsList = series[2]?.source;
-  const searchId = getValue(visNodeGraph, [EXTRA_KEY, 'rootId']);
+  const searchId = _.get(visNodeGraph, [EXTRA_KEY, 'rootId']);
   const nodes: any[] = [];
   const edges: any[] = [];
 
@@ -62,39 +57,47 @@ export const createRelationshipsNode = (series: Series, visNodeGraph: any) => {
   _.map(relationshipsList, addValuesToFields);
   return { edges: _.uniqBy(edges, 'id'), nodes: _.uniqBy(nodes, 'id') };
 };
-const avoidEnabled = (option: any) => ({
-  ...option,
-  widthConstraint: _.get(option.widthConstraint, [AVOIDABLE_ENABLED])
-    ? _.omit(option.widthConstraint, [AVOIDABLE_ENABLED])
-    : false,
-  heightConstraint: _.get(option.heightConstraint, [AVOIDABLE_ENABLED])
-    ? _.omit(option.heightConstraint, [AVOIDABLE_ENABLED])
-    : false,
-});
-export const createOptions = ({ options, height, width }: any) => {
-  if (options.groups) {
+const avoidEnabled = (option: any) => {
+  if (option) {
     return {
-      height: `${height}px`,
-      width: `${width}px`,
-      ..._.omit(options, [GROUPS, EXTRA_KEY]),
-      [EDGES]: _.omit(options.groups[EDGES], [AVOIDED_KEY]),
-      [NODES]: _.omit(avoidEnabled(options.groups[NODES]), [AVOIDED_KEY]),
-      [GROUPS]: _.reduce(
-        _.map(options.groups[GROUPS], (value, key) => ({
-          [key]: _.omit(avoidEnabled(value), [AVOIDED_KEY]),
-        })),
-        (t, c) => _.assignIn(t, c),
-        {}
-      ),
+      ...option,
+      widthConstraint: _.get(option.widthConstraint, [AVOIDABLE_ENABLED])
+        ? _.omit(option.widthConstraint, [AVOIDABLE_ENABLED])
+        : false,
+      heightConstraint: _.get(option.heightConstraint, [AVOIDABLE_ENABLED])
+        ? _.omit(option.heightConstraint, [AVOIDABLE_ENABLED])
+        : false,
     };
   }
+  return option;
+};
+const reducer = (array: any) => _.reduce(array, (t, c) => _.assignIn(t, c), {});
+export const createOptions = ({ options, height, width, series }: any) => {
+  const s = { ...defaultGraphValue, ...options };
+  const edges = _.omit(s[GROUPS][EDGES], [AVOIDED_KEY]);
+  const groups: { [x: string]: any } = reducer(
+    _.filter(
+      _.map(
+        _.get(s, [GROUPS]),
+        (value, key) =>
+          _.difference(getGroupsFromSeries(series), [EDGES]).includes(key) && {
+            [key]: _.omit(avoidEnabled(value), [AVOIDED_KEY]),
+          }
+      )
+    )
+  );
+  console.log('createOptions', options, '\ns: ', s);
+
   return {
-    ...options,
+    [NODES]: groups[NODES],
+    [GROUPS]: reducer(_.filter(_.map(groups, (v, k) => !_.includes([NODES, EDGES], k) && { [k]: v }))),
+    [LAYOUT]: s[LAYOUT],
+    [PHYSICS]: s[PHYSICS],
+    [EDGES]: edges,
     height: `${height}px`,
     width: `${width}px`,
   };
 };
-export const values = (value: any, defaultValue: any) => _.defaults(value, defaultValue);
 export const getGroupsFromSeries = (series: Series) => {
   const groups: string[] = [EDGES, NODES];
   if (series)
@@ -104,8 +107,19 @@ export const getGroupsFromSeries = (series: Series) => {
     });
   return _.uniq(groups);
 };
-export const upperFirst = (t: string): string => _.upperFirst(t);
-export const getValue = (obj: any, keys: string[]) => _.get(obj, keys);
-export const getDirection = (direction: string | undefined) => _.get(Directions, direction ?? '');
-export const setValue = (obj: any, path: string[], value: any) => _.set(obj, path, value);
 export const getSelectedNode = (collection: any, id: string) => _.find(collection, { id });
+
+/*
+
+  
+  
+  return {
+    [NODES]: _.omit(avoidEnabled(nodes), [AVOIDED_KEY]),
+    [GROUPS]: groups,
+    [LAYOUT]: layout,
+    [PHYSICS]: physics,
+    [EDGES]: _.omit(edges, [AVOIDED_KEY]),
+    height: `${height}px`,
+    width: `${width}px`,
+  };
+  */

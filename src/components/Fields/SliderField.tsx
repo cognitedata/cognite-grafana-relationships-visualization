@@ -1,20 +1,18 @@
 import React from 'react';
 import { Slider } from '@grafana/ui';
 import { CustomField } from './CustomField';
-import { getValue, setValue, values } from '../../utils';
+import { getValue, setValue } from '../utils';
 
-export const SliderField: React.FC<any> = ({ label, onChange, defaultValue, value, path, ...props }) => {
-  const defaultValues = values(value, defaultValue);
-  const pathValue = (path: string[]) => getValue(defaultValues, path);
-  const setPathValue = (value: any, path: string[]) => setValue(defaultValues, path, value);
-  const change = (value: any, path: string[]) => onChange(setPathValue(value, path));
+export const SliderField: React.FC<any> = ({ label, onChange, parent, value, path, selector, ...props }) => {
+  const fullPath = selector ? [...parent, selector, ...path] : [...parent, ...path];
+  const pathValue = getValue(value, fullPath);
   return CustomField(
     label,
     <Slider
       {...{
         ...props,
-        onChange: (selectedValue: number) => change(selectedValue, path),
-        value: pathValue(path),
+        onChange: (target: number) => onChange(setValue(path, target, parent, selector, value)),
+        value: pathValue,
       }}
     />,
     {}

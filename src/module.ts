@@ -1,17 +1,8 @@
 import { PanelOptionsEditorBuilder, PanelPlugin } from '@grafana/data';
-import { VisNodeGraphOptions } from './types';
-import { VisNodeGraphPanel } from './VisNodeGraphPanel';
 import { SingleStatBaseOptions } from '@grafana/ui';
 import { CustomEditor, GroupsEditor, LayoutEditor, PhysicsEditor } from './components';
-import {
-  EXTRA_KEY,
-  GROUPS,
-  groupsDefaultValue,
-  LAYOUT,
-  layoutDefaultValue,
-  PHYSICS,
-  physicsDefaultValue,
-} from './constants';
+import { VisNodeGraphPanel } from './VisNodeGraphPanel';
+import { EXTRA_KEY, GROUPS, LAYOUT, PHYSICS } from './constants';
 
 const VisCustomEditorSettings = {
   id: EXTRA_KEY,
@@ -20,17 +11,6 @@ const VisCustomEditorSettings = {
   editor: CustomEditor,
 };
 
-function addPhysicOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEditorBuilder<T>) {
-  builder.addCustomEditor({
-    id: PHYSICS,
-    path: PHYSICS,
-    name: '',
-    editor: PhysicsEditor,
-    category: ['Physics'],
-    defaultValue: physicsDefaultValue,
-  });
-}
-
 function addLayoutOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEditorBuilder<T>) {
   builder.addCustomEditor({
     id: LAYOUT,
@@ -38,10 +18,8 @@ function addLayoutOption<T extends SingleStatBaseOptions>(builder: PanelOptionsE
     name: '',
     editor: LayoutEditor,
     category: ['Layout Hierarchical View'],
-    defaultValue: layoutDefaultValue,
   });
 }
-
 function addGroupsOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEditorBuilder<T>) {
   builder.addCustomEditor({
     id: GROUPS,
@@ -49,16 +27,20 @@ function addGroupsOption<T extends SingleStatBaseOptions>(builder: PanelOptionsE
     name: '',
     editor: GroupsEditor,
     category: ['Colors and Shapes'],
-    defaultValue: groupsDefaultValue,
   });
 }
-
-export const plugin = new PanelPlugin<VisNodeGraphOptions>(VisNodeGraphPanel).setPanelOptions((builder) => {
+function addPhysicOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEditorBuilder<T>) {
+  builder.addCustomEditor({
+    id: PHYSICS,
+    path: PHYSICS,
+    name: '',
+    editor: PhysicsEditor,
+    category: ['Physics'],
+  });
+}
+export const plugin = new PanelPlugin<SingleStatBaseOptions>(VisNodeGraphPanel).setPanelOptions((builder) => {
   builder.addCustomEditor(VisCustomEditorSettings);
-  // @ts-ignore
   addLayoutOption(builder);
-  // @ts-ignore
   addGroupsOption(builder);
-  // @ts-ignore
   addPhysicOption(builder);
 });

@@ -60,9 +60,7 @@ export interface DefaultOptions {
 }
 
 export interface VisNodeGraphOptions {
-  visNodeGraph: DefaultOptions;
-  height?: number;
-  width?: number;
+  [x: string]: any;
 }
 
 export type Series = any[];

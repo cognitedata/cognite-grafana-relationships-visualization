@@ -1,22 +1,29 @@
 import React from 'react';
 import { Select } from '@grafana/ui';
 import { CustomField } from './CustomField';
-import { getDirection, getValue, setValue, upperFirst, values } from '../../utils';
+import { getDirection, getValue, setValue, upperFirst } from '../utils';
 import { SelectedValue } from '../../types';
 
-export const SelectField: React.FC<any> = ({ label, onChange, defaultValue, value, path, isDirection, ...props }) => {
-  const defaultValues = values(value, defaultValue);
-  const pathValue = (path: string[]) => getValue(defaultValues, path);
-  const setPathValue = (value: any, path: string[]) => setValue(defaultValues, path, value);
-  const change = (value: any, path: string[]) => onChange(setPathValue(value, path));
-  const valuePath = pathValue(path);
+export const SelectField: React.FC<any> = ({
+  label,
+  onChange,
+  parent,
+  value,
+  path,
+  isDirection,
+  selector,
+  ...props
+}) => {
+  const fullPath = selector ? [...parent, selector, ...path] : [...parent, ...path];
+  const pathValue = getValue(value, fullPath);
+
   return CustomField(
     label,
     <Select
       {...{
         ...props,
-        onChange: (selectedValue: SelectedValue) => change(selectedValue.id, path),
-        value: { id: valuePath, label: isDirection ? getDirection(valuePath) : upperFirst(valuePath) },
+        onChange: (target: SelectedValue) => onChange(setValue(path, target.id, parent, selector, value)),
+        value: { id: pathValue, label: isDirection ? getDirection(pathValue) : upperFirst(pathValue) },
       }}
     />,
     {}
