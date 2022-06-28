@@ -14,18 +14,12 @@ import { Series } from './types';
 
 export const createRelationshipsNode = (series: Series, visNodeGraph: any) => {
   const relationshipsList = series[2]?.source;
-  const searchId = _.get(visNodeGraph, [EXTRA_KEY, 'rootId']);
   const nodes: any[] = [];
   const edges: any[] = [];
+  const searchId = _.get(visNodeGraph, [EXTRA_KEY, 'externalId']);
 
   function addValuesToFields(options: any) {
     const { externalId, labels, source, target, sourceType, targetType } = options;
-    if (searchId === _.get(source, 'externalId')) {
-      console.log(searchId, 'source');
-    }
-    if (searchId === _.get(target, 'externalId')) {
-      console.log(searchId, 'target');
-    }
     const sourceTitleText = _.get(source, 'description') || _.get(source, 'name');
     const sourceLabelText = _.get(source, 'name') || _.get(source, 'description');
     const targetLabelText = _.get(target, 'name') || _.get(target, 'description');
@@ -55,6 +49,10 @@ export const createRelationshipsNode = (series: Series, visNodeGraph: any) => {
     });
   }
   _.map(relationshipsList, addValuesToFields);
+  if (!_.isEmpty(searchId)) {
+    const r = _.find(_.uniqBy(nodes, 'id'), { id: searchId });
+    console.log(r);
+  }
   return { edges: _.uniqBy(edges, 'id'), nodes: _.uniqBy(nodes, 'id') };
 };
 const avoidEnabled = (option: any) => {
@@ -108,18 +106,3 @@ export const getGroupsFromSeries = (series: Series) => {
   return _.uniq(groups);
 };
 export const getSelectedNode = (collection: any, id: string) => _.find(collection, { id });
-
-/*
-
-  
-  
-  return {
-    [NODES]: _.omit(avoidEnabled(nodes), [AVOIDED_KEY]),
-    [GROUPS]: groups,
-    [LAYOUT]: layout,
-    [PHYSICS]: physics,
-    [EDGES]: _.omit(edges, [AVOIDED_KEY]),
-    height: `${height}px`,
-    width: `${width}px`,
-  };
-  */
