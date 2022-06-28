@@ -73,12 +73,12 @@ const avoidEnabled = (option: any) => {
 };
 const reducer = (array: any) => _.reduce(array, (t, c) => _.assignIn(t, c), {});
 export const createOptions = ({ options, height, width, series }: any) => {
-  const s = { ...defaultGraphValue, ...options };
-  const edges = _.omit(s[GROUPS][EDGES], [AVOIDED_KEY]);
+  const defaultMerge = { ...defaultGraphValue, ...options };
+  const edges = _.omit(defaultMerge[GROUPS][EDGES], [AVOIDED_KEY]);
   const groups: { [x: string]: any } = reducer(
     _.filter(
       _.map(
-        _.get(s, [GROUPS]),
+        _.get(defaultMerge, [GROUPS]),
         (value, key) =>
           _.difference(getGroupsFromSeries(series), [EDGES]).includes(key) && {
             [key]: _.omit(avoidEnabled(value), [AVOIDED_KEY]),
@@ -86,13 +86,13 @@ export const createOptions = ({ options, height, width, series }: any) => {
       )
     )
   );
-  console.log('createOptions', options, '\ns: ', s);
+  // console.log('createOptions', options, '\ns: ', s);
 
   return {
     [NODES]: groups[NODES],
     [GROUPS]: reducer(_.filter(_.map(groups, (v, k) => !_.includes([NODES, EDGES], k) && { [k]: v }))),
-    [LAYOUT]: s[LAYOUT],
-    [PHYSICS]: s[PHYSICS],
+    [LAYOUT]: defaultMerge[LAYOUT],
+    [PHYSICS]: defaultMerge[PHYSICS],
     [EDGES]: edges,
     height: `${height}px`,
     width: `${width}px`,

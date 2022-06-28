@@ -44,6 +44,9 @@ const heightConstraint = {
   minimum: 1,
 };
 export const defaultGraphValue = {
+  [EXTRA_KEY]: {
+    externalId: '',
+  },
   [LAYOUT]: {
     hierarchical: {
       enabled: false,
