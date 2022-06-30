@@ -14,7 +14,7 @@ export const upperFirst = (t: string): string => _.upperFirst(t);
 export const getValue = (value: any, path: string[]) => _.get({ ...defaultGraphValue, ...value }, path);
 export const setValue = (path: string[], value: any, parent: string[], selector: any, values = {}) =>
   _.set(
-    _.filter({ ...defaultGraphValue, ...values }, (v, k) => _.includes(parent, k))[0],
+    _.filter(_.defaultsDeep(defaultGraphValue, values), (v, k) => _.includes(parent, k))[0],
     selector ? [selector, ...path] : path,
     value
   );

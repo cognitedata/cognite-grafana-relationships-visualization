@@ -51,7 +51,7 @@ export const createRelationshipsNode = (series: Series, visNodeGraph: any) => {
   _.map(relationshipsList, addValuesToFields);
   if (!_.isEmpty(searchId)) {
     const r = _.find(_.uniqBy(nodes, 'id'), { id: searchId });
-    console.log(r);
+    console.log(r, 'found');
   }
   return { edges: _.uniqBy(edges, 'id'), nodes: _.uniqBy(nodes, 'id') };
 };
@@ -71,7 +71,8 @@ const avoidEnabled = (option: any) => {
 };
 const reducer = (array: any) => _.reduce(array, (t, c) => _.assignIn(t, c), {});
 export const createOptions = ({ options, height, width, series }: any) => {
-  const defaultMerge = { ...defaultGraphValue, ...options };
+  const defaultMerge = _.defaultsDeep(defaultGraphValue, options);
+  console.log('defaultGraphValue', defaultGraphValue, '\noptions', options, '\ndefaultMerge', defaultMerge);
   const edges = _.omit(defaultMerge[GROUPS][EDGES], [AVOIDED_KEY]);
   const groups: { [x: string]: any } = reducer(
     _.filter(
@@ -84,7 +85,6 @@ export const createOptions = ({ options, height, width, series }: any) => {
       )
     )
   );
-  // console.log('createOptions', options, '\ns: ', s);
 
   return {
     [NODES]: groups[NODES],
