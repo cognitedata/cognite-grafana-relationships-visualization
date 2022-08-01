@@ -1,6 +1,6 @@
 {
   "name": "cognite-vis-nodegraph",
-  "version": "1.0.0",
+  "version": "0.3.0",
   "description": "visjs nodegraph relationships",
   "scripts": {
     "build": "grafana-toolkit plugin:build",
@@ -12,7 +12,7 @@
     "lint:fix": "yarn lint --fix",
     "start": "yarn watch"
   },
-  "author": "Zsolt Kiss",
+  "author": "Cognite AS",
   "license": "Apache-2.0",
   "devDependencies": {
     "@grafana/toolkit": "latest",
