@@ -12,7 +12,7 @@
     "lint:fix": "yarn lint --fix",
     "start": "yarn watch"
   },
-  "author": "Zsolt Kiss",
+  "author": "Cognite AS",
   "license": "Apache-2.0",
   "devDependencies": {
     "@grafana/toolkit": "latest",
