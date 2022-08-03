@@ -96,14 +96,14 @@ export const Nodes: React.FC<any> = ({ onChange, value, label, parent }) => {
         />,
       ]}
       <SwitchField
-        key={`${parent}.heightConstrain`}
+        key={`${parent}.heightConstraint`}
         {...{
           label: 'Height Constraint',
-          path: ['heightConstrain', AVOIDABLE_ENABLED],
+          path: ['heightConstraint', AVOIDABLE_ENABLED],
           ...fixedProps,
         }}
       />
-      {pathValue(['heightConstrain', AVOIDABLE_ENABLED]) && [
+      {pathValue(['heightConstraint', AVOIDABLE_ENABLED]) && [
         <NumberField
           key={`${parent}.heightConstraint.minimum`}
           {...{
