@@ -72,7 +72,7 @@ const avoidEnabled = (option: any) => {
 const reducer = (array: any) => _.reduce(array, (t, c) => _.assignIn(t, c), {});
 export const createOptions = ({ options, height, width, series }: any) => {
   const defaultMerge = _.defaultsDeep(defaultGraphValue, options);
-  console.log('defaultGraphValue', defaultGraphValue, '\noptions', options, '\ndefaultMerge', defaultMerge);
+  //console.log('defaultGraphValue', defaultGraphValue, '\noptions', defaultMerge[LAYOUT].hierarchical.enabled);
   const edges = _.omit(defaultMerge[GROUPS][EDGES], [AVOIDED_KEY]);
   const groups: { [x: string]: any } = reducer(
     _.filter(
@@ -89,7 +89,7 @@ export const createOptions = ({ options, height, width, series }: any) => {
   return {
     [NODES]: groups[NODES],
     [GROUPS]: reducer(_.filter(_.map(groups, (v, k) => !_.includes([NODES, EDGES], k) && { [k]: v }))),
-    [LAYOUT]: defaultMerge[LAYOUT],
+    [LAYOUT]: defaultMerge[LAYOUT].hierarchical.enabled ? defaultMerge[LAYOUT] : { hierarchical: false },
     [PHYSICS]: defaultMerge[PHYSICS],
     [EDGES]: edges,
     height: `${height}px`,
