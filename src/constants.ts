@@ -75,7 +75,11 @@ export const defaultGraphValue = {
   },
   [EDGES]: {
     color: { color: '#FFFFFF' },
-    font: { color: '#FFFFFF' },
+    font: {
+      color: '#FFFFFF',
+      strokeWidth: 0,
+      bold: {},
+    },
     length: 100,
     dashes: false,
     smooth: {
