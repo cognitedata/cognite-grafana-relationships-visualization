@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PanelProps } from '@grafana/data';
-import { SingleStatBaseOptions } from '@grafana/ui';
+import { LoadingPlaceholder, SingleStatBaseOptions } from '@grafana/ui';
 import VisNetworkReactComponent from 'vis-network-react';
 import { createRelationshipsNode, createOptions, getSelectedNode } from './utils';
 import 'vis';
+import './style.css';
 
 export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = ({
   data: { series },
@@ -13,31 +14,47 @@ export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = ({
 }) => {
   const data = createRelationshipsNode(series, options);
   const graphOptions = createOptions({ options, height, width, series });
-  // console.log(graphOptions);
+  const [loading, setLoading] = useState(true);
+  const [widthFactor, setWidthFactor] = useState(0);
+
   return (
-    <VisNetworkReactComponent
-      {...{
-        options: graphOptions,
-        data,
-        events: {
-          configChange: (obj: any) => {
-            console.log('obj', obj);
+    <div>
+      {loading && <LoadingPlaceholder text={`${widthFactor} %`} />}
+      <VisNetworkReactComponent
+        {...{
+          options: graphOptions,
+          data,
+          events: {
+            configChange: (obj: any) => {
+              console.log('obj', obj);
+            },
+            showPopup: (id: any) => {
+              console.log('showPopup', id);
+            },
+            hoverNode: (obj: any) => {
+              console.log('hoverNode', obj);
+            },
+            select: (selected: { nodes: any; edges: any; event: any }) => {
+              const { nodes, edges } = selected;
+              if (nodes.length) {
+                const selectedNode = getSelectedNode(data.nodes, nodes[0]);
+                console.log('selected nodes: ', nodes[0], '\nselected edges: ', edges[0], '\n', selectedNode);
+              }
+            },
           },
-          showPopup: (id: any) => {
-            console.log('showPopup', id);
+          getNetwork: (network) => {
+            network.on('stabilizationProgress', function ({ iterations, total }) {
+              console.log(iterations, total, iterations / total, Math.round((iterations / total) * 100));
+              setWidthFactor(Math.round((iterations / total) * 100));
+            });
+            network.once('stabilizationIterationsDone', function () {
+              setTimeout(() => {
+                setLoading(false);
+              }, 500);
+            });
           },
-          hoverNode: (obj: any) => {
-            console.log('hoverNode', obj);
-          },
-          select: (selected: { nodes: any; edges: any; event: any }) => {
-            const { nodes, edges } = selected;
-            if (nodes.length) {
-              const selectedNode = getSelectedNode(data.nodes, nodes[0]);
-              console.log('selected nodes: ', nodes[0], '\nselected edges: ', edges[0], '\n', selectedNode);
-            }
-          },
-        },
-      }}
-    />
+        }}
+      />
+    </div>
   );
 };
