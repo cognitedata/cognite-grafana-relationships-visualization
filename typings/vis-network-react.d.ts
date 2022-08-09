@@ -20,6 +20,11 @@ declare module 'vis-network-react' {
     data: graphData;
     options?: Options;
     events?: graphEvents;
+    getNetwork?: (network: Network) => void;
+    identifier?: string;
+    style?: React.CSSProperties;
+    getNodes?: (nodes: DataSet) => void;
+    getEdges?: (edges: DataSet) => void;
   }
 
   export interface NetworkGraphState {
