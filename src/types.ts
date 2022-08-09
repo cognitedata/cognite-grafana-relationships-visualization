@@ -69,10 +69,10 @@ export interface Direction {
   [x: string]: string;
 }
 export enum Directions {
-  UD = 'Up-Down',
   DU = 'Down-Up',
   LR = 'Left-Right',
   RL = 'Right-Left',
+  UD = 'Up-Down',
 }
 export interface Selectable {
   id: string;
