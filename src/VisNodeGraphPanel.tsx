@@ -13,7 +13,7 @@ export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = ({
 }) => {
   const data = createRelationshipsNode(series, options);
   const graphOptions = createOptions({ options, height, width, series });
-  console.log(graphOptions);
+  // console.log(graphOptions);
   return (
     <VisNetworkReactComponent
       {...{
