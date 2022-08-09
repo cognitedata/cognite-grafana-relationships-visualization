@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ColorField, CustomField, SliderField, SwitchField } from './Fields';
+import { onChangeValue } from './utils';
 
-export const Edges: React.FC<any> = ({ onChange, value, parent, label }) => {
+export const EdgesEditor: React.FC<any> = ({ onChange, value, item: { defaultValue } }) => {
   const fixedProps = {
-    onChange,
-    value,
-    parent,
-    selector: label,
+    onChange: (newValue: any, path: any) => {
+      return onChange(onChangeValue(path, newValue, value));
+    },
+    value: useMemo(() => {
+      if (!value) {
+        onChange(defaultValue);
+        return defaultValue;
+      }
+      return value;
+    }, [value]),
   };
   return (
-    <div key={parent}>
+    <div>
       {CustomField('Colors')}
       <div className="holder">
         <ColorField

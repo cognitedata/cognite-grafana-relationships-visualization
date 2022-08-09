@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 //You must first install the vis and react types 'npm install --save-dev @types/vis @types/react'
-declare module 'react-graph-vis' {
+declare module 'vis-network-react' {
   import { Network, NetworkEvents, Options, Node, Edge, DataSet } from 'vis';
   import { Component } from 'react';
 
@@ -17,14 +17,9 @@ declare module 'react-graph-vis' {
   }
 
   export interface NetworkGraphProps {
-    graph: graphData;
+    data: graphData;
     options?: Options;
     events?: graphEvents;
-    getNetwork?: (network: Network) => void;
-    identifier?: string;
-    style?: React.CSSProperties;
-    getNodes?: (nodes: DataSet) => void;
-    getEdges?: (edges: DataSet) => void;
   }
 
   export interface NetworkGraphState {

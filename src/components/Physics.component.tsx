@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { NumberField, SwitchField } from './Fields';
-import { getValue } from './utils';
+import { getDefaultValue, onChangeValue } from './utils';
 
-export const PhysicsEditor: React.FC<any> = ({ value, onChange, id }) => {
-  const pathValues = value && { [id]: value };
+export const PhysicsEditor: React.FC<any> = ({ item: { defaultValue }, value, onChange, item }) => {
   const path = ['enabled'];
-  const pathValue = getValue(pathValues, [id, ...path]);
+  const pathValue = getDefaultValue(value, path);
   const fixedProps = {
-    onChange,
-    value: pathValues,
-    parent: [id],
+    onChange: (newValue: any, path: any) => onChange(onChangeValue(path, newValue, value)),
+    value: useMemo(() => {
+      if (!value) {
+        onChange(defaultValue);
+        return defaultValue;
+      }
+      return value;
+    }, [value]),
   };
   return (
     <div>
@@ -26,7 +30,7 @@ export const PhysicsEditor: React.FC<any> = ({ value, onChange, id }) => {
           key={'minVelocity'}
           {...{
             label: 'Min Velocity',
-            path: [id, 'minVelocity'],
+            path: ['minVelocity'],
             ...fixedProps,
           }}
         />,
@@ -34,7 +38,7 @@ export const PhysicsEditor: React.FC<any> = ({ value, onChange, id }) => {
           key={'maxVelocity'}
           {...{
             label: 'Max Velocity',
-            path: [id, 'maxVelocity'],
+            path: ['maxVelocity'],
             ...fixedProps,
           }}
         />,

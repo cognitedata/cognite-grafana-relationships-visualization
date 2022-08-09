@@ -60,14 +60,13 @@ export const defaultGraphValue = {
       sortMethod: 'hubsize',
     },
   },
+  [EDGES]: {
+    color: { color: '#FFFFFF' },
+    font: { color: '#FFFFFF' },
+    length: 100,
+    dashes: false,
+  },
   [GROUPS]: {
-    [EDGES]: {
-      [AVOIDED_KEY]: false,
-      color: { color: '#FFFFFF' },
-      font: { color: '#FFFFFF' },
-      length: 100,
-      dashes: false,
-    },
     [NODES]: {
       [AVOIDED_KEY]: false,
       widthConstraint,
@@ -141,5 +140,9 @@ export const defaultGraphValue = {
       },
     },
   },
-  [PHYSICS]: { enabled: true, maxVelocity: 50, minVelocity: 0.1 },
+  [PHYSICS]: {
+    enabled: true,
+    maxVelocity: 50,
+    minVelocity: 0.1,
+  },
 };

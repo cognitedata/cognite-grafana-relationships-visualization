@@ -1,15 +1,5 @@
 import _ from 'lodash';
-import {
-  defaultGraphValue,
-  AVOIDABLE_ENABLED,
-  AVOIDED_KEY,
-  EDGES,
-  EXTRA_KEY,
-  GROUPS,
-  LAYOUT,
-  NODES,
-  PHYSICS,
-} from './constants';
+import { AVOIDABLE_ENABLED, AVOIDED_KEY, EDGES, EXTRA_KEY, GROUPS, LAYOUT, NODES, PHYSICS } from './constants';
 import { Series } from './types';
 
 export const createRelationshipsNode = (series: Series, visNodeGraph: any) => {
@@ -71,37 +61,34 @@ const avoidEnabled = (option: any) => {
 };
 const reducer = (array: any) => _.reduce(array, (t, c) => _.assignIn(t, c), {});
 export const createOptions = ({ options, height, width, series }: any) => {
-  const defaultMerge = _.defaultsDeep(defaultGraphValue, options);
-  //console.log('defaultGraphValue', defaultGraphValue, '\noptions', defaultMerge[LAYOUT].hierarchical.enabled);
-  const edges = _.omit(defaultMerge[GROUPS][EDGES], [AVOIDED_KEY]);
   const groups: { [x: string]: any } = reducer(
     _.filter(
       _.map(
-        _.get(defaultMerge, [GROUPS]),
+        _.get(options, [GROUPS]),
         (value, key) =>
-          _.difference(getGroupsFromSeries(series), [EDGES]).includes(key) && {
+          _.includes(getGroupsFromSeries(series), key) && {
             [key]: _.omit(avoidEnabled(value), [AVOIDED_KEY]),
           }
       )
     )
   );
-
   return {
-    [NODES]: groups[NODES],
-    [GROUPS]: reducer(_.filter(_.map(groups, (v, k) => !_.includes([NODES, EDGES], k) && { [k]: v }))),
-    [LAYOUT]: defaultMerge[LAYOUT].hierarchical.enabled ? defaultMerge[LAYOUT] : { hierarchical: false },
-    [PHYSICS]: defaultMerge[PHYSICS],
-    [EDGES]: edges,
+    [NODES]: groups[NODES] || {},
+    [GROUPS]: _.omit(groups, [NODES]),
+    [LAYOUT]: options[LAYOUT]?.hierarchical.enabled ? options[LAYOUT] : { hierarchical: false },
+    [PHYSICS]: options[PHYSICS] || {},
+    [EDGES]: options[EDGES] || {},
     height: `${height}px`,
     width: `${width}px`,
   };
 };
 export const getGroupsFromSeries = (series: Series) => {
-  const groups: string[] = [EDGES, NODES];
+  const groups: string[] = [];
   if (series)
     _.map(series[2]?.source, ({ sourceType, targetType }) => {
       groups.push(sourceType);
       groups.push(targetType);
+      if (!sourceType.length) groups.push(NODES);
     });
   return _.uniq(groups);
 };
