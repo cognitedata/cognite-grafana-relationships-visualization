@@ -10,7 +10,7 @@ export const ColorField: React.FC<any> = ({ label, width, onChange, value, path,
     <ColorPicker
       {...{
         onChange: (target: string) => onChange(target, path),
-        enableNamedColors: true,
+        enableNamedColors: false,
         color: pathValue || '',
         ...props,
       }}
