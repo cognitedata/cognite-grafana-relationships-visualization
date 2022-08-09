@@ -5,18 +5,19 @@ import VisNetworkReactComponent from 'vis-network-react';
 import { createRelationshipsNode, createOptions, getSelectedNode } from './utils';
 import 'vis';
 
-export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = (props) => {
-  const {
-    data: { series },
-    height,
-    width,
-    options,
-  } = props;
+export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = ({
+  data: { series },
+  height,
+  width,
+  options,
+}) => {
   const data = createRelationshipsNode(series, options);
+  const graphOptions = createOptions({ options, height, width, series });
+  console.log(graphOptions);
   return (
     <VisNetworkReactComponent
       {...{
-        options: createOptions({ options, height, width, series }),
+        options: graphOptions,
         data,
         events: {
           configChange: (obj: any) => {

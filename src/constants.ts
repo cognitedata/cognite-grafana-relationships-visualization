@@ -20,6 +20,19 @@ export const shapeList = [
   'hexagon',
   'square',
 ];
+export const smoothList = [
+  'dynamic',
+  'continuous',
+  'discrete',
+  'diagonalCross',
+  'straightCross',
+  'horizontal',
+  'vertical',
+  'curvedCW',
+  'curvedCCW',
+  'cubicBezier',
+];
+export const forceDirectionList = ['horizontal', 'vertical', 'none'];
 export const sizableList = [
   'image',
   'circularImage',
@@ -65,6 +78,12 @@ export const defaultGraphValue = {
     font: { color: '#FFFFFF' },
     length: 100,
     dashes: false,
+    smooth: {
+      enabled: false,
+      forceDirection: false,
+      roundness: 0.5,
+      type: 'horizontal',
+    },
   },
   [GROUPS]: {
     [NODES]: {

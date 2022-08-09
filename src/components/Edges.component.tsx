@@ -1,12 +1,10 @@
 import React, { useMemo } from 'react';
-import { ColorField, CustomField, SliderField, SwitchField } from './Fields';
-import { onChangeValue } from './utils';
+import { ColorField, CustomField, SelectField, SliderField, SwitchField } from './Fields';
+import { getDefaultValue, onChangeValue, smoothOptions, forceDirectionOptions } from './utils';
 
 export const EdgesEditor: React.FC<any> = ({ onChange, value, item: { defaultValue } }) => {
   const fixedProps = {
-    onChange: (newValue: any, path: any) => {
-      return onChange(onChangeValue(path, newValue, value));
-    },
+    onChange: (newValue: any, path: any) => onChange(onChangeValue(path, newValue, value)),
     value: useMemo(() => {
       if (!value) {
         onChange(defaultValue);
@@ -15,6 +13,8 @@ export const EdgesEditor: React.FC<any> = ({ onChange, value, item: { defaultVal
       return value;
     }, [value]),
   };
+  const pathValue = (path: string[]) => getDefaultValue(value, path);
+  console.log(pathValue(['smooth', 'forceDirection']));
   return (
     <div>
       {CustomField('Colors')}
@@ -55,6 +55,49 @@ export const EdgesEditor: React.FC<any> = ({ onChange, value, item: { defaultVal
           ...fixedProps,
         }}
       />
+      <SwitchField
+        key="smooth"
+        {...{
+          label: 'Smooth',
+          path: ['smooth', 'enabled'],
+          ...fixedProps,
+        }}
+      />
+      {pathValue(['smooth', 'enabled']) && [
+        <SelectField
+          key={'smooth.type'}
+          {...{
+            options: smoothOptions,
+            label: 'Type',
+            path: ['smooth', 'type'],
+            ...fixedProps,
+          }}
+        />,
+        pathValue(['smooth', 'type']) !== 'dynamic' && (
+          <SliderField
+            key="smooth.roundness"
+            {...{
+              label: 'Roundness',
+              path: ['smooth', 'roundness'],
+              min: 0.0,
+              max: 1.0,
+              step: 0.1,
+              ...fixedProps,
+            }}
+          />
+        ),
+        pathValue(['smooth', 'type']) === 'cubicBezier' && (
+          <SelectField
+            key={'smooth.forceDirection'}
+            {...{
+              options: forceDirectionOptions,
+              label: 'Force Direction',
+              path: ['smooth', 'forceDirection'],
+              ...fixedProps,
+            }}
+          />
+        ),
+      ]}
     </div>
   );
 };

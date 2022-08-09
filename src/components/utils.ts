@@ -1,9 +1,11 @@
 import _ from 'lodash';
-import { hubSizeDirectionList, shapeList, vAlignList } from '../constants';
+import { hubSizeDirectionList, shapeList, vAlignList, smoothList, forceDirectionList } from '../constants';
 import { Selectable, Directions } from '../types';
 
 const toSelectable = (id: string): Selectable => ({ id, label: _.upperFirst(id) });
 export const shapeOptions: Selectable[] = _.map(shapeList, toSelectable);
+export const smoothOptions: Selectable[] = _.map(smoothList, toSelectable);
+export const forceDirectionOptions: Selectable[] = _.map(forceDirectionList, toSelectable);
 export const valignOptions = _.map(vAlignList, toSelectable);
 export const sortMethods = _.map(hubSizeDirectionList, toSelectable);
 export const directionsOptions: Selectable[] = _.map(Directions, (label, id) => ({ id, label }));
