@@ -1,8 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "type": "panel",
-  "name": "Cognite Vis NodeGraph",
-  "id": "cognite-vis-nodegraph",
+  "name": "Cognitedata Vis NodeGraph",
+  "id": "cognitedata-vis-nodegraph",
   "info": {
     "description": "visjs nodegraph relationships",
     "author": {
