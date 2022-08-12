@@ -19,16 +19,8 @@ export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = ({
   const [refVisible, setRefVisible] = useState(false);
   const network = useMemo(() => {
     let network;
-    console.log('got called');
     if (ref.current) {
       network = new vis.Network(ref.current, {});
-      network.on('stabilizationProgress', function (params) {
-        setWidthFactor(Math.round((params.iterations / params.total) * 100));
-      });
-      network.once('stabilizationIterationsDone', function () {
-        setLoading(false);
-        setWidthFactor(0);
-      });
     }
     return network;
   }, [refVisible]);
@@ -39,6 +31,13 @@ export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = ({
       network.setData(data);
       network.setOptions(graphOptions);
       network.stabilize();
+      network.on('stabilizationProgress', function (params) {
+        setWidthFactor(Math.round((params.iterations / params.total) * 100));
+      });
+      network.once('stabilizationIterationsDone', function () {
+        setLoading(false);
+        setWidthFactor(0);
+      });
     }
   }, [series[2], network]);
   useEffect(() => {
