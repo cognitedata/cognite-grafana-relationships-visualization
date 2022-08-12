@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { PanelProps } from '@grafana/data';
 import { SingleStatBaseOptions } from '@grafana/ui';
 import { createRelationshipsNode, createOptions } from './utils';
-import vis, { Network } from 'vis';
+import vis from 'vis';
 import './style.css';
 
 export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = ({
@@ -11,27 +11,15 @@ export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = ({
   width,
   options,
 }) => {
+  const ref = useRef(null);
   const data = createRelationshipsNode(series, options);
   const graphOptions = createOptions({ options, height, width, series });
   const [loading, setLoading] = useState(true);
   const [widthFactor, setWidthFactor] = useState(0);
-  const ref = useRef(null);
-  const [network, setNetwork] = useState(() => (ref.current ? new vis.Network(ref.current, {}) : undefined));
-  useEffect(() => {
-    setLoading(series[2]?.fields.length ? true : false);
-    if (network) {
-      network.setData(data);
-      network.setOptions(graphOptions);
-      network.stabilize();
-    }
-  }, [series[2], network, ref]);
-  useEffect(() => {
-    if (network) {
-      network.setOptions(graphOptions);
-    }
-  }, [graphOptions, network]);
-  useEffect(() => {
-    let network = undefined;
+  const [refVisible, setRefVisible] = useState(false);
+  const network = useMemo(() => {
+    let network;
+    console.log('got called');
     if (ref.current) {
       network = new vis.Network(ref.current, {});
       network.on('stabilizationProgress', function (params) {
@@ -42,22 +30,42 @@ export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = ({
         setWidthFactor(0);
       });
     }
-    setNetwork(network as Network);
-  }, [ref]);
+    return network;
+  }, [refVisible]);
+
+  useEffect(() => {
+    setLoading(series[2]?.fields.length ? true : false);
+    if (network) {
+      network.setData(data);
+      network.setOptions(graphOptions);
+      network.stabilize();
+    }
+  }, [series[2], network]);
+  useEffect(() => {
+    if (network) {
+      network.setOptions(graphOptions);
+    }
+  }, [graphOptions, network]);
   return (
     <div>
       <div className="outerBorder" style={{ display: loading ? 'block' : 'none' }}>
-        <div id="text">${widthFactor} %</div>
+        <div id="text">{widthFactor} %</div>
         <div id="border">
           <div
             id="bar"
             style={{
-              width: `${Math.max(20, widthFactor)}%`,
+              width: `${Math.max(0, widthFactor)}%`,
             }}
           ></div>
         </div>
       </div>
-      <div ref={ref} />
+      <div
+        ref={(el) => {
+          // @ts-ignore
+          ref.current = el;
+          setRefVisible(!!el);
+        }}
+      />
     </div>
   );
 };
