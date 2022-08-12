@@ -6,10 +6,11 @@
   "info": {
     "description": "visjs nodegraph relationships",
     "author": {
-      "name": "Zsolt Kiss"
+      "name": "Cognite",
+      "url": "https://cognite.com"
     },
     "keywords": [
-      "visjs"
+      "cognite", "visjs"
     ],
     "logos": {
       "small": "img/CDF_logo.svg",
