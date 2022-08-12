@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { PanelProps } from '@grafana/data';
 import { SingleStatBaseOptions } from '@grafana/ui';
-// import VisNetworkReactComponent from 'vis-network-react';
 import { createRelationshipsNode, createOptions } from './utils';
-import vis from 'vis';
+import vis, { Network } from 'vis';
 import './style.css';
-import { Network } from 'vis-network-react';
 
 export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = ({
   data: { series },
@@ -19,7 +17,6 @@ export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = ({
   const [widthFactor, setWidthFactor] = useState(0);
   const ref = useRef(null);
   const [network, setNetwork] = useState(() => (ref.current ? new vis.Network(ref.current, {}) : undefined));
-  //console.log('graphOptions: ', graphOptions, '\noptions: ', options);
   useEffect(() => {
     setLoading(series[2]?.fields.length ? true : false);
     if (network) {

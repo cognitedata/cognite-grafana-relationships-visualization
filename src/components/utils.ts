@@ -12,9 +12,6 @@ export const sortMethods = _.map(sortList(hubSizeDirectionList), toSelectable);
 export const directionsOptions: Selectable[] = _.map(Directions, (label, id) => ({ id, label }));
 export const getDirection = (direction: string | undefined) => _.get(Directions, direction ?? '');
 export const upperFirst = (t: string): string => _.upperFirst(t);
-export const onChangeValue = (path: string[], value: any, values: object = {}) => {
-  const r = _.setWith(values, path.join('.'), value, Object);
-  console.log('values: ', values, '\npath.join: ', path.join('.'), '\nvalue: ', value, '\nr: ', r);
-  return r;
-};
 export const getDefaultValue = (value: object, path: string[]) => _.get(value, path);
+export const onChangeValue = (path: string[], value: any, values: object = {}) =>
+  _.setWith(values, path.join('.'), value, Object);
