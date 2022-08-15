@@ -6,6 +6,9 @@
 
 This is a grafana panel that will visualize the graph stored in Cognite Data Fusion (CDF) using the relationships resource type. It is a requirement to have the Cognite datasource installed with minimum version 2.6.0.
 
+
+![Sample graph](sample-graph.png)
+
 ## Learn more
 
 - [Cognite Grafana Datasource](https://github.com/cognitedata/cognite-grafana-datasource)
