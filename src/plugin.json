@@ -28,8 +28,8 @@
     ],
     "screenshots": [
       {
-        "name":"Sample 3D Model",
-        "path":"img/cognite-grafana-reveal.png"
+        "name":"Sample Graph",
+        "path":"sample-graph.png"
       }
     ],    
     "version": "%VERSION%",
