@@ -29,7 +29,7 @@
     "screenshots": [
       {
         "name":"Sample Graph",
-        "path":"https://github.com/cognitedata/cognite-grafana-relationships-visualization/blob/master/sample-graph.png"
+        "path":"img/sample-graph.png"
       }
     ],    
     "version": "%VERSION%",
