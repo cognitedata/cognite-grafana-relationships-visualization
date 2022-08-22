@@ -1,4 +1,4 @@
-import { useTheme2 } from '@grafana/ui';
+//import { useTheme2 } from '@grafana/ui';
 import _ from 'lodash';
 import { AVOIDABLE_ENABLED, AVOIDED_KEY, EDGES, EXTRA_KEY, GROUPS, LAYOUT, NODES, PHYSICS } from './constants';
 import { Series } from './types';
@@ -63,8 +63,10 @@ const avoidEnabled = (option: any) => {
 const reducer = (array: any) => _.reduce(array, (t, c) => _.assignIn(t, c), {});
 
 export const createOptions = ({ options, height, width, series }: any) => {
-  const theme = useTheme2();
+  /* const theme = useTheme2();
   const color = theme?.name === 'Dark' ? '#ffffff' : '#000000';
+   */
+  const color = '#ffffff';
   const groups: { [x: string]: any } = reducer(
     _.filter(
       _.map(_.get(options, [GROUPS]), (value, key) => {
