@@ -41,8 +41,7 @@
       {
         "id":"cognitedata-datasource",
         "name": "Cognite Data Fusion",
-        "type":"datasource",
-        "version": "2.6.0"
+        "type":"datasource"
     }]
   }
 }
