@@ -1,18 +1,16 @@
 import React from 'react';
 import { Input } from '@grafana/ui';
 import { CustomField } from './CustomField';
-import { getValue, setValue } from '../utils';
+import { getDefaultValue } from '../utils';
 
-export const InputField: React.FC<any> = ({ label, onChange, parent, value, path, selector, ...props }) => {
-  const fullPath = selector ? [...parent, selector, ...path] : [...parent, ...path];
-  const pathValue = getValue(value, fullPath);
-
+export const InputField: React.FC<any> = ({ label, onChange, value, path, ...props }) => {
+  const pathValue = getDefaultValue(value, path);
   return CustomField(
     label,
     <Input
       {...{
         ...props,
-        onChange: ({ target }: any) => onChange(setValue(path, target.value, parent, selector, value)),
+        onChange: ({ target }: any) => onChange(target.value, path),
         value: pathValue,
       }}
     />,

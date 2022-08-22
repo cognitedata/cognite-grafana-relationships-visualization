@@ -20,6 +20,19 @@ export const shapeList = [
   'hexagon',
   'square',
 ];
+export const smoothList = [
+  'dynamic',
+  'continuous',
+  'discrete',
+  'diagonalCross',
+  'straightCross',
+  'horizontal',
+  'vertical',
+  'curvedCW',
+  'curvedCCW',
+  'cubicBezier',
+];
+export const forceDirectionList = ['horizontal', 'vertical', 'none'];
 export const sizableList = [
   'image',
   'circularImage',
@@ -60,14 +73,23 @@ export const defaultGraphValue = {
       sortMethod: 'hubsize',
     },
   },
-  [GROUPS]: {
-    [EDGES]: {
-      [AVOIDED_KEY]: false,
-      color: { color: '#FFFFFF' },
-      font: { color: '#FFFFFF' },
-      length: 100,
-      dashes: false,
+  [EDGES]: {
+    color: { color: '#FFFFFF' },
+    font: {
+      color: '#FFFFFF',
+      strokeWidth: 0,
+      bold: {},
     },
+    length: 100,
+    dashes: false,
+    smooth: {
+      enabled: false,
+      forceDirection: false,
+      roundness: 0.5,
+      type: 'horizontal',
+    },
+  },
+  [GROUPS]: {
     [NODES]: {
       [AVOIDED_KEY]: false,
       widthConstraint,
@@ -141,5 +163,9 @@ export const defaultGraphValue = {
       },
     },
   },
-  [PHYSICS]: { enabled: true, maxVelocity: 50, minVelocity: 0.1 },
+  [PHYSICS]: {
+    enabled: true,
+    maxVelocity: 50,
+    minVelocity: 0.1,
+  },
 };

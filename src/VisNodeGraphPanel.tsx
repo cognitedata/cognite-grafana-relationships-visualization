@@ -1,40 +1,70 @@
-import React from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { PanelProps } from '@grafana/data';
 import { SingleStatBaseOptions } from '@grafana/ui';
-import Graph from 'react-graph-vis';
-import { createRelationshipsNode, createOptions, getSelectedNode } from './utils';
+import { createRelationshipsNode, createOptions } from './utils';
+import vis from 'vis';
+import './style.css';
 
-export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = (props) => {
-  const {
-    data: { series },
-    height,
-    width,
-    options,
-  } = props;
-  const graph = createRelationshipsNode(series, options);
+export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = ({
+  data: { series },
+  height,
+  width,
+  options,
+}) => {
+  const ref = useRef(null);
+  const data = createRelationshipsNode(series, options);
   const graphOptions = createOptions({ options, height, width, series });
-  // console.log(series, options);
+  const [loading, setLoading] = useState(true);
+  const [widthFactor, setWidthFactor] = useState(0);
+  const [refVisible, setRefVisible] = useState(false);
+  const network = useMemo(() => {
+    let network;
+    if (ref.current) {
+      network = new vis.Network(ref.current, {});
+    }
+    return network;
+  }, [refVisible]);
+
+  useEffect(() => {
+    setLoading(series[2]?.fields.length ? true : false);
+    if (network) {
+      network.setData(data);
+      network.setOptions(graphOptions);
+      network.stabilize();
+      network.on('stabilizationProgress', function (params) {
+        setWidthFactor(Math.round((params.iterations / params.total) * 100));
+      });
+      network.once('stabilizationIterationsDone', function () {
+        setLoading(false);
+        setWidthFactor(0);
+      });
+    }
+  }, [series[2], network]);
+  useEffect(() => {
+    if (network) {
+      network.setOptions(graphOptions);
+    }
+  }, [graphOptions, network]);
   return (
-    <Graph
-      {...{
-        graph,
-        options: graphOptions,
-        events: {
-          showPopup: (id: any) => {
-            console.log('showPopup', id);
-          },
-          hoverNode: (obj: any) => {
-            console.log('hoverNode', obj);
-          },
-          select: (selected: { nodes: any; edges: any; event: any }) => {
-            const { nodes, edges } = selected;
-            if (nodes.length) {
-              const selectedNode = getSelectedNode(graph.nodes, nodes[0]);
-              console.log('selected nodes: ', nodes[0], '\nselected edges: ', edges[0], '\n', selectedNode);
-            }
-          },
-        },
-      }}
-    />
+    <div>
+      <div className="outerBorder" style={{ display: loading ? 'block' : 'none' }}>
+        <div id="text">{widthFactor} %</div>
+        <div id="border">
+          <div
+            id="bar"
+            style={{
+              width: `${Math.max(0, widthFactor)}%`,
+            }}
+          ></div>
+        </div>
+      </div>
+      <div
+        ref={(el) => {
+          // @ts-ignore
+          ref.current = el;
+          setRefVisible(!!el);
+        }}
+      />
+    </div>
   );
 };

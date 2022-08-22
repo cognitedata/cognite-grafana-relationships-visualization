@@ -2,18 +2,19 @@
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "type": "panel",
   "name": "Cognite NodeGraph Panel",
-  "id": "cognite-nodegraph-panel",
+  "id": "cognitedata-nodegraph-panel",
   "info": {
     "description": "Panel for visualization of NodeGraph data stored in the Cognite Data Fusion",
     "author": {
-      "name": "Cognite"
+      "name": "Cognite",
+      "url": "https://cognite.com"
     },
     "keywords": [
-      "visjs"
+      "cognite", "visjs"
     ],
     "logos": {
-      "small": "img/logo.svg",
-      "large": "img/logo.svg"
+      "small": "img/CDF_logo.svg",
+      "large": "img/CDF_logo.svg"
     },
     "links": [
       {
@@ -30,7 +31,8 @@
         "name":"Sample 3D Model",
         "path":"img/cognite-grafana-reveal.png"
       }
-    ],    "version": "%VERSION%",
+    ],    
+    "version": "%VERSION%",
     "updated": "%TODAY%"
   },
   "dependencies": {
@@ -40,7 +42,7 @@
         "id":"cognitedata-datasource",
         "name": "Cognite Data Fusion",
         "type":"datasource",
-        "version": ">=2.50"
+        "version": ">=2.6.0"
     }]
   }
 }

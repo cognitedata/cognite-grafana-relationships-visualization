@@ -1,15 +1,19 @@
-import React from 'react';
-import { directionsOptions, getValue, sortMethods } from './utils';
+import React, { useMemo } from 'react';
+import { directionsOptions, getDefaultValue, onChangeValue, sortMethods } from './utils';
 import { NumberField, SelectField, SwitchField } from './Fields';
 
-export const LayoutEditor: React.FC<any> = ({ value, onChange, id }) => {
-  const pathValues = value && { [id]: value };
+export const LayoutEditor: React.FC<any> = ({ value, onChange, item: { defaultValue } }) => {
   const path = ['hierarchical', 'enabled'];
-  const pathValue = getValue(pathValues, [id, ...path]);
+  const pathValue = getDefaultValue(value, path);
   const fixedProps = {
-    onChange,
-    value: pathValue,
-    parent: [id],
+    onChange: (newValue: any, path: any) => onChange(onChangeValue(path, newValue, value)),
+    value: useMemo(() => {
+      if (!value) {
+        onChange(defaultValue);
+        return defaultValue;
+      }
+      return value;
+    }, [value]),
   };
   return (
     <div>
@@ -33,7 +37,7 @@ export const LayoutEditor: React.FC<any> = ({ value, onChange, id }) => {
           }}
         />,
         <SelectField
-          key={`${id}.hierarchical.sortMethod`}
+          key={`hierarchical.sortMethod`}
           {...{
             label: 'Sort Method',
             path: ['hierarchical', 'sortMethod'],
@@ -42,7 +46,7 @@ export const LayoutEditor: React.FC<any> = ({ value, onChange, id }) => {
           }}
         />,
         <NumberField
-          key={`${id}.levelSeparation`}
+          key={`levelSeparation`}
           {...{
             label: 'Level Separation',
             path: ['hierarchical', 'levelSeparation'],
@@ -50,7 +54,7 @@ export const LayoutEditor: React.FC<any> = ({ value, onChange, id }) => {
           }}
         />,
         <NumberField
-          key={`${id}.hierarchical.nodeSpacing`}
+          key={`hierarchical.nodeSpacing`}
           {...{
             label: 'Node Spacing',
             path: ['hierarchical', 'nodeSpacing'],
@@ -58,7 +62,7 @@ export const LayoutEditor: React.FC<any> = ({ value, onChange, id }) => {
           }}
         />,
         <NumberField
-          key={`${id}.hierarchical.treeSpacing`}
+          key={`hierarchical.treeSpacing`}
           {...{
             label: 'Tree Spacing',
             path: ['hierarchical', 'treeSpacing'],
@@ -66,7 +70,7 @@ export const LayoutEditor: React.FC<any> = ({ value, onChange, id }) => {
           }}
         />,
         <SwitchField
-          key={`${id}.hierarchical.parentCentralization`}
+          key={`hierarchical.parentCentralization`}
           {...{
             label: 'Parent Centralization',
             path: ['hierarchical', 'parentCentralization'],
@@ -74,7 +78,7 @@ export const LayoutEditor: React.FC<any> = ({ value, onChange, id }) => {
           }}
         />,
         <SwitchField
-          key={`${id}.hierarchical.blockShifting`}
+          key={`hierarchical.blockShifting`}
           {...{
             label: 'Block Shifting',
             path: ['hierarchical', 'blockShifting'],
@@ -82,7 +86,7 @@ export const LayoutEditor: React.FC<any> = ({ value, onChange, id }) => {
           }}
         />,
         <SwitchField
-          key={`${id}.hierarchical.edgeMinimization`}
+          key={`hierarchical.edgeMinimization`}
           {...{
             label: 'Edge Minimization',
             path: ['hierarchical', 'edgeMinimization'],

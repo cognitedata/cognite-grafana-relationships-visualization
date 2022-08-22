@@ -1,29 +1,26 @@
 import React from 'react';
 import { ColorField, ColorFields, NumberField, SelectField, SliderField, SwitchField } from './Fields';
 import { AVOIDABLE_ENABLED, sizableList } from '../constants';
-import { getValue, shapeOptions, valignOptions } from './utils';
+import { getDefaultValue, shapeOptions, valignOptions } from './utils';
 
 // oslo_production_mix_tank
 
-export const Nodes: React.FC<any> = ({ onChange, value, label, parent }) => {
-  const pathValue = (path: string[]) => getValue(value, [...parent, label, ...path]);
-
+export const Nodes: React.FC<any> = ({ onChange, value, label }) => {
+  const pathValue = (path: string[]) => getDefaultValue(value, path);
   const fixedProps = {
     onChange,
     value,
-    parent,
-    selector: label,
   };
   const style = { padding: 8 };
   return (
-    <div style={style} key={parent}>
+    <div style={style} key={label}>
       {ColorFields(
         <div className="holder">
           <ColorField
             key={'color.background'}
             {...{
               label: 'Background',
-              path: ['color', 'background'],
+              path: [label, 'color', 'background'],
               width: '33%',
               ...fixedProps,
             }}
@@ -32,7 +29,7 @@ export const Nodes: React.FC<any> = ({ onChange, value, label, parent }) => {
             key={'color.border'}
             {...{
               label: 'Border',
-              path: ['color', 'border'],
+              path: [label, 'color', 'border'],
               width: '33%',
               ...fixedProps,
             }}
@@ -41,7 +38,7 @@ export const Nodes: React.FC<any> = ({ onChange, value, label, parent }) => {
             key={'font.color'}
             {...{
               label: 'Font',
-              path: ['font', 'color'],
+              path: [label, 'font', 'color'],
               width: '33%',
               ...fixedProps,
             }}
@@ -53,16 +50,16 @@ export const Nodes: React.FC<any> = ({ onChange, value, label, parent }) => {
         {...{
           options: shapeOptions,
           label: 'Shape',
-          path: ['shape'],
+          path: [label, 'shape'],
           ...fixedProps,
         }}
       />
-      {sizableList.includes(pathValue(['shape'])) && (
+      {sizableList.includes(pathValue([label, 'shape'])) && (
         <SliderField
           key={'size'}
           {...{
             label: 'Size',
-            path: ['size'],
+            path: [label, 'size'],
             min: 10,
             max: 100,
             ...fixedProps,
@@ -73,16 +70,16 @@ export const Nodes: React.FC<any> = ({ onChange, value, label, parent }) => {
         key={`${parent}.widthConstraint`}
         {...{
           label: 'Width Constraint',
-          path: ['widthConstraint', AVOIDABLE_ENABLED],
+          path: [label, 'widthConstraint', AVOIDABLE_ENABLED],
           ...fixedProps,
         }}
       />
-      {pathValue(['widthConstraint', AVOIDABLE_ENABLED]) && [
+      {pathValue([label, 'widthConstraint', AVOIDABLE_ENABLED]) && [
         <NumberField
           key={`${parent}.widthConstraint.minimum`}
           {...{
             label: 'Width Constraint Minimum',
-            path: ['widthConstraint', 'minimum'],
+            path: [label, 'widthConstraint', 'minimum'],
             ...fixedProps,
           }}
         />,
@@ -90,25 +87,25 @@ export const Nodes: React.FC<any> = ({ onChange, value, label, parent }) => {
           key={`${parent}.widthConstraint.maximum`}
           {...{
             label: 'Width Constraint Maximum',
-            path: ['widthConstraint', 'maximum'],
+            path: [label, 'widthConstraint', 'maximum'],
             ...fixedProps,
           }}
         />,
       ]}
       <SwitchField
-        key={`${parent}.heightConstrain`}
+        key={`${parent}.heightConstraint`}
         {...{
           label: 'Height Constraint',
-          path: ['heightConstrain', AVOIDABLE_ENABLED],
+          path: [label, 'heightConstraint', AVOIDABLE_ENABLED],
           ...fixedProps,
         }}
       />
-      {pathValue(['heightConstrain', AVOIDABLE_ENABLED]) && [
+      {pathValue([label, 'heightConstraint', AVOIDABLE_ENABLED]) && [
         <NumberField
           key={`${parent}.heightConstraint.minimum`}
           {...{
             label: 'Height Constraint Minimum',
-            path: ['heightConstraint', 'minimum'],
+            path: [label, 'heightConstraint', 'minimum'],
             ...fixedProps,
           }}
         />,
@@ -117,7 +114,7 @@ export const Nodes: React.FC<any> = ({ onChange, value, label, parent }) => {
           {...{
             options: valignOptions,
             label: 'Height Constraint Valign',
-            path: ['heightConstraint', 'valign'],
+            path: [label, 'heightConstraint', 'valign'],
             ...fixedProps,
           }}
         />,

@@ -10,10 +10,15 @@ TODO: switch to eslint-recommended/grafana config.
 module.exports = {
     "env": {
         "browser": true,
-        "node": true
+        "node": true,
+        "es2021": true
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
         "project": "tsconfig.json",
         "sourceType": "module"
     },
