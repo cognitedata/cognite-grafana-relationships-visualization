@@ -15,7 +15,7 @@
   "author": "Cognite AS",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@grafana/toolkit": "latest",
+    "@grafana/toolkit": "^8.4.5",
     "@types/lodash": "^4.14.181",
     "@types/react": "^18.0.2",
     "@types/vis": "^4.21.23",
@@ -36,8 +36,8 @@
     "node": ">=14"
   },
   "dependencies": {
-    "@grafana/data": "latest",
-    "@grafana/ui": "latest",
+    "@grafana/data": "^8.4.5",
+    "@grafana/ui": "^8.4.5",
     "lodash": "^4.17.21",
     "react": "^18.1.0",
     "vis": "^4.21.0-EOL"
