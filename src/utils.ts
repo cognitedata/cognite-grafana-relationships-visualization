@@ -63,8 +63,8 @@ const avoidEnabled = (option: any) => {
 const reducer = (array: any) => _.reduce(array, (t, c) => _.assignIn(t, c), {});
 
 export const createOptions = ({ options, height, width, series }: any) => {
-  const { name } = useTheme2();
-  const color = name === 'Dark' ? '#ffffff' : '#000000';
+  const theme = useTheme2();
+  const color = theme?.name === 'Dark' ? '#ffffff' : '#000000';
   const groups: { [x: string]: any } = reducer(
     _.filter(
       _.map(_.get(options, [GROUPS]), (value, key) => {
