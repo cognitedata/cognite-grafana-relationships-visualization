@@ -14,7 +14,6 @@ export const EdgesEditor: React.FC<any> = ({ onChange, value, item: { defaultVal
     }, [value]),
   };
   const pathValue = (path: string[]) => getDefaultValue(value, path);
-  // console.log(pathValue(['smooth', 'forceDirection']));
   return (
     <div>
       {CustomField('Colors')}
