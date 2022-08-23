@@ -74,9 +74,9 @@ export const defaultGraphValue = {
     },
   },
   [EDGES]: {
-    color: { color: '#FFFFFF' },
+    color: { color: '#5a5a5a' },
     font: {
-      color: '#FFFFFF',
+      color: '#5a5a5a',
       strokeWidth: 0,
       bold: {},
     },
@@ -95,11 +95,11 @@ export const defaultGraphValue = {
       widthConstraint,
       heightConstraint,
       color: {
-        background: '#FFFFFF',
-        border: '#FFFFFF',
+        background: '#5a5a5a',
+        border: '#5a5a5a',
       },
       font: {
-        color: '#000000',
+        color: '#FFFDD0',
       },
     },
     asset: {
@@ -108,10 +108,10 @@ export const defaultGraphValue = {
       heightConstraint,
       color: {
         background: '#8AB8FF',
-        border: '#000000',
+        border: '#FFFDD0',
       },
       font: {
-        color: '#000000',
+        color: '#FFFDD0',
       },
     },
     timeSeries: {
@@ -120,10 +120,10 @@ export const defaultGraphValue = {
       heightConstraint,
       color: {
         background: '#FADE2A',
-        border: '#000000',
+        border: '#FFFDD0',
       },
       font: {
-        color: '#000000',
+        color: '#FFFDD0',
       },
     },
     files: {
@@ -132,10 +132,10 @@ export const defaultGraphValue = {
       heightConstraint,
       color: {
         background: '#FADE2A',
-        border: '#000000',
+        border: '#FFFDD0',
       },
       font: {
-        color: '#000000',
+        color: '#FFFDD0',
       },
     },
     event: {
@@ -144,10 +144,10 @@ export const defaultGraphValue = {
       heightConstraint,
       color: {
         background: '#FADE2A',
-        border: '#000000',
+        border: '#FFFDD0',
       },
       font: {
-        color: '#000000',
+        color: '#FFFDD0',
       },
     },
     sequence: {
@@ -156,10 +156,10 @@ export const defaultGraphValue = {
       heightConstraint,
       color: {
         background: '#FADE2A',
-        border: '#000000',
+        border: '#FFFDD0',
       },
       font: {
-        color: '#000000',
+        color: '#FFFDD0',
       },
     },
   },
