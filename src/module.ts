@@ -5,6 +5,8 @@ import { VisNodeGraphPanel } from './VisNodeGraphPanel';
 import { defaultGraphValue, EDGES, EXTRA_KEY, GROUPS, LAYOUT, PHYSICS } from './constants';
 import { getDefaultValue } from './components/utils';
 // @ts-ignore
+//const version = parseInt(window.grafanaBootData.settings.buildInfo.version.split('.')[0]) > 7;
+//@ts-ignore
 const VisCustomEditorSettings = {
   id: EXTRA_KEY,
   path: EXTRA_KEY,
