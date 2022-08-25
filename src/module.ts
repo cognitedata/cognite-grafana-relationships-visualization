@@ -10,6 +10,7 @@ const VisCustomEditorSettings = {
   path: EXTRA_KEY,
   name: '',
   editor: CustomEditor,
+  category: ['NodeGraph Extras'],
   defaultValue: getDefaultValue(defaultGraphValue, [EXTRA_KEY]),
 };
 
@@ -30,7 +31,7 @@ function addEdgesOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEd
     name: '',
     editor: EdgesEditor,
     category: ['Edges'],
-    //defaultValue: getDefaultValue(defaultGraphValue, [EDGES]),
+    defaultValue: getDefaultValue(defaultGraphValue, [EDGES]),
   });
 }
 function addGroupsOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEditorBuilder<T>) {

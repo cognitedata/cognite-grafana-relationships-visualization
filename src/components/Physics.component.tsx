@@ -1,19 +1,13 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { NumberField, SwitchField } from './Fields';
 import { getDefaultValue, onChangeValue } from './utils';
 
-export const PhysicsEditor: React.FC<any> = ({ item: { defaultValue }, value, onChange, item }) => {
+export const PhysicsEditor: React.FC<any> = ({ value, onChange, item }) => {
   const path = ['enabled'];
   const pathValue = getDefaultValue(value, path);
   const fixedProps = {
     onChange: (newValue: any, path: any) => onChange(onChangeValue(path, newValue, value)),
-    value: useMemo(() => {
-      if (!value) {
-        onChange(defaultValue);
-        return defaultValue;
-      }
-      return value;
-    }, [value]),
+    value,
   };
   return (
     <div>

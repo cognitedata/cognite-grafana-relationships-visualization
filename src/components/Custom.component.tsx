@@ -1,13 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { InputField } from './Fields';
 import { onChangeValue } from './utils';
 
-export const CustomEditor: React.FC<any> = ({ value, onChange, item: { defaultValue } }) => {
-  useEffect(() => {
-    if (!value) {
-      return onChange(defaultValue);
-    }
-  }, [value]);
+export const CustomEditor: React.FC<any> = ({ value, onChange }) => {
   return (
     <InputField
       key={`externalId`}

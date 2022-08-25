@@ -1,37 +1,13 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { ColorField, CustomField, SelectField, SliderField, SwitchField } from './Fields';
-import { getDefaultValue, onChangeValue, smoothOptions, forceDirectionOptions, useThemeSelector } from './utils';
-import { defaultGraphValue, EDGES } from '../constants';
+import { getDefaultValue, onChangeValue, smoothOptions, forceDirectionOptions } from './utils';
 
 export const EdgesEditor: React.FC<any> = ({ onChange, value }) => {
-  // @ts-ignore
-  const version = parseInt(window.grafanaBootData.settings.buildInfo.version.split('.')[0]) > 7;
-  const defaultValue = getDefaultValue(defaultGraphValue, [EDGES]);
-  const newValue = useMemo(() => {
-    if (!value) {
-      if (!version) {
-        onChange(defaultValue);
-        return defaultValue;
-      } else {
-        const { isDark } = useThemeSelector();
-        if (isDark) {
-          defaultValue.color.color = '#ffffff';
-          defaultValue.font.color = '#ffffff';
-          onChange(defaultValue);
-          return defaultValue;
-        }
-        onChange(defaultValue);
-        return defaultValue;
-      }
-    }
-    return value;
-  }, [value]);
   const fixedProps = {
     onChange: (newValue: any, path: any) => onChange(onChangeValue(path, newValue, value)),
-    value: newValue,
+    value,
   };
   const pathValue = (path: string[]) => getDefaultValue(value, path);
-  //console.log(newValue, value);
   return (
     <div>
       {CustomField('Colors')}

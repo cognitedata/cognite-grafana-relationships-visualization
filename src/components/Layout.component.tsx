@@ -1,19 +1,13 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { directionsOptions, getDefaultValue, onChangeValue, sortMethods } from './utils';
 import { NumberField, SelectField, SwitchField } from './Fields';
 
-export const LayoutEditor: React.FC<any> = ({ value, onChange, item: { defaultValue } }) => {
+export const LayoutEditor: React.FC<any> = ({ value, onChange }) => {
   const path = ['hierarchical', 'enabled'];
   const pathValue = getDefaultValue(value, path);
   const fixedProps = {
     onChange: (newValue: any, path: any) => onChange(onChangeValue(path, newValue, value)),
-    value: useMemo(() => {
-      if (!value) {
-        onChange(defaultValue);
-        return defaultValue;
-      }
-      return value;
-    }, [value]),
+    value,
   };
   return (
     <div>
