@@ -1,3 +1,4 @@
+import { useTheme2 } from '@grafana/ui';
 import _ from 'lodash';
 import { hubSizeDirectionList, shapeList, vAlignList, smoothList, forceDirectionList } from '../constants';
 import { Selectable, Directions } from '../types';
@@ -15,3 +16,7 @@ export const upperFirst = (t: string): string => _.upperFirst(t);
 export const getDefaultValue = (value: object, path: string[]) => _.get(value, path);
 export const onChangeValue = (path: string[], value: any, values: object = {}) =>
   _.setWith(values, path.join('.'), value, Object);
+export const useThemeSelector = () => {
+  const { isDark, isLight } = useTheme2();
+  return { isDark, isLight };
+};

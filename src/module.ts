@@ -4,8 +4,6 @@ import { CustomEditor, EdgesEditor, GroupsEditor, LayoutEditor, PhysicsEditor } 
 import { VisNodeGraphPanel } from './VisNodeGraphPanel';
 import { defaultGraphValue, EDGES, EXTRA_KEY, GROUPS, LAYOUT, PHYSICS } from './constants';
 import { getDefaultValue } from './components/utils';
-// @ts-ignore
-//const version = parseInt(window.grafanaBootData.settings.buildInfo.version.split('.')[0]) > 7;
 //@ts-ignore
 const VisCustomEditorSettings = {
   id: EXTRA_KEY,
@@ -32,7 +30,7 @@ function addEdgesOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEd
     name: '',
     editor: EdgesEditor,
     category: ['Edges'],
-    defaultValue: getDefaultValue(defaultGraphValue, [EDGES]),
+    //defaultValue: getDefaultValue(defaultGraphValue, [EDGES]),
   });
 }
 function addGroupsOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEditorBuilder<T>) {
