@@ -74,9 +74,9 @@ export const defaultGraphValue = {
     },
   },
   [EDGES]: {
-    color: { color: '#5a5a5a' },
+    color: { color: '#000000' },
     font: {
-      color: '#5a5a5a',
+      color: '#000000',
       strokeWidth: 0,
       bold: {},
     },
@@ -96,10 +96,10 @@ export const defaultGraphValue = {
       heightConstraint,
       color: {
         background: '#5a5a5a',
-        border: '#5a5a5a',
+        border: '#000000',
       },
       font: {
-        color: '#FFFDD0',
+        color: '#000000',
       },
     },
     asset: {
@@ -108,10 +108,10 @@ export const defaultGraphValue = {
       heightConstraint,
       color: {
         background: '#8AB8FF',
-        border: '#FFFDD0',
+        border: '#000000',
       },
       font: {
-        color: '#FFFDD0',
+        color: '#000000',
       },
     },
     timeSeries: {
@@ -120,10 +120,10 @@ export const defaultGraphValue = {
       heightConstraint,
       color: {
         background: '#FADE2A',
-        border: '#FFFDD0',
+        border: '#000000',
       },
       font: {
-        color: '#FFFDD0',
+        color: '#000000',
       },
     },
     files: {
@@ -132,10 +132,10 @@ export const defaultGraphValue = {
       heightConstraint,
       color: {
         background: '#FADE2A',
-        border: '#FFFDD0',
+        border: '#000000',
       },
       font: {
-        color: '#FFFDD0',
+        color: '#000000',
       },
     },
     event: {
@@ -144,10 +144,10 @@ export const defaultGraphValue = {
       heightConstraint,
       color: {
         background: '#FADE2A',
-        border: '#FFFDD0',
+        border: '#000000',
       },
       font: {
-        color: '#FFFDD0',
+        color: '#000000',
       },
     },
     sequence: {
@@ -156,10 +156,10 @@ export const defaultGraphValue = {
       heightConstraint,
       color: {
         background: '#FADE2A',
-        border: '#FFFDD0',
+        border: '#000000',
       },
       font: {
-        color: '#FFFDD0',
+        color: '#000000',
       },
     },
   },
