@@ -77,7 +77,7 @@ export const createOptions = ({ options, height, width, series }: any) => {
     [GROUPS]: _.omit(groups, [NODES]),
     [LAYOUT]: options[LAYOUT]?.hierarchical.enabled ? options[LAYOUT] : { hierarchical: false },
     [PHYSICS]: options[PHYSICS] || {},
-    [EDGES]: options[EDGES].smooth.enabled
+    [EDGES]: options[EDGES]?.smooth.enabled
       ? options[EDGES]
       : {
           ...options[EDGES],
