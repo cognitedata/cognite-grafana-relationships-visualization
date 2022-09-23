@@ -11,7 +11,7 @@ export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = ({
   width,
   options,
 }) => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
   const data = createRelationshipsNode(series, options);
   const graphOptions = createOptions({ options, height, width, series });
   const [loading, setLoading] = useState(true);
@@ -60,7 +60,6 @@ export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = ({
       </div>
       <div
         ref={(el) => {
-          // @ts-ignore
           ref.current = el;
           setRefVisible(!!el);
         }}
