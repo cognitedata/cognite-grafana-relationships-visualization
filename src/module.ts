@@ -4,7 +4,6 @@ import { CustomEditor, EdgesEditor, GroupsEditor, LayoutEditor, PhysicsEditor } 
 import { VisNodeGraphPanel } from './VisNodeGraphPanel';
 import { defaultGraphValue, EDGES, EXTRA_KEY, GROUPS, LAYOUT, PHYSICS } from './constants';
 import { getDefaultValue } from './components/utils';
-// @ts-ignore
 const VisCustomEditorSettings = {
   id: EXTRA_KEY,
   path: EXTRA_KEY,
@@ -54,7 +53,7 @@ function addPhysicOption<T extends SingleStatBaseOptions>(builder: PanelOptionsE
   });
 }
 export const plugin = new PanelPlugin<SingleStatBaseOptions>(VisNodeGraphPanel).setPanelOptions((builder) => {
-  //builder.addCustomEditor(VisCustomEditorSettings);
+  builder.addCustomEditor(VisCustomEditorSettings);
   addLayoutOption(builder);
   addEdgesOption(builder);
   addGroupsOption(builder);
