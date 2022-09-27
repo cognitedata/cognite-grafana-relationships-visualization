@@ -46,7 +46,7 @@ export const sizableList = [
 ];
 export const vAlignList = ['top', 'middle', 'bottom'];
 export const hubSizeDirectionList = ['hubsize', 'directed'];
-
+export const typesList = ['arrow', 'bar', 'circle'];
 const widthConstraint = {
   [AVOIDABLE_ENABLED]: false,
   minimum: 1,
@@ -83,6 +83,18 @@ export const defaultGraphValue = {
       forceDirection: false,
       roundness: 0.5,
       type: 'horizontal',
+    },
+    arrows: {
+      to: {
+        enabled: true,
+        type: 'arrow',
+      },
+      middle: {
+        enabled: false,
+      },
+      from: {
+        enabled: false,
+      },
     },
   },
   [GROUPS]: {

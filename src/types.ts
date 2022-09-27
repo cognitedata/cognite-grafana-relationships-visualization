@@ -39,6 +39,18 @@ export interface DefaultOptions {
     font?: { color?: string };
     length?: number;
     dashes?: boolean;
+    arrows?: {
+      to?: {
+        enabled?: boolean;
+        type?: string;
+      };
+      middle?: {
+        enabled?: boolean;
+      };
+      from?: {
+        enabled?: boolean;
+      };
+    };
   };
   groups: {
     asset?: GroupConfig;
@@ -71,9 +83,8 @@ export enum Directions {
   RL = 'Right-Left',
   UD = 'Up-Down',
 }
-export interface Selectable {
+export interface Selectable extends SelectedValue {
   id: string;
-  label: string;
 }
 export interface Pathing {
   parent: string;
