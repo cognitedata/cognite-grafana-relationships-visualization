@@ -18,7 +18,7 @@ export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = ({
   options,
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const data = createRelationshipsNode(series, options);
+  const data = createRelationshipsNode(series);
   const graphOptions = createOptions({ options, height, width, series });
   const [loading, setLoading] = useState(true);
   const [widthFactor, setWidthFactor] = useState(0);

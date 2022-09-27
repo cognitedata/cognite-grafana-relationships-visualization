@@ -1,5 +1,4 @@
 export const AVOIDED_KEY = 'isOpen';
-export const EXTRA_KEY = 'extras';
 export const AVOIDABLE_ENABLED = 'AVOIDABLE_ENABLED';
 export const NODES = 'nodes';
 export const EDGES = 'edges';
@@ -57,9 +56,6 @@ const heightConstraint = {
   minimum: 1,
 };
 export const defaultGraphValue = {
-  [EXTRA_KEY]: {
-    externalId: '',
-  },
   [LAYOUT]: {
     hierarchical: {
       enabled: false,

@@ -1,16 +1,9 @@
 import { PanelOptionsEditorBuilder, PanelPlugin } from '@grafana/data';
 import { SingleStatBaseOptions } from '@grafana/ui';
-import { CustomEditor, EdgesEditor, GroupsEditor, LayoutEditor, PhysicsEditor } from './components';
+import { EdgesEditor, GroupsEditor, LayoutEditor, PhysicsEditor } from './components';
 import { VisNodeGraphPanel } from './VisNodeGraphPanel';
-import { defaultGraphValue, EDGES, EXTRA_KEY, GROUPS, LAYOUT, PHYSICS } from './constants';
+import { defaultGraphValue, EDGES, GROUPS, LAYOUT, PHYSICS } from './constants';
 import { getDefaultValue } from './components/utils';
-const VisCustomEditorSettings = {
-  id: EXTRA_KEY,
-  path: EXTRA_KEY,
-  name: '',
-  editor: CustomEditor,
-  defaultValue: getDefaultValue(defaultGraphValue, [EXTRA_KEY]),
-};
 
 function addLayoutOption<T extends SingleStatBaseOptions>(builder: PanelOptionsEditorBuilder<T>) {
   builder.addCustomEditor({
@@ -53,7 +46,6 @@ function addPhysicOption<T extends SingleStatBaseOptions>(builder: PanelOptionsE
   });
 }
 export const plugin = new PanelPlugin<SingleStatBaseOptions>(VisNodeGraphPanel).setPanelOptions((builder) => {
-  builder.addCustomEditor(VisCustomEditorSettings);
   addLayoutOption(builder);
   addEdgesOption(builder);
   addGroupsOption(builder);

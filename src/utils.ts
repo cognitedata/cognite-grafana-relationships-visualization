@@ -1,13 +1,12 @@
 //import { useTheme2 } from '@grafana/ui';
 import _ from 'lodash';
-import { AVOIDABLE_ENABLED, AVOIDED_KEY, EDGES, EXTRA_KEY, GROUPS, LAYOUT, NODES, PHYSICS } from './constants';
+import { AVOIDABLE_ENABLED, AVOIDED_KEY, EDGES, GROUPS, LAYOUT, NODES, PHYSICS } from './constants';
 import { Series } from './types';
 
-export const createRelationshipsNode = (series: Series, visNodeGraph: any) => {
+export const createRelationshipsNode = (series: Series) => {
   const relationshipsList = series[2]?.source;
   const nodes: any[] = [];
   const edges: any[] = [];
-  const searchId = _.get(visNodeGraph, [EXTRA_KEY, 'externalId']);
 
   function addValuesToFields(options: any) {
     const { externalId, labels, source, target, sourceType, targetType } = options;
@@ -40,10 +39,6 @@ export const createRelationshipsNode = (series: Series, visNodeGraph: any) => {
     });
   }
   _.map(relationshipsList, addValuesToFields);
-  if (!_.isEmpty(searchId)) {
-    const r = _.find(_.uniqBy(nodes, 'id'), { id: searchId });
-    console.log(r, 'found');
-  }
   return { edges: _.uniqBy(edges, 'id'), nodes: _.uniqBy(nodes, 'id') };
 };
 const avoidEnabled = (option: any) => {

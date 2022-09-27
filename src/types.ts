@@ -1,4 +1,4 @@
-import { AVOIDABLE_ENABLED, AVOIDED_KEY, EXTRA_KEY, LAYOUT, PHYSICS } from './constants';
+import { AVOIDABLE_ENABLED, AVOIDED_KEY, LAYOUT, PHYSICS } from './constants';
 
 interface GroupConfig {
   [AVOIDED_KEY]: boolean;
@@ -54,9 +54,6 @@ export interface DefaultOptions {
   };
   height?: number;
   width?: number;
-  [EXTRA_KEY]: {
-    rootId?: string;
-  };
 }
 
 export interface VisNodeGraphOptions {
