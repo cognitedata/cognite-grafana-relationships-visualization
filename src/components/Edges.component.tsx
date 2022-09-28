@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import { ColorField, CustomField, SelectField, SliderField, SwitchField } from './Fields';
-import { getDefaultValue, onChangeValue, smoothOptions, forceDirectionOptions, typeOptins } from './utils';
+import { ColorField, CustomField, SelectField, SliderField, SwitchField, GroupedField } from './Fields';
+import { getDefaultValue, onChangeValue, smoothOptions, forceDirectionOptions } from './utils';
 
 export const EdgesEditor: React.FC<any> = ({ onChange, value, item: { defaultValue } }) => {
   const fixedProps = {
@@ -14,7 +14,6 @@ export const EdgesEditor: React.FC<any> = ({ onChange, value, item: { defaultVal
     }, [value]),
   };
   const pathValue = (path: string[]) => getDefaultValue(value, path);
-  // console.log(pathValue(['smooth', 'forceDirection']));
   return (
     <div>
       {CustomField('Colors')}
@@ -98,41 +97,15 @@ export const EdgesEditor: React.FC<any> = ({ onChange, value, item: { defaultVal
           />
         ),
       ]}
-      <SwitchField
-        key="edges.arrows.to.enabled"
-        {...{
-          label: 'enabled to arrows',
-          path: ['arrows', 'to', 'enabled'],
-          ...fixedProps,
-        }}
-      />
-      {pathValue(['arrows', 'to', 'enabled']) && (
-        <SelectField
-          key="edges.arrows.to.type"
-          {...{
-            options: typeOptins,
-            label: 'to arrows type',
-            path: ['arrows', 'to', 'type'],
-            ...fixedProps,
-          }}
-        />
-      )}
-      <SwitchField
-        key="edges.arrows.middle.enabled"
-        {...{
-          label: 'enabled middle arrows',
-          path: ['arrows', 'middle', 'enabled'],
-          ...fixedProps,
-        }}
-      />
-      <SwitchField
-        key="edges.arrows.from.enabled"
-        {...{
-          label: 'enabled from arrows',
-          path: ['arrows', 'from', 'enabled'],
-          ...fixedProps,
-        }}
-      />
+      {CustomField('Arrows')}
+      <div className="holder">
+        {['to', 'middle', 'from'].map((placeSelector) => (
+          <GroupedField
+            key={placeSelector}
+            {...{ placeSelector, fixedProps, isEnabled: pathValue(['arrows', placeSelector, 'enabled']) }}
+          />
+        ))}
+      </div>
     </div>
   );
 };

@@ -91,9 +91,11 @@ export const defaultGraphValue = {
       },
       middle: {
         enabled: false,
+        type: 'Circle',
       },
       from: {
         enabled: false,
+        type: 'Bar',
       },
     },
   },

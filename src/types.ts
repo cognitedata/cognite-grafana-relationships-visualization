@@ -1,5 +1,13 @@
 import { AVOIDABLE_ENABLED, AVOIDED_KEY, LAYOUT, PHYSICS } from './constants';
-
+type Arrow = {
+  enabled?: boolean;
+  type?: string;
+};
+type Arrows = {
+  to?: Arrow;
+  middle?: Arrow;
+  from?: Arrow;
+};
 interface GroupConfig {
   [AVOIDED_KEY]: boolean;
   shape?: string;
@@ -39,18 +47,7 @@ export interface DefaultOptions {
     font?: { color?: string };
     length?: number;
     dashes?: boolean;
-    arrows?: {
-      to?: {
-        enabled?: boolean;
-        type?: string;
-      };
-      middle?: {
-        enabled?: boolean;
-      };
-      from?: {
-        enabled?: boolean;
-      };
-    };
+    arrows?: Arrows;
   };
   groups: {
     asset?: GroupConfig;
