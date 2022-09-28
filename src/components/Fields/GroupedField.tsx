@@ -7,7 +7,7 @@ export const GroupedField: React.FC<any> = ({ fixedProps, isEnabled, placeSelect
   return (
     <div className="grouped-row">
       <SwitchField
-        key="edges.arrows.to.enabled"
+        key={`edges.arrows.${placeSelector}.enabled`}
         {...{
           label: upperFirst(placeSelector),
           path: ['arrows', placeSelector, 'enabled'],
@@ -16,7 +16,7 @@ export const GroupedField: React.FC<any> = ({ fixedProps, isEnabled, placeSelect
       />
       {isEnabled && (
         <SelectField
-          key="edges.arrows.to.type"
+          key={`edges.arrows.${placeSelector}.type`}
           {...{
             options: typeOptins,
             label: 'Type',

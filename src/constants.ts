@@ -49,13 +49,16 @@ export const hubSizeDirectionList = ['hubsize', 'directed'];
 export const typesList = ['arrow', 'bar', 'circle'];
 export const solverList = ['barnesHut', 'repulsion', 'hierarchicalRepulsion', 'forceAtlas2Based'];
 
+const defaultShape = 'ellipse';
 const widthConstraint = {
   [AVOIDABLE_ENABLED]: false,
   minimum: 1,
+  maximum: 100,
 };
 const heightConstraint = {
   [AVOIDABLE_ENABLED]: false,
   minimum: 1,
+  valign: 'middle',
 };
 export const defaultGraphValue = {
   [LAYOUT]: {
@@ -93,11 +96,11 @@ export const defaultGraphValue = {
       },
       middle: {
         enabled: false,
-        type: 'Circle',
+        type: 'circle',
       },
       from: {
         enabled: false,
-        type: 'Bar',
+        type: 'bar',
       },
     },
   },
@@ -113,6 +116,7 @@ export const defaultGraphValue = {
       font: {
         color: '#000000',
       },
+      shape: defaultShape,
     },
     asset: {
       [AVOIDED_KEY]: false,
@@ -125,6 +129,7 @@ export const defaultGraphValue = {
       font: {
         color: '#000000',
       },
+      shape: defaultShape,
     },
     timeSeries: {
       [AVOIDED_KEY]: false,
@@ -137,6 +142,7 @@ export const defaultGraphValue = {
       font: {
         color: '#000000',
       },
+      shape: defaultShape,
     },
     files: {
       [AVOIDED_KEY]: false,
@@ -149,6 +155,7 @@ export const defaultGraphValue = {
       font: {
         color: '#000000',
       },
+      shape: defaultShape,
     },
     event: {
       [AVOIDED_KEY]: false,
@@ -161,6 +168,7 @@ export const defaultGraphValue = {
       font: {
         color: '#000000',
       },
+      shape: defaultShape,
     },
     sequence: {
       [AVOIDED_KEY]: false,
@@ -173,6 +181,7 @@ export const defaultGraphValue = {
       font: {
         color: '#000000',
       },
+      shape: defaultShape,
     },
   },
   [PHYSICS]: {

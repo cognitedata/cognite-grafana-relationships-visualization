@@ -30,7 +30,6 @@ export const VisNodeGraphPanel: React.FC<PanelProps<SingleStatBaseOptions>> = ({
     }
     return network;
   }, [refVisible]);
-
   useEffect(() => {
     setLoading(series[2]?.fields.length ? true : false);
     if (network) {

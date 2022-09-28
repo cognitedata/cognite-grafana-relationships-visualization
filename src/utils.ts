@@ -58,9 +58,6 @@ const avoidEnabled = (option: any) => {
 const reducer = (array: any) => _.reduce(array, (t, c) => _.assignIn(t, c), {});
 
 export const createOptions = ({ options, height, width, series }: any) => {
-  /* const theme = useTheme2();
-  const color = theme?.name === 'Dark' ? '#ffffff' : '#000000';
-   */
   const color = '#ffffff';
   const groups: { [x: string]: any } = reducer(
     _.filter(
@@ -99,4 +96,3 @@ export const getGroupsFromSeries = (series: Series) => {
     });
   return _.uniq(groups);
 };
-export const getSelectedNode = (collection: any, id: string) => _.find(collection, { id });

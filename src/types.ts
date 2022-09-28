@@ -16,27 +16,31 @@ interface GroupConfig {
     background: string;
   };
   font?: { color: string };
-  widthConstraint?: {
-    [AVOIDABLE_ENABLED]: boolean;
-    minimum?: number;
-    maximum?: number;
-  };
-  heightConstraint?: { [AVOIDABLE_ENABLED]: boolean; minimum?: number; valign?: string };
+  widthConstraint?:
+    | {
+        [AVOIDABLE_ENABLED]: true;
+        minimum?: number;
+        maximum?: number;
+      }
+    | false;
+  heightConstraint?: { [AVOIDABLE_ENABLED]: true; minimum?: number; valign?: string } | false;
 }
 export interface DefaultOptions {
   clickToUse?: boolean;
   [LAYOUT]: {
-    hierarchical?: {
-      enabled: boolean;
-      direction?: string;
-      levelSeparation?: number;
-      nodeSpacing?: number;
-      parentCentralization?: boolean;
-      treeSpacing: number;
-      blockShifting: boolean;
-      edgeMinimization: boolean;
-      sortMethod: string;
-    };
+    hierarchical?:
+      | {
+          enabled: true;
+          direction?: string;
+          levelSeparation?: number;
+          nodeSpacing?: number;
+          parentCentralization?: boolean;
+          treeSpacing: number;
+          blockShifting: boolean;
+          edgeMinimization: boolean;
+          sortMethod: string;
+        }
+      | false;
   };
   nodes: GroupConfig;
   edges: {
@@ -61,6 +65,11 @@ export interface DefaultOptions {
     minVelocity?: number;
     maxVelocity?: number;
     solver?: string;
+    stabilization?:
+      | {
+          enabled?: boolean;
+        }
+      | false;
   };
   height?: number;
   width?: number;
@@ -81,13 +90,8 @@ export enum Directions {
   RL = 'Right-Left',
   UD = 'Up-Down',
 }
-export interface Selectable extends SelectedValue {
-  id: string;
-}
 export interface Pathing {
   parent: string;
   selector: string;
   toggled: string;
 }
-
-export type SelectedValue = Selectable | any;
