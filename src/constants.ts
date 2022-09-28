@@ -47,6 +47,8 @@ export const sizableList = [
 export const vAlignList = ['top', 'middle', 'bottom'];
 export const hubSizeDirectionList = ['hubsize', 'directed'];
 export const typesList = ['arrow', 'bar', 'circle'];
+export const solverList = ['barnesHut', 'repulsion', 'hierarchicalRepulsion', 'forceAtlas2Based'];
+
 const widthConstraint = {
   [AVOIDABLE_ENABLED]: false,
   minimum: 1,
@@ -177,5 +179,6 @@ export const defaultGraphValue = {
     enabled: true,
     maxVelocity: 50,
     minVelocity: 0.1,
+    solver: 'barnesHut',
   },
 };

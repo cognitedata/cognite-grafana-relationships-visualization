@@ -60,6 +60,7 @@ export interface DefaultOptions {
     enabled: boolean;
     minVelocity?: number;
     maxVelocity?: number;
+    solver?: string;
   };
   height?: number;
   width?: number;
