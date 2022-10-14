@@ -9,32 +9,30 @@ export const createRelationshipsNode = (series: Series) => {
   const edges: any[] = [];
 
   function addValuesToFields(options: any) {
-    const { externalId, labels, source, target, sourceType, targetType } = options;
+    const { sourceExternalId, externalId, labels, source, target, targetExternalId, sourceType, targetType } = options;
     const sourceTitleText = _.get(source, 'description') || _.get(source, 'name');
     const sourceLabelText = _.get(source, 'name') || _.get(source, 'description');
     const targetLabelText = _.get(target, 'name') || _.get(target, 'description');
     nodes.push({
-      id: _.get(source, 'externalId'),
+      id: sourceExternalId,
       title: sourceTitleText,
-      label: sourceLabelText, // .substring(0, 25) + ' ...',
+      label: sourceLabelText,
       group: sourceType,
       meta: _.get(source, 'metadata'),
-      // level: sourceExternalId === searchId ? 0 : undefined,
     });
     nodes.push({
-      id: _.get(target, 'externalId'),
+      id: targetExternalId,
       title: _.get(target, 'description') || _.get(target, 'name'),
       label: targetLabelText,
       group: targetType,
-      // level: targetExternalId === searchId ? 0 : undefined,
       meta: _.get(target, 'metadata'),
     });
     edges.push({
       id: externalId,
-      from: _.get(source, 'externalId'),
-      to: _.get(target, 'externalId'),
+      from: sourceExternalId,
+      to: targetExternalId,
       label: _.map(labels, ({ externalId }) => externalId)
-        .join(', ')
+        .join(' ')
         .trim(),
     });
   }
