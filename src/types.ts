@@ -1,5 +1,13 @@
-import { AVOIDABLE_ENABLED, AVOIDED_KEY, EXTRA_KEY, LAYOUT, PHYSICS } from './constants';
-
+import { AVOIDABLE_ENABLED, AVOIDED_KEY, LAYOUT, PHYSICS } from './constants';
+type Arrow = {
+  enabled?: boolean;
+  type?: string;
+};
+type Arrows = {
+  to?: Arrow;
+  middle?: Arrow;
+  from?: Arrow;
+};
 interface GroupConfig {
   [AVOIDED_KEY]: boolean;
   shape?: string;
@@ -8,27 +16,31 @@ interface GroupConfig {
     background: string;
   };
   font?: { color: string };
-  widthConstraint?: {
-    [AVOIDABLE_ENABLED]: boolean;
-    minimum?: number;
-    maximum?: number;
-  };
-  heightConstraint?: { [AVOIDABLE_ENABLED]: boolean; minimum?: number; valign?: string };
+  widthConstraint?:
+    | {
+        [AVOIDABLE_ENABLED]: true;
+        minimum?: number;
+        maximum?: number;
+      }
+    | false;
+  heightConstraint?: { [AVOIDABLE_ENABLED]: true; minimum?: number; valign?: string } | false;
 }
 export interface DefaultOptions {
   clickToUse?: boolean;
   [LAYOUT]: {
-    hierarchical?: {
-      enabled: boolean;
-      direction?: string;
-      levelSeparation?: number;
-      nodeSpacing?: number;
-      parentCentralization?: boolean;
-      treeSpacing: number;
-      blockShifting: boolean;
-      edgeMinimization: boolean;
-      sortMethod: string;
-    };
+    hierarchical?:
+      | {
+          enabled: true;
+          direction?: string;
+          levelSeparation?: number;
+          nodeSpacing?: number;
+          parentCentralization?: boolean;
+          treeSpacing: number;
+          blockShifting: boolean;
+          edgeMinimization: boolean;
+          sortMethod: string;
+        }
+      | false;
   };
   nodes: GroupConfig;
   edges: {
@@ -39,6 +51,7 @@ export interface DefaultOptions {
     font?: { color?: string };
     length?: number;
     dashes?: boolean;
+    arrows?: Arrows;
   };
   groups: {
     asset?: GroupConfig;
@@ -51,12 +64,15 @@ export interface DefaultOptions {
     enabled: boolean;
     minVelocity?: number;
     maxVelocity?: number;
+    solver?: string;
+    stabilization?:
+      | {
+          enabled?: boolean;
+        }
+      | false;
   };
   height?: number;
   width?: number;
-  [EXTRA_KEY]: {
-    rootId?: string;
-  };
 }
 
 export interface VisNodeGraphOptions {
@@ -74,14 +90,8 @@ export enum Directions {
   RL = 'Right-Left',
   UD = 'Up-Down',
 }
-export interface Selectable {
-  id: string;
-  label: string;
-}
 export interface Pathing {
   parent: string;
   selector: string;
   toggled: string;
 }
-
-export type SelectedValue = Selectable | any;

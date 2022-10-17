@@ -1,5 +1,4 @@
 export const AVOIDED_KEY = 'isOpen';
-export const EXTRA_KEY = 'extras';
 export const AVOIDABLE_ENABLED = 'AVOIDABLE_ENABLED';
 export const NODES = 'nodes';
 export const EDGES = 'edges';
@@ -47,19 +46,21 @@ export const sizableList = [
 ];
 export const vAlignList = ['top', 'middle', 'bottom'];
 export const hubSizeDirectionList = ['hubsize', 'directed'];
+export const typesList = ['arrow', 'bar', 'circle'];
+export const solverList = ['barnesHut', 'repulsion', 'hierarchicalRepulsion', 'forceAtlas2Based'];
 
+const defaultShape = 'ellipse';
 const widthConstraint = {
   [AVOIDABLE_ENABLED]: false,
   minimum: 1,
+  maximum: 100,
 };
 const heightConstraint = {
   [AVOIDABLE_ENABLED]: false,
   minimum: 1,
+  valign: 'middle',
 };
 export const defaultGraphValue = {
-  [EXTRA_KEY]: {
-    externalId: '',
-  },
   [LAYOUT]: {
     hierarchical: {
       enabled: false,
@@ -88,6 +89,20 @@ export const defaultGraphValue = {
       roundness: 0.5,
       type: 'horizontal',
     },
+    arrows: {
+      to: {
+        enabled: true,
+        type: 'arrow',
+      },
+      middle: {
+        enabled: false,
+        type: 'circle',
+      },
+      from: {
+        enabled: false,
+        type: 'bar',
+      },
+    },
   },
   [GROUPS]: {
     [NODES]: {
@@ -101,6 +116,7 @@ export const defaultGraphValue = {
       font: {
         color: '#000000',
       },
+      shape: defaultShape,
     },
     asset: {
       [AVOIDED_KEY]: false,
@@ -113,6 +129,7 @@ export const defaultGraphValue = {
       font: {
         color: '#000000',
       },
+      shape: defaultShape,
     },
     timeSeries: {
       [AVOIDED_KEY]: false,
@@ -125,6 +142,7 @@ export const defaultGraphValue = {
       font: {
         color: '#000000',
       },
+      shape: defaultShape,
     },
     files: {
       [AVOIDED_KEY]: false,
@@ -137,6 +155,7 @@ export const defaultGraphValue = {
       font: {
         color: '#000000',
       },
+      shape: defaultShape,
     },
     event: {
       [AVOIDED_KEY]: false,
@@ -149,6 +168,7 @@ export const defaultGraphValue = {
       font: {
         color: '#000000',
       },
+      shape: defaultShape,
     },
     sequence: {
       [AVOIDED_KEY]: false,
@@ -161,11 +181,13 @@ export const defaultGraphValue = {
       font: {
         color: '#000000',
       },
+      shape: defaultShape,
     },
   },
   [PHYSICS]: {
     enabled: true,
     maxVelocity: 50,
     minVelocity: 0.1,
+    solver: 'barnesHut',
   },
 };

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { ColorField, CustomField, SelectField, SliderField, SwitchField } from './Fields';
+import { ColorField, CustomField, SelectField, SliderField, SwitchField, GroupedField } from './Fields';
 import { getDefaultValue, onChangeValue, smoothOptions, forceDirectionOptions } from './utils';
 
 export const EdgesEditor: React.FC<any> = ({ onChange, value, item: { defaultValue } }) => {
@@ -14,7 +14,6 @@ export const EdgesEditor: React.FC<any> = ({ onChange, value, item: { defaultVal
     }, [value]),
   };
   const pathValue = (path: string[]) => getDefaultValue(value, path);
-  // console.log(pathValue(['smooth', 'forceDirection']));
   return (
     <div>
       {CustomField('Colors')}
@@ -98,6 +97,15 @@ export const EdgesEditor: React.FC<any> = ({ onChange, value, item: { defaultVal
           />
         ),
       ]}
+      {CustomField('Arrows')}
+      <div className="holder">
+        {['to', 'middle', 'from'].map((placeSelector) => (
+          <GroupedField
+            key={placeSelector}
+            {...{ placeSelector, fixedProps, isEnabled: pathValue(['arrows', placeSelector, 'enabled']) }}
+          />
+        ))}
+      </div>
     </div>
   );
 };

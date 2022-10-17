@@ -1,5 +1,6 @@
 .holder {
   display: flex;
+  align-content: space-evenly;
 }
 .selected-collapse {
   border-bottom: 2px solid orange !important;
@@ -90,4 +91,7 @@ div.outerBorder {
   border: 2px solid rgba(30, 30, 30, 0.05);
   background: rgb(0, 173, 246); /* Old browsers */
   box-shadow: 2px 0px 4px rgba(0, 0, 0, 0.4);
+}
+.grouped-row {
+ flex:auto
 }

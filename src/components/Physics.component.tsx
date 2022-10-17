@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import { NumberField, SwitchField } from './Fields';
-import { getDefaultValue, onChangeValue } from './utils';
+import { NumberField, SelectField, SwitchField } from './Fields';
+import { getDefaultValue, onChangeValue, solverOptions } from './utils';
 
 export const PhysicsEditor: React.FC<any> = ({ item: { defaultValue }, value, onChange, item }) => {
   const path = ['enabled'];
@@ -39,6 +39,15 @@ export const PhysicsEditor: React.FC<any> = ({ item: { defaultValue }, value, on
           {...{
             label: 'Max Velocity',
             path: ['maxVelocity'],
+            ...fixedProps,
+          }}
+        />,
+        <SelectField
+          key={'solver'}
+          {...{
+            options: solverOptions,
+            label: 'Solver',
+            path: ['solver'],
             ...fixedProps,
           }}
         />,

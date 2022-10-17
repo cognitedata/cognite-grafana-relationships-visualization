@@ -7,3 +7,4 @@ export { NumberField } from './NumberField';
 export { SelectField } from './SelectField';
 export { SliderField } from './SliderField';
 export { SwitchField } from './SwitchField';
+export { GroupedField } from './GroupedField';

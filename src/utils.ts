@@ -1,49 +1,42 @@
 //import { useTheme2 } from '@grafana/ui';
 import _ from 'lodash';
-import { AVOIDABLE_ENABLED, AVOIDED_KEY, EDGES, EXTRA_KEY, GROUPS, LAYOUT, NODES, PHYSICS } from './constants';
+import { AVOIDABLE_ENABLED, AVOIDED_KEY, EDGES, GROUPS, LAYOUT, NODES, PHYSICS } from './constants';
 import { Series } from './types';
 
-export const createRelationshipsNode = (series: Series, visNodeGraph: any) => {
+export const createRelationshipsNode = (series: Series) => {
   const relationshipsList = series[2]?.source;
   const nodes: any[] = [];
   const edges: any[] = [];
-  const searchId = _.get(visNodeGraph, [EXTRA_KEY, 'externalId']);
 
   function addValuesToFields(options: any) {
-    const { externalId, labels, source, target, sourceType, targetType } = options;
+    const { sourceExternalId, externalId, labels, source, target, targetExternalId, sourceType, targetType } = options;
     const sourceTitleText = _.get(source, 'description') || _.get(source, 'name');
     const sourceLabelText = _.get(source, 'name') || _.get(source, 'description');
     const targetLabelText = _.get(target, 'name') || _.get(target, 'description');
     nodes.push({
-      id: _.get(source, 'externalId'),
+      id: sourceExternalId,
       title: sourceTitleText,
-      label: sourceLabelText, // .substring(0, 25) + ' ...',
+      label: sourceLabelText,
       group: sourceType,
       meta: _.get(source, 'metadata'),
-      // level: sourceExternalId === searchId ? 0 : undefined,
     });
     nodes.push({
-      id: _.get(target, 'externalId'),
+      id: targetExternalId,
       title: _.get(target, 'description') || _.get(target, 'name'),
       label: targetLabelText,
       group: targetType,
-      // level: targetExternalId === searchId ? 0 : undefined,
       meta: _.get(target, 'metadata'),
     });
     edges.push({
       id: externalId,
-      from: _.get(source, 'externalId'),
-      to: _.get(target, 'externalId'),
+      from: sourceExternalId,
+      to: targetExternalId,
       label: _.map(labels, ({ externalId }) => externalId)
-        .join(', ')
+        .join(' ')
         .trim(),
     });
   }
   _.map(relationshipsList, addValuesToFields);
-  if (!_.isEmpty(searchId)) {
-    const r = _.find(_.uniqBy(nodes, 'id'), { id: searchId });
-    console.log(r, 'found');
-  }
   return { edges: _.uniqBy(edges, 'id'), nodes: _.uniqBy(nodes, 'id') };
 };
 const avoidEnabled = (option: any) => {
@@ -63,9 +56,6 @@ const avoidEnabled = (option: any) => {
 const reducer = (array: any) => _.reduce(array, (t, c) => _.assignIn(t, c), {});
 
 export const createOptions = ({ options, height, width, series }: any) => {
-  /* const theme = useTheme2();
-  const color = theme?.name === 'Dark' ? '#ffffff' : '#000000';
-   */
   const color = '#ffffff';
   const groups: { [x: string]: any } = reducer(
     _.filter(
@@ -104,4 +94,3 @@ export const getGroupsFromSeries = (series: Series) => {
     });
   return _.uniq(groups);
 };
-export const getSelectedNode = (collection: any, id: string) => _.find(collection, { id });
